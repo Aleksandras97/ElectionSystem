@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="c4367ea5-e00e-45b3-8ba1-f4c2e0f902e9" name="Homestead" url="http://electionsystem.test">
+        <fileTransfer rootFolder="/home/vagrant" accessType="SFTP" host="127.0.0.1" port="2222" sshConfigId="1eb5f2a4-3a35-4f48-8a2a-1e5405643de8" sshConfig="Homestead">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
