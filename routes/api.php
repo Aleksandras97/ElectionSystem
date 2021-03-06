@@ -21,5 +21,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::namespace('Api')->group(function () {
+    Route::get('/respondents/{id}', [\App\Http\Controllers\Api\RespondentController::class, 'show']);
     Route::post('/respondents', [\App\Http\Controllers\Api\RespondentController::class, 'store']);
 });
