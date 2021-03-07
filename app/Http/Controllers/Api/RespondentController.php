@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Respondent as RespondentResource;
+use App\Http\Resources\RespondentCollection;
 use App\Models\Respondent;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -18,7 +19,8 @@ class RespondentController extends Controller
      */
     public function index()
     {
-        //
+//        return new RespondentCollection(Respondent::paginate());
+        return RespondentResource::collection(Respondent::paginate());
     }
 
     /**
@@ -47,10 +49,10 @@ class RespondentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return Response
+     * @param int $id
+     * @return JsonResponse
      */
-    public function show($id)
+    public function show($id): JsonResponse
     {
         $respondent = Respondent::findOrFail($id);
 
@@ -66,7 +68,18 @@ class RespondentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $respondent = Respondent::findOrFail($id);
+
+        $respondent->update([
+            'firstname' => $request->firstname,
+            'lastname' => $request->lastname,
+            'street_address' => $request->street_address,
+            'city' => $request->city,
+            'district' => $request->district,
+            'gender' => $request->gender
+        ]);
+
+        return \response()->json(new RespondentResource($respondent));
     }
 
     /**
@@ -77,6 +90,10 @@ class RespondentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $respondent = Respondent::findOrFail($id);
+
+        $respondent->delete();
+
+        return \response()->json(null, 204);
     }
 }
