@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Respondent as RespondentResource;
-use App\Http\Resources\RespondentCollection;
-use App\Models\Respondent;
+use App\Http\Resources\Voter as VoterResource;
+use App\Http\Resources\VoterCollection;
+use App\Models\Voter;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class RespondentController extends Controller
+class VoterController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,8 +19,8 @@ class RespondentController extends Controller
      */
     public function index()
     {
-//        return new RespondentCollection(Respondent::paginate());
-        return RespondentResource::collection(Respondent::paginate());
+//        return new VoterCollection(Voter::paginate());
+        return VoterResource::collection(Voter::paginate());
     }
 
     /**
@@ -33,7 +33,7 @@ class RespondentController extends Controller
     {
 
 
-        $respondent = Respondent::create([
+        $voter = Voter::create([
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
             'birthdate' => $request->birthdate,
@@ -43,7 +43,7 @@ class RespondentController extends Controller
             'gender' => $request->gender
         ]);
 
-        return response()->json(new RespondentResource($respondent), 201);
+        return response()->json(new VoterResource($voter), 201);
     }
 
     /**
@@ -54,9 +54,9 @@ class RespondentController extends Controller
      */
     public function show($id): JsonResponse
     {
-        $respondent = Respondent::findOrFail($id);
+        $voter = Voter::findOrFail($id);
 
-        return \response()->json(new RespondentResource($respondent));
+        return \response()->json(new VoterResource($voter));
     }
 
     /**
@@ -68,9 +68,9 @@ class RespondentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $respondent = Respondent::findOrFail($id);
+        $voter = Voter::findOrFail($id);
 
-        $respondent->update([
+        $voter->update([
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
             'street_address' => $request->street_address,
@@ -79,7 +79,7 @@ class RespondentController extends Controller
             'gender' => $request->gender
         ]);
 
-        return \response()->json(new RespondentResource($respondent));
+        return \response()->json(new VoterResource($voter));
     }
 
     /**
@@ -90,9 +90,9 @@ class RespondentController extends Controller
      */
     public function destroy($id)
     {
-        $respondent = Respondent::findOrFail($id);
+        $voter = Voter::findOrFail($id);
 
-        $respondent->delete();
+        $voter->delete();
 
         return \response()->json(null, 204);
     }

@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Respondent
+ * Voter
  *
  * @mixin Eloquent
  */
-class Respondent extends Model
+class Voter extends Model
 {
     use HasFactory;
 

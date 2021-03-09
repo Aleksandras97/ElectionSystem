@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\RespondentController;
+use App\Http\Controllers\Api\VoterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,12 +23,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::namespace('Api')->group(function () {
-//    Route::get('/respondents', [RespondentController::class, 'index']);
-//    Route::get('/respondents/{id}', [RespondentController::class, 'show']);
-//    Route::post('/respondents', [RespondentController::class, 'store']);
-//    Route::put('/respondents/{id}', [RespondentController::class, 'update']);
-//    Route::delete('/respondents/{id}', [RespondentController::class, 'destroy']);
+//    Route::get('/respondents', [VoterController::class, 'index']);
+//    Route::get('/respondents/{id}', [VoterController::class, 'show']);
+//    Route::post('/respondents', [VoterController::class, 'store']);
+//    Route::put('/respondents/{id}', [VoterController::class, 'update']);
+//    Route::delete('/respondents/{id}', [VoterController::class, 'destroy']);
 });
 Route::middleware('auth:api')->group(function () {
-    Route::apiResource('respondents', RespondentController::class);
+    Route::apiResource('voters', VoterController::class);
 });

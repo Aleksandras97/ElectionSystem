@@ -2,9 +2,9 @@
 
 namespace Tests;
 
-use App\Models\Respondent;
+use App\Models\Voter;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use App\Http\Resources\Respondent as RespondentResource;
+use App\Http\Resources\Voter as RespondentResource;
 
 abstract class TestCase extends BaseTestCase
 {

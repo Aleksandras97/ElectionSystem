@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Respondent;
+use App\Models\Voter;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class RespondentFactory extends Factory
+class VoterFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Respondent::class;
+    protected $model = Voter::class;
 
     /**
      * Define the model's default state.
