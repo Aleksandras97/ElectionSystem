@@ -4,8 +4,6 @@ namespace Tests\Feature\Http\Controllers\Api;
 
 use Faker\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 
 class CandidateControllerTest extends TestCase
@@ -44,15 +42,7 @@ class CandidateControllerTest extends TestCase
     }
 
 
-    /**
-     * @test
-     */
-    public function will_fail_with_a_404_if_candidate_is_not_found()
-    {
-        $response = $this->json('GET', 'api/candidates/-1');
 
-        $response->assertStatus(404);
-    }
 
 
     /**
@@ -109,6 +99,16 @@ class CandidateControllerTest extends TestCase
             'gender' => $gender,
             'entry_id' => $entry_id
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function will_fail_with_a_404_if_candidate_is_not_found()
+    {
+        $response = $this->json('GET', 'api/candidates/-1');
+
+        $response->assertStatus(404);
     }
 
     /**

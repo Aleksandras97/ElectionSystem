@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CandidateController;
+use App\Http\Controllers\Api\ElectionController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\VoterController;
 use App\Http\Controllers\Auth\AuthController;
@@ -43,6 +44,11 @@ Route::namespace('Api')->group(function () {
 //    Route::post('candidates', [CandidateController::class, 'store']);
 //    Route::put('candidates/{candidate}', [CandidateController::class, 'update']);
 //    Route::delete('candidates/{candidate}', [CandidateController::class, 'destroy']);
+        Route::get('/elections', [ElectionController::class, 'index']);
+        Route::get('elections/{election}', [ElectionController::class, 'show']);
+        Route::post('elections', [ElectionController::class, 'store']);
+        Route::put('elections/{election}', [ElectionController::class, 'update']);
+        Route::delete('elections/{election}', [ElectionController::class, 'destroy']);
 });
 Route::apiResource('candidates', CandidateController::class);
 Route::apiResource('users', UserController::class);
