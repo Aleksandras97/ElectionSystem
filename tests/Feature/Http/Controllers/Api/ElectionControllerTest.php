@@ -2,6 +2,9 @@
 
 namespace Tests\Feature\Http\Controllers\Api;
 
+use App\Models\Candidate;
+use App\Models\Election;
+use App\Models\User;
 use Faker\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -10,6 +13,35 @@ class ElectionControllerTest extends TestCase
 {
 
     use RefreshDatabase;
+
+    /**
+     * @test
+     */
+    public function a_election_has_many_candidates()
+    {
+        $election = Election::factory()->create();
+        $candidate = Candidate::factory()->create(['election_id' => $election->id]);
+
+        //Method 1: A candidate exists in a election's candidate collections.
+        $this->assertTrue($election->candidates->contains($candidate));
+
+        //Method 2: Count that a election candidates collection exists.
+//        $this->assertEquals(1, $election->candidates->count());
+
+        // Method 3: candidate are related to election and is a collection instance.
+//        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $election->candidates);
+    }
+
+    /**
+     * @test
+     */
+    public function a_election_belongs_to_many_voters()
+    {
+        $user = User::factory()->create();
+//        $election = Election::factory()->create();
+
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $user->elections);
+    }
 
 
     /**

@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Http\Controllers\Api;
 
+use App\Models\Election;
+use App\Models\User;
 use Faker\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -11,6 +13,17 @@ use Tests\TestCase;
 class UsersControllerTest extends TestCase
 {
     use RefreshDatabase;
+
+    /**
+     * @test
+     */
+    public function a_voter_belongs_to_many_elections()
+    {
+        $user = User::factory()->create();
+//        $election = Election::factory()->create();
+
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $user->elections);
+    }
 
     /**
      * @test
@@ -146,7 +159,8 @@ class UsersControllerTest extends TestCase
      */
     public function can_update_a_user()
     {
-        $user = $this->create('User');
+//        $user = $this->create('User');
+        $user = User::factory()->create();
 
         $response = $this->json('PUT', "/api/users/$user->id", [
             'firstname' => $user->firstname.'_updated',
@@ -169,7 +183,7 @@ class UsersControllerTest extends TestCase
             'gender' => $user->gender.'_updated',
             'created_at' => (string)$user->created_at
         ]);
-
+        Log::info(1, [$response->getContent()]);
         $this->assertDatabaseHas('users', [
             'id' => $user->id,
             'firstname' => $user->firstname.'_updated',
@@ -200,12 +214,13 @@ class UsersControllerTest extends TestCase
      */
     public function can_delete_user()
     {
-        $user = $this->create('User');
+        $user = $this->create('User', [], false);
+//        $user = User::factory()->create();
 
         $response = $this->json('DELETE', "/api/users/$user->id");
 
         $response->assertStatus(204)->assertSee(null);
-
+        $this->assertDeleted($user);
         $this->assertDatabaseMissing('users', ['id' => $user->id]);
     }
 }

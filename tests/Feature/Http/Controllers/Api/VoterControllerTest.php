@@ -4,7 +4,6 @@ namespace Tests\Feature\Http\Controllers\Api;
 
 use Faker\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 
@@ -38,9 +37,6 @@ class VoterControllerTest extends TestCase
      */
     public function can_return_a_collection_of_paginated_voters()
     {
-        $voter1 = $this->create('Voter');
-        $voter2 = $this->create('Voter');
-        $voter3 = $this->create('Voter');
 
         $response = $this->actingAs($this->create('User', [], false), 'api')->json('GET', 'api/voters');
 
