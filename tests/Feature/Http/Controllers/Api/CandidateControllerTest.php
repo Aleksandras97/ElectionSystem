@@ -62,7 +62,6 @@ class CandidateControllerTest extends TestCase
             'city' => $city = $faker->city,
             'district' => $district = $faker->state,
             'gender' => $gender = $faker->randomElement($array = array('male', 'female')),
-            'entry_id' => $entry_id = random_int(1, 9)
         ]);
 
         $response->assertStatus(201)
@@ -86,7 +85,6 @@ class CandidateControllerTest extends TestCase
             'city' => $city,
             'district' => $district,
             'gender' => $gender,
-            'entry_id' => $entry_id
         ]);
 
         $this->assertDatabaseHas('candidates', [
@@ -97,7 +95,6 @@ class CandidateControllerTest extends TestCase
             'city' => $city,
             'district' => $district,
             'gender' => $gender,
-            'entry_id' => $entry_id
         ]);
     }
 
@@ -151,6 +148,7 @@ class CandidateControllerTest extends TestCase
     public function can_update_a_candidate()
     {
         $candidate = $this->create('Candidate');
+        $election = $this->create('Election');
 
         $response = $this->json('PUT', "api/candidates/$candidate->id", [
             'firstname' => $candidate->firstname.'_updated',
@@ -159,7 +157,7 @@ class CandidateControllerTest extends TestCase
             'city' => $candidate->city.'_updated',
             'district' => $candidate->district.'_updated',
             'gender' => $candidate->gender.'_updated',
-            'entry_id' => $candidate->entry_id + 1,
+            'entry_id' => $election->id,
         ]);
 
         $response->assertStatus(200)
@@ -172,7 +170,7 @@ class CandidateControllerTest extends TestCase
             'city' => $candidate->city.'_updated',
             'district' => $candidate->district.'_updated',
             'gender' => $candidate->gender.'_updated',
-            'entry_id' => $candidate->entry_id + 1,
+            'entry_id' => $election->id,
             'created_at' => (string)$candidate->created_at
         ]);
 
@@ -185,7 +183,7 @@ class CandidateControllerTest extends TestCase
             'city' => $candidate->city.'_updated',
             'district' => $candidate->district.'_updated',
             'gender' => $candidate->gender.'_updated',
-            'entry_id' => $candidate->entry_id + 1,
+            'entry_id' => $election->id,
             'created_at' => (string)$candidate->created_at,
             'updated_at' => (string)$candidate->updated_at
         ]);

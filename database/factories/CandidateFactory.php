@@ -28,7 +28,6 @@ class CandidateFactory extends Factory
         $city = $this->faker->city;
         $district = $this->faker->state;
         $gender = $this->faker->randomElement($array = array ('male','female'));
-        $entry_id = random_int(1, 9);
 
         return [
             'firstname' => $firstname,
@@ -38,7 +37,6 @@ class CandidateFactory extends Factory
             'city' => $city,
             'district' => $district,
             'gender' => $gender,
-            'entry_id' => $entry_id,
         ];
     }
 }

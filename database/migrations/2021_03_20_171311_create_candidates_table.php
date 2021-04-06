@@ -22,8 +22,10 @@ class CreateCandidatesTable extends Migration
             $table->string('city');
             $table->string('district');
             $table->string('gender');
-            $table->integer('entry_id');
+            $table->unsignedBigInteger('entry_id')->unsigned()->nullable();
             $table->timestamps();
+
+            $table->foreign('entry_id')->references('id')->on('elections')->onDelete('cascade');
         });
     }
 

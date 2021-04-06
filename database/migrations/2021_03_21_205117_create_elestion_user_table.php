@@ -19,9 +19,10 @@ class CreateElestionUserTable extends Migration
             $table->unsignedBigInteger('election_id');
             $table->unsignedBigInteger('user_id');
             //is_vote_active - when odd votes
-            $table->boolean('is_vote_active')->default('1');
+            $table->boolean('is_vote_active')->default(false);
             //is vote active
-            $table->boolean('is_voted')->default('1');
+            $table->boolean('is_voted')->default(false);
+            $table->timestamp('completed_at')->nullable();
             $table->timestamps();
 
             $table->unique(['election_id', 'user_id']);

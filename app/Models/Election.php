@@ -19,7 +19,7 @@ class Election extends Model
 
     public function candidates(): HasMany
     {
-        return $this->hasMany(Candidate::class);
+        return $this->hasMany(Candidate::class, 'entry_id');
     }
 
     //election has many voters(users)
@@ -27,7 +27,10 @@ class Election extends Model
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class)->withPivot('is_vote_active', 'is_voted')->withTimestamps();
+        return $this->belongsToMany(User::class)
+            ->using(ElectionUser::class)
+            ->withPivot('is_vote_active', 'is_voted')
+            ->withTimestamps();
     }
 
 }

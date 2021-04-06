@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Candidate;
 use App\Http\Resources\Candidate as CandidateResource;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -63,23 +64,23 @@ class CandidateController extends Controller
      *
      * @param Request $request
      * @param $candidate
-     * @return JsonResponse
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|JsonResponse|Response
      */
-    public function update(Request $request, $candidate): JsonResponse
+    public function update(Request $request, $candidate)
     {
-        $candidate = Candidate::findOrFail($candidate);
+            $candidate = Candidate::findOrFail($candidate);
 
-        $candidate->update([
-            'firstname' => $request->firstname,
-            'lastname' => $request->lastname,
-            'street_address' => $request->street_address,
-            'city' => $request->city,
-            'district' => $request->district,
-            'gender' => $request->gender,
-            'entry_id' => $request->entry_id,
-        ]);
+            $candidate->update([
+                'firstname' => $request->firstname,
+                'lastname' => $request->lastname,
+                'street_address' => $request->street_address,
+                'city' => $request->city,
+                'district' => $request->district,
+                'gender' => $request->gender,
+                'entry_id' => $request->entry_id,
+            ]);
 
-        return response()->json(new CandidateResource($candidate));
+            return response()->json(new CandidateResource($candidate));
     }
 
     /**

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\CandidateController;
 use App\Http\Controllers\Api\ElectionController;
+use App\Http\Controllers\Api\ElectionVoting;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\VoterController;
 use App\Http\Controllers\Auth\AuthController;
@@ -32,24 +33,29 @@ Route::namespace('Api')->group(function () {
 //    Route::post('/respondents', [VoterController::class, 'store']);
 //    Route::put('/respondents/{id}', [VoterController::class, 'update']);
 //    Route::delete('/respondents/{id}', [VoterController::class, 'destroy']);
+
 //    Route::get('users', [UserController::class, 'index']);
 //    Route::get('users/{user}', [UserController::class, 'show']);
 //    Route::post('users', [UserController::class, 'store']);
 //    Route::put('users/{user}', [UserController::class, 'update']);
 //    Route::delete('users/{user}', [UserController::class, 'destroy']);
+
 //    Route::get('candidates', [UserController::class, 'index']);
 //    Route::get('candidates/{user}', [UserController::class, 'show']);
-//    Route::get('candidates', [CandidateController::class, 'index']);
 //    Route::get('candidates/{candidate}', [CandidateController::class, 'show']);
 //    Route::post('candidates', [CandidateController::class, 'store']);
 //    Route::put('candidates/{candidate}', [CandidateController::class, 'update']);
 //    Route::delete('candidates/{candidate}', [CandidateController::class, 'destroy']);
-        Route::get('/elections', [ElectionController::class, 'index']);
-        Route::get('elections/{election}', [ElectionController::class, 'show']);
-        Route::post('elections', [ElectionController::class, 'store']);
-        Route::put('elections/{election}', [ElectionController::class, 'update']);
-        Route::delete('elections/{election}', [ElectionController::class, 'destroy']);
+
+//    Route::get('/elections', [ElectionController::class, 'index']);
+//    Route::get('elections/{election}', [ElectionController::class, 'show']);
+//    Route::post('elections', [ElectionController::class, 'store']);
+//    Route::put('elections/{election}', [ElectionController::class, 'update']);
+//    Route::delete('elections/{election}', [ElectionController::class, 'destroy']);
+
+    Route::post('userElection', [ElectionVoting::class, 'store']);
 });
+Route::apiResource('elections', ElectionController::class);
 Route::apiResource('candidates', CandidateController::class);
 Route::apiResource('users', UserController::class);
 

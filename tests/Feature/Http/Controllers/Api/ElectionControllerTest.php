@@ -20,7 +20,7 @@ class ElectionControllerTest extends TestCase
     public function a_election_has_many_candidates()
     {
         $election = Election::factory()->create();
-        $candidate = Candidate::factory()->create(['election_id' => $election->id]);
+        $candidate = Candidate::factory()->create(['entry_id' => $election->id]);
 
         //Method 1: A candidate exists in a election's candidate collections.
         $this->assertTrue($election->candidates->contains($candidate));
