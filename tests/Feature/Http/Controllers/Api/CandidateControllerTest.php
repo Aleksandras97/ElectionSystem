@@ -13,9 +13,11 @@ class CandidateControllerTest extends TestCase
     /**
      * @test
      */
-    public function can_return_a_collection_of_paginated_candidates()
+    public function can_return_a_collection_of_paginated_election_candidates()
     {
-        $response = $this->json('GET', 'api/candidates');
+
+
+        $response = $this->json('GET', "/api/elections/6/candidates");
 
         $response->assertStatus(200)
         ->assertJsonStructure([
@@ -35,13 +37,11 @@ class CandidateControllerTest extends TestCase
             ],
             'links' => ['first', 'last', 'prev', 'next'],
             'meta' => [
-                'current_page', 'last_page', 'from', 'to',
-                'path', 'per_page', 'total'
+                'current_page', 'from', 'last_page', 'links',
+                'path', 'per_page','to', 'total'
             ]
         ]);
     }
-
-
 
 
 
@@ -49,12 +49,13 @@ class CandidateControllerTest extends TestCase
      *
      * @test
      */
-    public function can_create_a_candidate()
+    public function can_create_a_election_candidate()
     {
 
         $faker = Factory::create();
+        $election = $this->create('Election');
 
-        $response = $this->json('POST', 'api/candidates', [
+        $response = $this->json('POST', "api/elections/$election->id/candidates", [
             'firstname' => $firstname = $faker->firstName,
             'lastname' => $lastname = $faker->lastName,
             'birthdate' => $birthdate = $faker->date($format = 'Y-m-d', $max = 'now'),
