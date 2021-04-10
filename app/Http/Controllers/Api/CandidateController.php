@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Candidate;
 use App\Http\Resources\Candidate as CandidateResource;
+use App\Models\Election;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -16,22 +17,25 @@ class CandidateController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Election $election
      * @return AnonymousResourceCollection
      */
-    public function index(): AnonymousResourceCollection
+    public function index(Election $election): AnonymousResourceCollection
     {
-        return CandidateResource::collection(Candidate::paginate());
+        $candidates = $election->candidates()->paginate(15);
+        return CandidateResource::collection($candidates);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param Request $request
+     * @param Election $election
      * @return JsonResponse
      */
-    public function store(Request $request): JsonResponse
+    public function store(Request $request, Election $election): JsonResponse
     {
-        $candidate = Candidate::create([
+        $candidate = $election->candidates()->create([
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
             'birthdate' => $request->birthdate,
@@ -56,6 +60,7 @@ class CandidateController extends Controller
     {
         $candidate = Candidate::findOrFail($candidate);
 
+
         return response()->json(new CandidateResource($candidate));
     }
 
@@ -64,9 +69,9 @@ class CandidateController extends Controller
      *
      * @param Request $request
      * @param $candidate
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|JsonResponse|Response
+     * @return JsonResponse
      */
-    public function update(Request $request, $candidate)
+    public function update(Request $request, $candidate): JsonResponse
     {
             $candidate = Candidate::findOrFail($candidate);
 
@@ -92,6 +97,7 @@ class CandidateController extends Controller
     public function destroy($candidate): JsonResponse
     {
         $candidate = Candidate::findOrFail($candidate);
+
 
         $candidate->delete();
 
