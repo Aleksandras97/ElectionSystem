@@ -29,14 +29,14 @@ __webpack_require__.r(__webpack_exports__);
   },
   setup: function setup() {
     var state = (0,vue__WEBPACK_IMPORTED_MODULE_2__.reactive)({
-      candidates: getCandidates()
+      candidates: []
     });
     var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_4__.useRoute)();
     var electionId = (0,vue__WEBPACK_IMPORTED_MODULE_2__.computed)(function () {
       return router.params.electionId;
     });
 
-    function getCandidates() {
+    function getCandidates(electionId) {
       axios.get("api/elections/".concat(electionId, "/candidates")).then(function (response) {
         state.candidates = response.data.data;
       })["catch"](function (error) {
@@ -44,6 +44,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
 
+    state.candidates = getCandidates(electionId.value);
     return {
       state: state,
       getCandidates: getCandidates,
@@ -216,7 +217,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
   var _component_candidateListView = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("candidateListView");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("    <ElectionCard :election_id=\"parseInt(electionId)\" />"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_addCandidateForm)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_candidateListView, {
-    candidates: _ctx.state.candidates
+    candidates: $setup.state.candidates
   }, null, 8
   /* PROPS */
   , ["candidates"])])])], 2112
@@ -341,12 +342,52 @@ var _hoisted_1 = {
   "class": "item"
 };
 
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("br", null, null, -1
+/* HOISTED */
+);
+
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
 var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.candidate.firstname), 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("        <button @click=\"deleteElection\" class=\"trashcan\">"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("            <font-awesome-icon icon=\"trash\" />"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("        </button>")]);
+  ), _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.candidate.lastname), 1
+  /* TEXT */
+  ), _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.candidate.birthdate), 1
+  /* TEXT */
+  ), _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.candidate.city), 1
+  /* TEXT */
+  ), _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.candidate.district), 1
+  /* TEXT */
+  ), _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.candidate.street_address), 1
+  /* TEXT */
+  ), _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.candidate.gender), 1
+  /* TEXT */
+  ), _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("        <button @click=\"deleteElection\" class=\"trashcan\">"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("            <font-awesome-icon icon=\"trash\" />"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("        </button>")]);
 });
 
 /***/ }),

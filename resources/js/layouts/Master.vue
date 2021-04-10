@@ -1,8 +1,16 @@
 <template>
     <div id="app" class="flex flex-col h-screen">
         <Header/>
-        <router-view class="flex-1 overflow-y-auto p-5"></router-view>
-        <Footer/>
+        <div class="grid grid-cols-8 mt-20">
+            <Sidebar/>
+            <div class="col-span-7 bg-white">
+                <div class="bg-white">
+                    <router-view></router-view>
+                </div>
+            </div>
+
+        </div>
+<!--        <Footer/>-->
     </div>
 
 </template>
@@ -10,9 +18,11 @@
 <script>
 import Header from "../vue/Header";
 import Footer from "../vue/Footer";
+import SIdebar from "../vue/Sidebar";
+import Sidebar from "../vue/Sidebar";
 
 export default {
-    components: {Footer, Header}
+    components: {Sidebar, Footer, Header}
 }
 </script>
 

@@ -1,10 +1,16 @@
 <template>
-    <div class="item">
-        <span> {{ election.election_name }} </span>
 
-        <button @click="deleteElection" class="trashcan">
-            <font-awesome-icon icon="trash" />
-        </button>
+    <div class="rounded overflow-hidden shadow-lg border border-gray-300">
+        <img class="h-auto w-auto p-1"
+             src="https://picsum.photos/400"
+             alt="Sunset in the mountains">
+        <div class="px-2 py-2">
+            <div class="font-semibold text-sm mb-2">{{ election.election_name }}</div>
+            <p class="font-semibold text-gray-400 text-xs">
+                {{ election.election_date }}
+            </p>
+        </div>
+
     </div>
 </template>
 
@@ -39,11 +45,7 @@ export default {
 </script>
 
 <style scoped>
-.item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+
 .trashcan {
     background: #60A5FA;
     border: none;

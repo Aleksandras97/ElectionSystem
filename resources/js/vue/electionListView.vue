@@ -3,7 +3,6 @@
     <div v-for="(election, index) in elections?.slice().reverse()" :key="index">
         <ListElection
             :election="election"
-            class="item"
             v-on:election-delete="$emit('reload-elections')"
             @click="goToElection(election.id)" />
     </div>
@@ -38,11 +37,5 @@ export default {
 </script>
 
 <style scoped>
-.item {
-    background: #93C5FD;
-    border: 2px solid #2d3748;
-    border-radius: 5px;
-    padding: 5px;
-    margin-top: 5px;
-}
+
 </style>
