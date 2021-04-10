@@ -17,7 +17,7 @@ class CreateElectionsTable extends Migration
             $table->id();
             $table->date('election_date');
             $table->string('election_name');
-            $table->string('election_image');
+            $table->string('election_image')->nullable();
             $table->timestamps();
         });
     }
