@@ -56,7 +56,7 @@ Route::namespace('Api')->group(function () {
     Route::post('userElection', [ElectionVoting::class, 'store']);
 });
 Route::apiResource('elections', ElectionController::class);
-Route::apiResource('candidates', CandidateController::class);
+Route::apiResource('elections.candidates', CandidateController::class)->shallow();
 Route::apiResource('users', UserController::class);
 
 Route::middleware('auth:api')->group(function () {
