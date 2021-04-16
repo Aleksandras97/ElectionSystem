@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\CandidateController;
 use App\Http\Controllers\Api\ElectionController;
 use App\Http\Controllers\Api\ElectionVoting;
+use App\Http\Controllers\api\ProfilesController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\VoterController;
 use App\Http\Controllers\Auth\AuthController;
@@ -26,6 +27,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 
+Route::middleware('auth:api')->post('/logout', [AuthController::class, 'logout']);
+Route::middleware('auth:api')->get('loginUser', [ProfilesController::class, 'showLoginUser']);
 
 Route::namespace('Api')->group(function () {
 //    Route::get('/respondents', [VoterController::class, 'index']);
@@ -52,7 +55,7 @@ Route::namespace('Api')->group(function () {
 //    Route::post('elections', [ElectionController::class, 'store']);
 //    Route::put('elections/{election}', [ElectionController::class, 'update']);
 //    Route::delete('elections/{election}', [ElectionController::class, 'destroy']);
-
+    Route::post('/login', [AuthController::class, 'login']);
     Route::post('userElection', [ElectionVoting::class, 'store']);
 });
 Route::apiResource('elections', ElectionController::class);
