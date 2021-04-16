@@ -14,6 +14,18 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
+     * Find the user instance for the given username.
+     *
+     * @param  string  $username
+     * @return User
+     */
+    public function findForPassport($username): User
+    {
+        return $this->where('firstname', $username)->first();
+    }
+
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
