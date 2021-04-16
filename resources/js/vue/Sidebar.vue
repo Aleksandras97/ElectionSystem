@@ -1,6 +1,6 @@
 <template>
 
-    <aside class="col-span-1 bg-white h-screen">
+
         <button
             class="flex items-center align-middle py-2 bg-white rounded-3xl text-gray-800 text-sm font-semibold ml-3 border border-gray-200 hover:shadow-xl transition-all w-36 focus:outline-none">
             <svg class="h-8 px-4" viewBox="0 0 36 36">
@@ -46,7 +46,6 @@
                 </button>
             </div>
         </div>
-    </aside>
 </template>
 
 <script>

@@ -7,18 +7,41 @@
                     <h1 class="text-gray-600 text-2xl">Election System</h1>
                 </div>
                 <div class="menu flex justify-end items-center flex-1 space-x-4">
-                    <h1 class="text-gray-600 text-2xl">Username</h1>
+                    <template v-if="authenticated">
+                        <h1 class="text-gray-600 text-2xl">{{ user.firstname }}</h1>
+                        <HeaderLink class="text-gray-600 text-2xl" to="/logout" exact>Logout</HeaderLink>
+                    </template>
+                    <template v-else>
+                        <HeaderLink class="text-gray-600 text-2xl" to="/login" exact>Login</HeaderLink>
+
+                    </template>
                 </div>
             </div>
         </div>
     </header>
 
+
 </template>
 
 <script>
+import { computed } from 'vue'
+import { useStore } from 'vuex';
 import HeaderLink from "./HeaderLink";
+
 export default {
-    components: {HeaderLink}
+    components: {HeaderLink},
+    setup(){
+        const store = useStore();
+
+        const authenticated = computed(() => store.getters.authenticated)
+
+        const user = computed(() => store.getters.authUser)
+
+        return {
+            authenticated,
+            user
+        }
+    }
 }
 </script>
 

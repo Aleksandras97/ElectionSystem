@@ -34,7 +34,7 @@ export default {
                 election_date: state.election.election_date
             })
             .then( response => {
-                if ( response.status == 201) {
+                if ( response.status === 201) {
                     state.election.election_name = "";
                     emit('election-add');
                 }
