@@ -29,7 +29,7 @@ class Election extends Model
     {
         return $this->belongsToMany(User::class)
             ->using(ElectionUser::class)
-            ->withPivot('is_vote_active', 'is_voted')
+            ->withPivot('is_vote_active', 'is_voted', 'candidate_id')
             ->withTimestamps();
     }
 

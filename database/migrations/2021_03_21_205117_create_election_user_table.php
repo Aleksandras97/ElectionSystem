@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateElestionUserTable extends Migration
+class CreateElectionUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -22,7 +22,7 @@ class CreateElestionUserTable extends Migration
             $table->boolean('is_vote_active')->default(false);
             //is vote active
             $table->boolean('is_voted')->default(false);
-            $table->timestamp('completed_at')->nullable();
+            $table->integer('candidate_id');
             $table->timestamps();
 
             $table->unique(['election_id', 'user_id']);
@@ -39,6 +39,6 @@ class CreateElestionUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('elestion_user');
+        Schema::dropIfExists('election_user');
     }
 }
