@@ -2,34 +2,36 @@
     <div class="addItem">
         <label>
             Firstname
-            <input type="text" />
+            <input type="text" v-model="state.candidate.firstname" />
         </label>
         <label>
             Lastname
-            <input type="text" />
+            <input type="text" v-model="state.candidate.lastname" />
         </label>
         <label>
             Birthdate
-            <input type="date" />
+            <input type="date" v-model="state.candidate.birthdate" />
         </label>
         <label>
             Street address
-            <input type="text" />
+            <input type="text" v-model="state.candidate.street_address" />
         </label>
         <label>
             City
-            <input type="text" />
+            <input type="text" v-model="state.candidate.city" />
         </label>
         <label>
             District
-            <input type="text" />
+            <input type="text" v-model="state.candidate.district" />
         </label>
-        <label for="gender">Gender</label><select id="gender" name="gender">
+        <label for="gender">Gender</label><select v-model="state.candidate.gender" id="gender" name="gender">
             <option value="male">Male</option>
             <option value="female">Female</option>
         </select>
         <font-awesome-icon
             icon="plus-square"
+            @click="addCandidate()"
+            :class="[ state.candidate.firstname ? 'active' : 'inactive', 'plus' ]"
         />
     </div>
 </template>
@@ -38,7 +40,13 @@
 import {reactive} from "vue";
 
 export default {
-    setup() {
+    emits: {
+        'candidate-add': null,
+    },
+    props: {
+        electionId: Number,
+    },
+    setup(props,{emit}) {
         const state = reactive({
             candidate: {
                 firstname: "",
@@ -48,26 +56,51 @@ export default {
                 city: "",
                 district: "",
                 gender: ""
-            }
+            },
         });
-
-        // function addCandidate() {
-        //     if (
-        //         state.candidate.firstname === "" ||
-        //         state.candidate.lastname === ""||
-        //         state.candidate.birthdate === ""||
-        //         state.candidate.street_address === ""||
-        //         state.candidate.city === ""||
-        //         state.candidate.district === ""||
-        //         state.candidate.gender === ""
-        //     ){
-        //         return;
-        //     }
-        //
-        // }
+        console.log(props)
+        async function addCandidate() {
+            if (
+                state.candidate.firstname === "" ||
+                state.candidate.lastname === ""||
+                state.candidate.birthdate === ""||
+                state.candidate.street_address === ""||
+                state.candidate.city === ""||
+                state.candidate.district === ""||
+                state.candidate.gender === ""
+            ){
+                return;
+            }
+            console.log(props.electionId)
+            await axios.post( `api/elections/${props.electionId}/candidates`, {
+                firstname: state.candidate.firstname,
+                lastname: state.candidate.lastname,
+                birthdate: state.candidate.birthdate,
+                street_address: state.candidate.street_address,
+                city: state.candidate.city,
+                district: state.candidate.district,
+                gender: state.candidate.gender,
+            })
+            .then( response => {
+                if (response.status === 201) {
+                    state.candidate.firstname = "";
+                    state.candidate.lastname = "";
+                    state.candidate.birthdate = "";
+                    state.candidate.street_address = "";
+                    state.candidate.city = "";
+                    state.candidate.district = "";
+                    state.candidate.gender = "";
+                    emit('candidate-add');
+                }
+            })
+            .catch( error => {
+                console.log(error);
+            })
+        }
 
         return {
-            state
+            state,
+            addCandidate
         }
     }
 }
@@ -91,17 +124,16 @@ input, select {
     width: 100%;
 }
 
-
 .plus {
     font-size: 30px;
 
 }
 
-.inactive {
+.active {
     color: #282828;
 }
 
-.inative {
+.inactive {
     color: #999999;
 }
 </style>
