@@ -1,10 +1,13 @@
 <template>
 
     <div v-for="(election, index) in elections?.slice().reverse()" :key="index">
-        <ListElection
-            :election="election"
-            v-on:election-delete="$emit('reload-elections')"
-            @click="goToElection(election.id)" />
+
+        <router-link :to="{ name: 'Candidates', params: { electionId: election.id }}" exact>
+            <ListElection
+                :election="election"
+                v-on:election-delete="$emit('reload-elections')"
+                @click="goToElection(election.id)" />
+        </router-link>
     </div>
 
 </template>
@@ -13,10 +16,12 @@
 import listItem from "./listElection";
 import {useRouter} from "vue-router";
 import ListElection from "./listElection";
+import HeaderLink from "./HeaderLink";
 export default {
     components: {
         ListElection,
-        listItem
+        listItem,
+        HeaderLink
     },
     emits: {
         'reload-elections': null

@@ -2,14 +2,17 @@
     <!--    <div class="electionListContainer">-->
     <!--        <div class="heading">-->
     <!--            <h2 id="title">Elections</h2>-->
-    <!--            <addElectionForm-->
-    <!--                v-on:election-add="getElections()"-->
-    <!--            />-->
+
     <!--        </div>-->
 
     <!--    </div>-->
 
     <!-- Main Page -->
+            <div>
+                <addElectionForm
+                    v-on:election-add="getElections()"
+                />
+            </div>
 
             <div
                 class="m-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2x1:grid-cols-6 gap-4">
