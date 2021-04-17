@@ -80,7 +80,7 @@ __webpack_require__.r(__webpack_exports__);
         election_name: state.election.election_name,
         election_date: state.election.election_date
       }).then(function (response) {
-        if (response.status == 201) {
+        if (response.status === 201) {
           state.election.election_name = "";
           emit('election-add');
         }
@@ -110,14 +110,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _listElection__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./listElection */ "./resources/js/vue/listElection.vue");
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
+/* harmony import */ var _HeaderLink__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./HeaderLink */ "./resources/js/vue/HeaderLink.vue");
+
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     ListElection: _listElection__WEBPACK_IMPORTED_MODULE_0__.default,
-    listItem: _listElection__WEBPACK_IMPORTED_MODULE_0__.default
+    listItem: _listElection__WEBPACK_IMPORTED_MODULE_0__.default,
+    HeaderLink: _HeaderLink__WEBPACK_IMPORTED_MODULE_1__.default
   },
   emits: {
     'reload-elections': null
@@ -126,7 +129,7 @@ __webpack_require__.r(__webpack_exports__);
     elections: Array
   },
   setup: function setup() {
-    var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_1__.useRouter)();
+    var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_2__.useRouter)();
 
     var goToElection = function goToElection(id) {
       router.push({
@@ -206,17 +209,23 @@ var _hoisted_1 = {
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
 var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_addElectionForm = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("addElectionForm");
+
   var _component_electionListView = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("electionListView");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("    <div class=\"electionListContainer\">"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("        <div class=\"heading\">"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("            <h2 id=\"title\">Elections</h2>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("            <addElectionForm"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                v-on:election-add=\"getElections()\""), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("            />"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("        </div>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("    </div>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Main Page "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_electionListView, {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("    <div class=\"electionListContainer\">"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("        <div class=\"heading\">"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("            <h2 id=\"title\">Elections</h2>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("        </div>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("    </div>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Main Page "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_addElectionForm, {
+    onElectionAdd: _cache[1] || (_cache[1] = function ($event) {
+      return $setup.getElections();
+    })
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_electionListView, {
     elections: $setup.state.elections,
-    onReloadElections: _cache[1] || (_cache[1] = function ($event) {
+    onReloadElections: _cache[2] || (_cache[2] = function ($event) {
       return $setup.getElections();
     })
   }, null, 8
   /* PROPS */
-  , ["elections"])])], 2112
-  /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */
+  , ["elections"])])], 64
+  /* STABLE_FRAGMENT */
   );
 });
 
@@ -297,20 +306,39 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
 
   var _component_ListElection = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("ListElection");
 
+  var _component_router_link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("router-link");
+
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)((_$props$elections = $props.elections) === null || _$props$elections === void 0 ? void 0 : _$props$elections.slice().reverse(), function (election, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
       key: index
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ListElection, {
-      election: election,
-      onElectionDelete: _cache[1] || (_cache[1] = function ($event) {
-        return _ctx.$emit('reload-elections');
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
+      to: {
+        name: 'Candidates',
+        params: {
+          electionId: election.id
+        }
+      },
+      exact: ""
+    }, {
+      "default": _withId(function () {
+        return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ListElection, {
+          election: election,
+          onElectionDelete: _cache[1] || (_cache[1] = function ($event) {
+            return _ctx.$emit('reload-elections');
+          }),
+          onClick: function onClick($event) {
+            return $setup.goToElection(election.id);
+          }
+        }, null, 8
+        /* PROPS */
+        , ["election", "onClick"])];
       }),
-      onClick: function onClick($event) {
-        return $setup.goToElection(election.id);
-      }
-    }, null, 8
-    /* PROPS */
-    , ["election", "onClick"])]);
+      _: 2
+      /* DYNAMIC */
+
+    }, 1032
+    /* PROPS, DYNAMIC_SLOTS */
+    , ["to"])]);
   }), 128
   /* KEYED_FRAGMENT */
   );
