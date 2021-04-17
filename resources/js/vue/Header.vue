@@ -8,10 +8,19 @@
                 </div>
                 <div class="menu flex justify-end items-center flex-1 space-x-4">
                     <template v-if="authenticated">
+                        <font-awesome-icon
+                            icon="user"
+                        />
                         <h1 class="text-gray-600 text-2xl">{{ user.firstname }}</h1>
+                        <font-awesome-icon
+                            icon="sign-out-alt"
+                        />
                         <HeaderLink class="text-gray-600 text-2xl" to="/logout" exact>Logout</HeaderLink>
                     </template>
                     <template v-else>
+                        <font-awesome-icon
+                            icon="sign-in-alt"
+                        />
                         <HeaderLink class="text-gray-600 text-2xl" to="/login" exact>Login</HeaderLink>
 
                     </template>
