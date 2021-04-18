@@ -51,25 +51,16 @@ class ElectionVoting extends Controller
     public function results($id): JsonResponse
     {
 //        dd($id);
-        $results = DB::select("select c.id, c.firstname, u.id, u.firstname, v.votecnt
+        $results = DB::select("select c.firstname, v.votecnt
             from candidates c
             left join (select candidate_id, COUNT(user_id) votecnt from election_user group by candidate_id) v on v.candidate_id = c.id
             left join election_user v1 on v1.candidate_id = c.id and v1.user_id = " . (auth()->user()->getAuthIdentifier()) . "
             left join users u on u.id = v1.user_id
             where c.entry_id = {$id}
         ");
-        dd($results);
+//        dd($results);
 
-        $election = Election::findOrFail($request->election_id);
-
-//        dd($election->users);
-        $user = auth()->user();
-        $target = $election->users->find($user);
-//        dd($target);
-        if (!$target){
-            return response()->json(['voted' => false]);
-        }
-        return response()->json(['voted' => true]);
+        return response()->json($results);
 
     }
 
