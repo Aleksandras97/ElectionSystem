@@ -45,6 +45,22 @@ const routes = [
         }
     },
     {
+        path: '/admin',
+        name: 'Admin',
+        component: () => import('./views/Admin'),
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/admin/:electionId/candidates',
+        name: "AdminCandidates",
+        component: () => import('./views/AdminCandidates'),
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
         path: '/:chatchAll(.*)',
         name: 'PageNotFound',
         component: () => import('./views/PageNotFound'),
