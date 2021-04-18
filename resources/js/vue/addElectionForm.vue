@@ -1,12 +1,22 @@
 <template>
-    <div class="addItem">
-        <input type="text" v-model="state.election.election_name" />
-        <input type="date" v-model="state.election.election_date"/>
-        <font-awesome-icon
-            icon="plus-square"
-            @click="addElection()"
-            :class="[ state.election.election_name ? 'active' : 'inactive', 'plus' ]"
-        />
+    <div class="flex justify-start mb-1 sm:mb-0">
+        <div class="relative">
+            <input type="text" v-model="state.election.election_name" placeholder="Election Name"
+                   class="appearance-none rounded-r sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
+        </div>
+        <div class="relative">
+            <input type="date" v-model="state.election.election_date" placeholder="Election Date"
+                   class="appearance-none rounded-r sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
+
+        </div>
+        <div class="relative">
+            <button
+                @click="addElection()"
+                :class="[ state.election.election_name ? 'bg-green-500 hover:bg-green-400 border-green-700 hover:border-green-500' : 'bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500' ]"
+                class=" text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">
+                Add
+            </button>
+        </div>
     </div>
 </template>
 
@@ -52,34 +62,3 @@ export default {
 }
 
 </script>
-
-<style scoped>
-.addItem {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-input {
-    display: block;
-    background: #f7fafc;
-    border: 0px;
-    outline: none;
-    padding: 5px;
-    margin-right: 10px;
-    width: 100%;
-}
-
-.plus {
-    font-size: 30px;
-
-}
-
-.active {
-    color: #282828;
-}
-
-.inactive {
-    color: #999999;
-}
-</style>
