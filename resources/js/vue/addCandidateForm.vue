@@ -1,38 +1,46 @@
 <template>
-    <div class="addItem">
-        <label>
-            Firstname
-            <input type="text" v-model="state.candidate.firstname" />
-        </label>
-        <label>
-            Lastname
-            <input type="text" v-model="state.candidate.lastname" />
-        </label>
-        <label>
-            Birthdate
-            <input type="date" v-model="state.candidate.birthdate" />
-        </label>
-        <label>
-            Street address
-            <input type="text" v-model="state.candidate.street_address" />
-        </label>
-        <label>
-            City
-            <input type="text" v-model="state.candidate.city" />
-        </label>
-        <label>
-            District
-            <input type="text" v-model="state.candidate.district" />
-        </label>
-        <label for="gender">Gender</label><select v-model="state.candidate.gender" id="gender" name="gender">
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-        </select>
-        <font-awesome-icon
-            icon="plus-square"
-            @click="addCandidate()"
-            :class="[ state.candidate.firstname ? 'active' : 'inactive', 'plus' ]"
-        />
+    <div class="flex justify-start mb-1 sm:mb-0">
+        <div class="relative">
+            <input type="text" v-model="state.candidate.firstname" placeholder="Candidate Firstname"
+                   class="appearance-none rounded-r sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
+        </div>
+        <div class="relative">
+            <input type="text" v-model="state.candidate.lastname" placeholder="Candidate Lastname"
+                   class="appearance-none rounded-r sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
+        </div>
+        <div class="relative">
+            <input type="date" v-model="state.candidate.birthdate" placeholder="Candidate Birthdate"
+                   class="appearance-none rounded-r sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
+        </div>
+        <div class="relative">
+            <input type="text" v-model="state.candidate.street_address" placeholder="Candidate St.adr"
+                   class="appearance-none rounded-r sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
+        </div>
+        <div class="relative">
+            <input type="text" v-model="state.candidate.city" placeholder="Candidate City"
+                   class="appearance-none rounded-r sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
+        </div>
+        <div class="relative">
+            <input type="text" v-model="state.candidate.district" placeholder="Candidate District"
+                   class="appearance-none rounded-r sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
+        </div>
+        <div class="relative">
+            <select class="appearance-none rounded-r sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
+                    v-model="state.candidate.gender"
+                    id="gender"
+                    name="gender">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+        </div>
+        <div class="relative">
+            <button
+                @click="addCandidate()"
+                :class="[ state.candidate.firstname ? 'bg-green-500 hover:bg-green-400 border-green-700 hover:border-green-500' : 'bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500' ]"
+                class=" text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">
+                Add
+            </button>
+        </div>
     </div>
 </template>
 
@@ -105,35 +113,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-.addItem {
-    display: block;
-    padding: 15px;
-}
-
-input, select {
-    display: block;
-    max-width: 80%;
-    background: #f7fafc;
-    border: 0px;
-    outline: none;
-    padding: 5px;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    width: 100%;
-}
-
-.plus {
-    font-size: 30px;
-
-}
-
-.active {
-    color: #282828;
-}
-
-.inactive {
-    color: #999999;
-}
-</style>
