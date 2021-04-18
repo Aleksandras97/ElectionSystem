@@ -36,13 +36,3 @@ export default {
 
 }
 </script>
-
-<style scoped>
-.item {
-    background: #93C5FD;
-    border: 2px solid #2d3748;
-    border-radius: 5px;
-    padding: 5px;
-    margin-top: 5px;
-}
-</style>

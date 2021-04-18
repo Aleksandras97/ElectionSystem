@@ -44,12 +44,3 @@ export default {
 
 </script>
 
-<style scoped>
-
-.trashcan {
-    background: #60A5FA;
-    border: none;
-    color: #EF4444;
-    outline: none;
-}
-</style>

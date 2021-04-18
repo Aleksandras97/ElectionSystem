@@ -9,7 +9,7 @@
 
     <!-- Main Page -->
             <div>
-                <addElectionForm
+                <add-election-form
                     v-on:election-add="getElections()"
                 />
             </div>
@@ -17,7 +17,7 @@
             <div
                 class="m-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2x1:grid-cols-6 gap-4">
 
-                <electionListView
+                <election-list-view
                     :elections="state.elections"
                     v-on:reload-elections="getElections()"
                 />
@@ -43,8 +43,8 @@ export default {
             elections: getElections(),
         });
 
-        function getElections() {
-            axios.get('api/elections')
+        async function getElections() {
+            await axios.get('api/elections')
                 .then(response => {
                     state.elections = response.data.data
                 })
@@ -61,22 +61,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-.electionListContainer {
-    width: 350px;
-    margin: auto;
-}
-
-.heading {
-    background: #93C5FD;
-    border: 2px solid #2d3748;
-    border-radius: 5px;
-    padding: 10px;
-
-}
-
-#title {
-    text-align: center;
-}
-</style>
