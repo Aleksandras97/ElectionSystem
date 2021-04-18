@@ -22,7 +22,7 @@ class CandidateController extends Controller
      */
     public function index(Election $election): AnonymousResourceCollection
     {
-        $candidates = $election->candidates()->paginate(15);
+        $candidates = $election->candidates()->paginate(4);
         return CandidateResource::collection($candidates);
     }
 

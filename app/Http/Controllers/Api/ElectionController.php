@@ -19,7 +19,7 @@ class ElectionController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        return ElectionResource::collection(Election::paginate());
+        return ElectionResource::collection(Election::paginate(4));
     }
 
     /**
