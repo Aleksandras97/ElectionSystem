@@ -19,7 +19,7 @@ class ElectionController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        return ElectionResource::collection(Election::paginate(4));
+        return ElectionResource::collection(Election::orderBy('election_date', 'desc')->paginate(4));
     }
 
     /**
@@ -30,6 +30,10 @@ class ElectionController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
+        if ($request->user()->cannot('create', Election::class)) {
+            return response()->json(['message' => 'Forbidden'], 403);
+        }
+
         $election = Election::create([
             'election_date' => $request->election_date,
             'election_name' => $request->election_name,
@@ -63,8 +67,14 @@ class ElectionController extends Controller
     {
         $election = Election::FindOrFail($id);
 
+        if ($request->user()->cannot('update', $election)) {
+            return response()->json(['message' => 'Forbidden'], 403);
+        }
+
+
         $election->update([
             'election_name' => $request->election_name,
+            'election_date' => $request->election_date,
             'election_image' => $request->election_image,
         ]);
 
@@ -74,15 +84,33 @@ class ElectionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param Request $request
+     * @param int $id
      * @return JsonResponse
      */
-    public function destroy($id): JsonResponse
+    public function destroy(Request $request, $id): JsonResponse
     {
-        $election = Election::FindOrFail($id);
+        $election = Election::findOrFail($id);
+
+        if ($request->user()->cannot('delete', $election)) {
+            return response()->json(['message' => 'Forbidden'], 403);
+        }
 
         $election->delete();
 
         return response()->json(null, 204);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param $val
+     * @return AnonymousResourceCollection
+     */
+    public function search($val): AnonymousResourceCollection
+    {
+        $election = Election::where('election_name', 'like', '%'.$val.'%')->paginate(4);
+
+        return ElectionResource::collection($election);
     }
 }
