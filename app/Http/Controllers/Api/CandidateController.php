@@ -35,6 +35,10 @@ class CandidateController extends Controller
      */
     public function store(Request $request, Election $election): JsonResponse
     {
+        if ($request->user()->cannot('create', Candidate::class)) {
+            return response()->json(['message' => 'Forbidden'], 403);
+        }
+
         $candidate = $election->candidates()->create([
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
@@ -75,6 +79,10 @@ class CandidateController extends Controller
     {
             $candidate = Candidate::findOrFail($candidate);
 
+            if ($request->user()->cannot('update', $candidate)) {
+                return response()->json(['message' => 'Forbidden'], 403);
+            }
+
             $candidate->update([
                 'firstname' => $request->firstname,
                 'lastname' => $request->lastname,
@@ -91,16 +99,33 @@ class CandidateController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param Request $request
      * @param $candidate
      * @return JsonResponse
      */
-    public function destroy($candidate): JsonResponse
+    public function destroy(Request $request, $candidate): JsonResponse
     {
         $candidate = Candidate::findOrFail($candidate);
 
+        if ($request->user()->cannot('delete', $candidate)) {
+            return response()->json(['message' => 'Forbidden'], 403);
+        }
 
         $candidate->delete();
 
         return response()->json(null, 204);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param Election $election
+     * @param $val
+     * @return AnonymousResourceCollection
+     */
+    public function search(Election $election, $val): AnonymousResourceCollection
+    {
+        $candidates = $election->candidates()->where('firstname', 'like', '%'.$val.'%')->paginate(4);
+        return CandidateResource::collection($candidates);
     }
 }
