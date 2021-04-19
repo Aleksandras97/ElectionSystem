@@ -43,7 +43,7 @@
                             </path>
                         </svg>
                     </span>
-                    <input placeholder="Search"
+                    <input v-model="state.search" placeholder="Search"
                            class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
                 </div>
             </div>
@@ -87,7 +87,7 @@
                         </span>
                         <div class="inline-flex mt-2 xs:mt-0">
                             <button
-                                class="text-sm bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-l"
+                                class="bg-yellow-500 hover:bg-yellow-400 border-yellow-700 hover:border-yellow-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded' : 'bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded"
                                 :disabled='!state.pagination.prev_page_url'
                                 :class="{'opacity-50': !state.pagination.prev_page_url }"
                                 @click="getElections(state.pagination.prev_page_url)"
@@ -95,7 +95,7 @@
                                 Prev
                             </button>
                             <button
-                                class="text-sm bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-r"
+                                class="bg-yellow-500 hover:bg-yellow-400 border-yellow-700 hover:border-yellow-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded' : 'bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded"
                                 :disabled='!state.pagination.next_page_url'
                                 :class="{'opacity-50': !state.pagination.next_page_url }"
                                 @click="getElections(state.pagination.next_page_url)"
@@ -113,19 +113,41 @@
 </template>
 
 <script>
-import {reactive} from "vue";
+import {onMounted, reactive, ref, watchEffect} from "vue";
 import AdminElectionListView from "../vue/adminElectionListView";
 import AddElectionForm from "../vue/addElectionForm";
 
 export default {
     components: {AddElectionForm, AdminElectionListView},
-    setup() {
+    setup: function () {
+        const search = ref('')
 
         const state = reactive({
-            elections: getElections(),
+            elections: {},
             pagination: {},
             loading: true,
         });
+
+        watchEffect(() => {
+            if (state.search){
+                searchElections(state.search);
+            } else {
+                getElections();
+            }
+        })
+
+        async function searchElections(val, page_url) {
+            page_url = page_url || 'api/search/elections/'+val
+
+            await axios.get(page_url)
+                .then(response => {
+                    state.elections = response.data.data
+                    makePagination(response.data)
+                })
+                .catch(error => console.log(error))
+                .finally(() => state.loading = false)
+
+        }
 
         async function getElections(page_url) {
             page_url = page_url || 'api/elections'
@@ -136,11 +158,11 @@ export default {
                     makePagination(response.data)
                 })
                 .catch(error => console.log(error))
-                .finally(()=> state.loading = false)
+                .finally(() => state.loading = false)
 
         }
 
-        function makePagination(data){
+        function makePagination(data) {
             let pagination = {
                 current_page: data.meta.current_page,
                 last_page: data.meta.last_page,
