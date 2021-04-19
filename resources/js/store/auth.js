@@ -28,7 +28,6 @@ const actions = {
             username: credentials.username,
             password: credentials.password,
         })
-        // console.log(response.data)
         return dispatch('attempt', response.data.access_token)
     },
 
@@ -44,7 +43,6 @@ const actions = {
         try {
             let response = await axios.get('/api/loginUser')
 
-            console.log(response.data)
             commit('SET_USER', response.data)
 
         } catch (error) {

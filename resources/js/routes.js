@@ -1,7 +1,5 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import store from './store';
-import Home from './views/Home.vue'
-import Login from './views/Login.vue'
 
 const routes = [
     {
@@ -79,7 +77,6 @@ router.beforeEach( async (to, from , next) => {
 
 
     if(to.matched.some(record => record.meta.requiresAuth)) {
-
         if(!store.getters.authenticated) {
             next({
                 name: 'Login',

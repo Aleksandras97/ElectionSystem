@@ -47,7 +47,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Logout_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Logout.vue?vue&type=script&lang=js */ "./resources/js/views/Logout.vue?vue&type=script&lang=js");
 
 
-_Logout_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__.default.__scopeId = "data-v-ce7a0b2e"
 /* hot reload */
 if (false) {}
 

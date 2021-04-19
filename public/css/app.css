@@ -31854,6 +31854,19 @@ video {
   transition-duration: 500ms;
 }
 
+.btn {
+  border-radius: 0.25rem;
+  border-bottom-width: 4px;
+  font-weight: 700;
+  margin-left: 0.75rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  --tw-text-opacity: 1;
+  color: rgba(255, 255, 255, var(--tw-text-opacity));
+}
+
 .login-input:focus {
   --tw-border-opacity: 1;
   border-color: rgba(124, 58, 237, var(--tw-border-opacity));

@@ -7,6 +7,10 @@
     @apply bg-gray-200 rounded w-full text-gray-700  border-b-4 border-gray-300 transition duration-500 px-3 pb-3;
 }
 
+.btn {
+    @apply text-white font-bold py-1 px-4 ml-3 border-b-4 rounded;
+}
+
 .login-input:focus {
     @apply border-purple-600;
     @apply outline-none;
