@@ -43,7 +43,7 @@
                             </path>
                         </svg>
                     </span>
-                    <input placeholder="Search"
+                    <input v-model="state.search" placeholder="Search"
                            class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
                 </div>
             </div>
@@ -84,11 +84,11 @@
                     <div
                         class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
                         <span class="text-xs xs:text-sm text-gray-900">
-<!--                            Showing {{ state.pagination.current_page }} of {{ state.pagination.last_page }} Entries-->
+                            Showing {{ state.pagination.current_page }} of {{ state.pagination.last_page }} Entries
                         </span>
                         <div class="inline-flex mt-2 xs:mt-0">
                             <button
-                                class="text-sm bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-l"
+                                class="bg-yellow-500 hover:bg-yellow-400 border-yellow-700 hover:border-yellow-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded' : 'bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded"
                                 :disabled='!state.pagination.prev_page_url'
                                 :class="{'opacity-50': !state.pagination.prev_page_url }"
                                 @click="getCandidates(state.pagination.prev_page_url)"
@@ -96,7 +96,7 @@
                                 Prev
                             </button>
                             <button
-                                class="text-sm bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-r"
+                                class="bg-yellow-500 hover:bg-yellow-400 border-yellow-700 hover:border-yellow-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded' : 'bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded"
                                 :disabled='!state.pagination.next_page_url'
                                 :class="{'opacity-50': !state.pagination.next_page_url }"
                                 @click="getCandidates(state.pagination.next_page_url)"
@@ -113,14 +113,16 @@
 
 <script>
 import AdminCandidateListView from "../vue/adminCandidateListView";
-import {computed, onMounted, reactive} from "vue";
+import {computed, onMounted, reactive, ref, watchEffect} from "vue";
 import {useRoute} from "vue-router";
 import AddCandidateForm from "../vue/addCandidateForm";
 export default {
     components: {AddCandidateForm, AdminCandidateListView},
     setup() {
+        const search = ref('')
+
         const state = reactive({
-            candidates: null,
+            candidates: {},
             election: null,
             candidate_id: null,
             pagination: {},
@@ -138,6 +140,27 @@ export default {
                     console.log(error);
                 })
         });
+
+        watchEffect(() => {
+            if (state.search){
+                searchCandidates(state.search);
+            } else {
+                getCandidates();
+            }
+        })
+
+        async function searchCandidates(val, page_url) {
+            page_url = page_url || `api/search/elections/${electionId.value}/candidates/`+val
+
+            await axios.get(page_url)
+                .then(response => {
+                    state.candidates = response.data.data
+                    makePagination(response.data)
+                })
+                .catch(error => console.log(error))
+                .finally(() => state.loading = false)
+
+        }
 
         async function getCandidates(page_url) {
             page_url = page_url || `api/elections/${electionId.value}/candidates`
@@ -160,7 +183,7 @@ export default {
             state.pagination = pagination
         }
 
-        state.candidates = getCandidates();
+
 
         return {
             state,
