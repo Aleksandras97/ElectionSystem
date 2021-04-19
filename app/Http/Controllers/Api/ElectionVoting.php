@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class ElectionVoting extends Controller
 {
@@ -74,16 +75,23 @@ class ElectionVoting extends Controller
     {
         $request->validate([
             'candidate_id' => ['required'],
+            'password' => ['required'],
         ]);
+
         $candidate = Candidate::findOrFail($request->candidate_id);
         $election = $candidate->election;
-//        dd($election);
         $user = auth()->user();
         $date = Carbon::parse($election->election_date);
-//        dd($date);
+
         if ($date->isToday()){
-            $election->users()->attach($user, ['is_voted' => true, 'candidate_id' => $request->candidate_id]);
-            return response()->json([],201);
+            if(Hash::check($request->password, $user->getAuthPassword())) {
+
+                $election->users()->attach($user, ['is_voted' => true, 'candidate_id' => $request->candidate_id]);
+
+                return response()->json([],201);
+            }
+
+            return response()->json(['message' => 'Wrong password'],403);
         }
         return response()->json(['message' => 'Election is over'],403);
 //
