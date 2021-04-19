@@ -34,7 +34,7 @@ class UserController extends Controller
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
             'birthdate' => $request->birthdate,
-            'password' => $request->password,
+            'password' => bcrypt($request->password),
             'street_address' => $request->street_address,
             'city' => $request->city,
             'district' => $request->district,
