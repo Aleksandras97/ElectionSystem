@@ -23,6 +23,7 @@ class User extends JsonResource
             'city' => $this->city,
             'district' => $this->district,
             'gender' => $this->gender,
+            'is_admin' => $this->is_admin,
             'created_at' => (string)$this->created_at
         ];
     }
