@@ -18,8 +18,6 @@ class CreateElectionUserTable extends Migration
             $table->id();
             $table->unsignedBigInteger('election_id');
             $table->unsignedBigInteger('user_id');
-            //is_vote_active - when odd votes
-            $table->boolean('is_vote_active')->default(false);
             //is vote active
             $table->boolean('is_voted')->default(false);
             $table->integer('candidate_id');

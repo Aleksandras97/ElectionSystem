@@ -23,7 +23,12 @@ class CreateUsersTable extends Migration
             $table->string('city');
             $table->string('district');
             $table->string('gender');
+
             $table->timestamps();
+        });
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->boolean('is_admin')->default(false);
         });
     }
 
