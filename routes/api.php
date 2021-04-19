@@ -5,7 +5,6 @@ use App\Http\Controllers\Api\ElectionController;
 use App\Http\Controllers\Api\ElectionVoting;
 use App\Http\Controllers\api\ProfilesController;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\VoterController;
 use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -29,7 +28,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('loginUser', [ProfilesController::class, 'showLoginUser']);
+    Route::get('search/elections/{val}', [ElectionController::class, 'search']);
     Route::apiResource('elections', ElectionController::class);
+    Route::get('search/elections/{election}/candidates/{val}', [CandidateController::class, 'search']);
     Route::apiResource('elections.candidates', CandidateController::class)->shallow();
     Route::apiResource('users', UserController::class);
     Route::post('vote', [ElectionVoting::class, 'store']);
@@ -37,39 +38,5 @@ Route::middleware('auth:api')->group(function () {
     Route::get('results/{id}', [ElectionVoting::class, 'results']);
 });
 
-
-
-Route::namespace('Api')->group(function () {
-//    Route::get('/respondents', [VoterController::class, 'index']);
-//    Route::get('/respondents/{id}', [VoterController::class, 'show']);
-//    Route::post('/respondents', [VoterController::class, 'store']);
-//    Route::put('/respondents/{id}', [VoterController::class, 'update']);
-//    Route::delete('/respondents/{id}', [VoterController::class, 'destroy']);
-
-//    Route::get('users', [UserController::class, 'index']);
-//    Route::get('users/{user}', [UserController::class, 'show']);
-//    Route::post('users', [UserController::class, 'store']);
-//    Route::put('users/{user}', [UserController::class, 'update']);
-//    Route::delete('users/{user}', [UserController::class, 'destroy']);
-
-//    Route::get('candidates', [UserController::class, 'index']);
-//    Route::get('candidates/{user}', [UserController::class, 'show']);
-//    Route::get('candidates/{candidate}', [CandidateController::class, 'show']);
-//    Route::post('candidates', [CandidateController::class, 'store']);
-//    Route::put('candidates/{candidate}', [CandidateController::class, 'update']);
-//    Route::delete('candidates/{candidate}', [CandidateController::class, 'destroy']);
-
-//    Route::get('/elections', [ElectionController::class, 'index']);
-//    Route::get('elections/{election}', [ElectionController::class, 'show']);
-//    Route::post('elections', [ElectionController::class, 'store']);
-//    Route::put('elections/{election}', [ElectionController::class, 'update']);
-//    Route::delete('elections/{election}', [ElectionController::class, 'destroy']);
-
-
-});
-
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::middleware('auth:api')->group(function () {
-    Route::apiResource('voters', VoterController::class);
-});
