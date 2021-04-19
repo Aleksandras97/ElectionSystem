@@ -37,7 +37,7 @@
             <button
                 @click="addCandidate()"
                 :class="[ state.candidate.firstname ? 'bg-green-500 hover:bg-green-400 border-green-700 hover:border-green-500' : 'bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500' ]"
-                class=" text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">
+                class="text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">
                 Add
             </button>
         </div>
@@ -52,7 +52,7 @@ export default {
         'candidate-add': null,
     },
     props: {
-        electionId: Number,
+        electionId: String,
     },
     setup(props,{emit}) {
         const state = reactive({

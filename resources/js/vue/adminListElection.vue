@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import {onUpdated, reactive, ref} from "vue";
+import {onMounted, onUpdated, reactive, ref} from "vue";
 import Modal from "./Modal";
 import {useRouter} from "vue-router";
 
@@ -93,8 +93,12 @@ export default {
 
         const state = reactive({
             isOpen: false,
-            election: null,
+            election: {},
         });
+
+        onMounted(() => {
+            state.election = props.election
+        })
 
         onUpdated(() => {
             state.election = props.election
@@ -121,8 +125,8 @@ export default {
             }
 
             axios.put('api/elections/' + props.election.id, {
-                election_name: state.election_name,
-                election_date: state.election_date
+                election_name: state.election.election_name,
+                election_date: state.election.election_date
             })
                 .then(response => {
                     if (response.status === 200) {

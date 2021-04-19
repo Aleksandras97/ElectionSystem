@@ -31,7 +31,7 @@ import ListCandidate from "./listCandidate";
 export default {
     components: {ListCandidate},
     props: {
-        candidates: Array,
+        candidates: Object,
     }
 
 }

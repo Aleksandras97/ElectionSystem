@@ -113,8 +113,12 @@ export default {
         const state = reactive({
             candidate_id: null,
             isOpen: false,
-            candidate: null,
+            candidate: {},
         });
+
+        onMounted( () => {
+            state.candidate = props.candidate
+        })
 
         onUpdated( () => {
             state.candidate = props.candidate

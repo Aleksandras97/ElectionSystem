@@ -17,7 +17,7 @@ export default {
         'reload-candidates': null,
     },
     props: {
-        candidates: Array,
+        candidates: Object,
     },
 }
 </script>

@@ -19,7 +19,7 @@ export default {
         'reload-elections': null,
     },
     props: {
-        elections: Array,
+        elections: Object,
     },
     setup(){
 
