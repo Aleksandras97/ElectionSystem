@@ -8,20 +8,21 @@
                 </div>
                 <div class="menu flex justify-end items-center flex-1 space-x-4">
                     <template v-if="authenticated">
+                        <span v-if="User?.is_admin" class="bg-red-200 text-red-600 py-2 px-5 rounded-full text-2xl">Admin</span>
                         <font-awesome-icon
                             icon="user"
                         />
-                        <h1 class="text-gray-600 text-2xl">{{ user.firstname }}</h1>
+                        <h1 class="text-gray-600 text-2xl">{{ User?.firstname }}</h1>
                         <font-awesome-icon
                             icon="sign-out-alt"
                         />
-                        <HeaderLink class="text-gray-600 text-2xl" to="/logout" exact>Logout</HeaderLink>
+                        <HeaderLink class="text-white font-bold py-1 px-4 ml-3 border-b-4 rounded bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500" to="/logout" exact>Logout</HeaderLink>
                     </template>
                     <template v-else>
                         <font-awesome-icon
                             icon="sign-in-alt"
                         />
-                        <HeaderLink class="text-gray-600 text-2xl" to="/login" exact>Login</HeaderLink>
+                        <HeaderLink class="text-white font-bold py-1 px-4 ml-3 border-b-4 rounded bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500" to="/login" exact>Login</HeaderLink>
 
                     </template>
                 </div>
@@ -33,9 +34,10 @@
 </template>
 
 <script>
-import { computed } from 'vue'
+import {computed, ref} from 'vue'
 import { useStore } from 'vuex';
 import HeaderLink from "./HeaderLink";
+import store from "../store";
 
 export default {
     components: {HeaderLink},
@@ -44,11 +46,11 @@ export default {
 
         const authenticated = computed(() => store.getters.authenticated)
 
-        const user = computed(() => store.getters.authUser)
+        const User = computed(() => store.getters.authUser)
 
         return {
             authenticated,
-            user
+            User
         }
     }
 }
