@@ -1,37 +1,79 @@
 <template>
     <div class="flex justify-start mb-1 sm:mb-0">
         <div class="relative">
-            <input type="text" v-model="state.candidate.firstname" placeholder="Candidate Firstname"
-                   class="appearance-none rounded-r sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
+            <div v-if="state.errors && state.errors.firstname " class="mb-2 mr-2 text-sm py-2 px-3 bg-pink-200 text-red-700 rounded">{{ state.errors.firstname[0] }}</div>
+
+            <div class=" mb-6 mr-2 pt-3 rounded bg-gray-200">
+
+                <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="firstname">Firstname</label>
+                <input type="text" v-model="state.candidate.firstname" id="firstname" placeholder="Candidate Firstname"
+                       class="login-input" />
+            </div>
         </div>
         <div class="relative">
-            <input type="text" v-model="state.candidate.lastname" placeholder="Candidate Lastname"
-                   class="appearance-none rounded-r sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
+            <div v-if="state.errors && state.errors.lastname " class="mb-2 mr-2 text-sm py-2 px-3 bg-pink-200 text-red-700 rounded">{{ state.errors.lastname[0] }}</div>
+
+            <div class=" mb-6 mr-2 pt-3 rounded bg-gray-200">
+
+                <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="lastname">Lastname</label>
+                <input type="text" v-model="state.candidate.lastname" id="lastname" placeholder="Candidate Lastname"
+                       class="login-input" />
+            </div>
         </div>
         <div class="relative">
-            <input type="date" v-model="state.candidate.birthdate" placeholder="Candidate Birthdate"
-                   class="appearance-none rounded-r sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
+            <div v-if="state.errors && state.errors.birthdate " class="mb-2 mr-2 text-sm py-2 px-3 bg-pink-200 text-red-700 rounded">{{ state.errors.birthdate[0] }}</div>
+
+            <div class=" mb-6 mr-2 pt-3 rounded bg-gray-200">
+
+                <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="birthdate">Birthdate</label>
+                <input type="date" v-model="state.candidate.birthdate" id="birthdate" placeholder="Candidate Birthdate"
+                       class="login-input" />
+            </div>
         </div>
         <div class="relative">
-            <input type="text" v-model="state.candidate.street_address" placeholder="Candidate St.adr"
-                   class="appearance-none rounded-r sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
+            <div v-if="state.errors && state.errors.street_address " class="mb-2 mr-2 text-sm py-2 px-3 bg-pink-200 text-red-700 rounded">{{ state.errors.street_address[0] }}</div>
+
+            <div class=" mb-6 mr-2 pt-3 rounded bg-gray-200">
+
+                <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="address">St. address</label>
+                <input type="text" v-model="state.candidate.street_address" id="address" placeholder="Candidate St. address"
+                       class="login-input" />
+            </div>
         </div>
         <div class="relative">
-            <input type="text" v-model="state.candidate.city" placeholder="Candidate City"
-                   class="appearance-none rounded-r sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
+            <div v-if="state.errors && state.errors.city " class="mb-2 mr-2 text-sm py-2 px-3 bg-pink-200 text-red-700 rounded">{{ state.errors.city[0] }}</div>
+
+            <div class=" mb-6 mr-2 pt-3 rounded bg-gray-200">
+
+                <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="city">City</label>
+                <input type="text" v-model="state.candidate.city" id="city" placeholder="Candidate City"
+                       class="login-input" />
+            </div>
         </div>
         <div class="relative">
-            <input type="text" v-model="state.candidate.district" placeholder="Candidate District"
-                   class="appearance-none rounded-r sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
+            <div v-if="state.errors && state.errors.district " class="mb-2 mr-2 text-sm py-2 px-3 bg-pink-200 text-red-700 rounded">{{ state.errors.district[0] }}</div>
+
+            <div class=" mb-6 mr-2 pt-3 rounded bg-gray-200">
+
+                <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="district">District</label>
+                <input type="text" v-model="state.candidate.district" id="district" placeholder="Candidate District"
+                       class="login-input" />
+            </div>
         </div>
         <div class="relative">
-            <select class="appearance-none rounded-r sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
-                    v-model="state.candidate.gender"
-                    id="gender"
-                    name="gender">
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-            </select>
+            <div v-if="state.errors && state.errors.gender " class="mb-2 mr-2 text-sm py-2 px-3 bg-pink-200 text-red-700 rounded">{{ state.errors.gender[0] }}</div>
+
+            <div class=" mb-6 mr-2 pt-3 rounded bg-gray-200">
+
+                <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="gender">Gender</label>
+                <select class="login-input"
+                        v-model="state.candidate.gender"
+                        id="gender"
+                        name="gender">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </div>
         </div>
         <div class="relative">
             <button
@@ -46,6 +88,7 @@
 
 <script>
 import {reactive} from "vue";
+import {useStore} from "vuex";
 
 export default {
     emits: {
@@ -55,6 +98,8 @@ export default {
         electionId: String,
     },
     setup(props,{emit}) {
+        const store = useStore()
+
         const state = reactive({
             candidate: {
                 firstname: "",
@@ -65,21 +110,11 @@ export default {
                 district: "",
                 gender: ""
             },
+            errors: {},
         });
         console.log(props)
         async function addCandidate() {
-            if (
-                state.candidate.firstname === "" ||
-                state.candidate.lastname === ""||
-                state.candidate.birthdate === ""||
-                state.candidate.street_address === ""||
-                state.candidate.city === ""||
-                state.candidate.district === ""||
-                state.candidate.gender === ""
-            ){
-                return;
-            }
-            console.log(props.electionId)
+
             await axios.post( `api/elections/${props.electionId}/candidates`, {
                 firstname: state.candidate.firstname,
                 lastname: state.candidate.lastname,
@@ -98,12 +133,29 @@ export default {
                     state.candidate.city = "";
                     state.candidate.district = "";
                     state.candidate.gender = "";
+                    state.errors = "";
+                    SendNotification('green', "Successfully added candidate")
                     emit('candidate-add');
                 }
             })
             .catch( error => {
-                console.log(error);
+                if (error.response.status === 422) {
+                    state.errors = error.response.data.errors
+                }
             })
+        }
+
+        function SendNotification(type, message) {
+            let notification = {
+                id: ((Math.random().toString(36) + Date.now().toString(36)).substr(2)),
+                type: type,
+                message: message,
+            }
+            store.dispatch('addNotification', notification);
+
+            setTimeout(() => {
+                store.dispatch('removeNotification', notification);
+            }, 3000);
         }
 
         return {
