@@ -30,6 +30,13 @@ class ElectionController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
+
+        $request->validate([
+            'election_date' => ['required'],
+            'election_name' => ['required'],
+        ]);
+
+
         if ($request->user()->cannot('create', Election::class)) {
             return response()->json(['message' => 'Forbidden'], 403);
         }
@@ -65,6 +72,11 @@ class ElectionController extends Controller
      */
     public function update(Request $request, $id): JsonResponse
     {
+        $request->validate([
+            'election_date' => ['required'],
+            'election_name' => ['required'],
+        ]);
+
         $election = Election::FindOrFail($id);
 
         if ($request->user()->cannot('update', $election)) {

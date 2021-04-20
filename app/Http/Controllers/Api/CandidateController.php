@@ -35,6 +35,16 @@ class CandidateController extends Controller
      */
     public function store(Request $request, Election $election): JsonResponse
     {
+        $request->validate([
+            'firstname' => ['required'],
+            'lastname' => ['required'],
+            'birthdate' => ['required'],
+            'street_address' => ['required'],
+            'city' => ['required'],
+            'district' => ['required'],
+            'gender' => ['required'],
+        ]);
+
         if ($request->user()->cannot('create', Candidate::class)) {
             return response()->json(['message' => 'Forbidden'], 403);
         }
@@ -77,23 +87,33 @@ class CandidateController extends Controller
      */
     public function update(Request $request, $candidate): JsonResponse
     {
-            $candidate = Candidate::findOrFail($candidate);
+        $request->validate([
+            'firstname' => ['required'],
+            'lastname' => ['required'],
+            'birthdate' => ['required'],
+            'street_address' => ['required'],
+            'city' => ['required'],
+            'district' => ['required'],
+            'gender' => ['required'],
+        ]);
 
-            if ($request->user()->cannot('update', $candidate)) {
-                return response()->json(['message' => 'Forbidden'], 403);
-            }
+        $candidate = Candidate::findOrFail($candidate);
 
-            $candidate->update([
-                'firstname' => $request->firstname,
-                'lastname' => $request->lastname,
-                'street_address' => $request->street_address,
-                'city' => $request->city,
-                'district' => $request->district,
-                'gender' => $request->gender,
-                'entry_id' => $request->entry_id,
-            ]);
+        if ($request->user()->cannot('update', $candidate)) {
+            return response()->json(['message' => 'Forbidden'], 403);
+        }
 
-            return response()->json(new CandidateResource($candidate));
+        $candidate->update([
+            'firstname' => $request->firstname,
+            'lastname' => $request->lastname,
+            'street_address' => $request->street_address,
+            'city' => $request->city,
+            'district' => $request->district,
+            'gender' => $request->gender,
+            'entry_id' => $request->entry_id,
+        ]);
+
+        return response()->json(new CandidateResource($candidate));
     }
 
     /**
