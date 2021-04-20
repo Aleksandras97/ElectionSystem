@@ -12,6 +12,7 @@
             </div>
 
         </div>
+        <NotificationList />
         <!--        <Footer/>-->
     </div>
 
@@ -22,9 +23,10 @@ import Header from "../vue/Header";
 import Footer from "../vue/Footer";
 import SIdebar from "../vue/Sidebar";
 import Sidebar from "../vue/Sidebar";
+import NotificationList from "../vue/NotificationList";
 
 export default {
-    components: {Sidebar, Footer, Header}
+    components: {NotificationList, Sidebar, Footer, Header}
 }
 </script>
 
