@@ -7,7 +7,7 @@
                      alt="" />
             </div>
             <div class="ml-3">
-                <p class="text-gray-900 whitespace-no-wrap"
+                <p class="text-gray-900 whitespace-no-wrap hover:text-blue-300 hover:font-bold cursor-pointer"
                    @click="goToCandidates(election.id)"
                 >
                     {{ election.election_name }}
@@ -42,13 +42,23 @@
                 <div class="block">
 
                     <div class="flex justify-start mb-1 sm:mb-0">
-                        <div class="relative">
-                            <input type="text" v-model="state.election.election_name" placeholder="Election Name"
-                                   class="appearance-none rounded-r sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
+                        <div class="relative ">
+                            <div v-if="state.errors && state.errors.election_name " class="mb-2 mr-2 text-sm py-2 px-3 bg-pink-200 text-red-700 rounded">{{ state.errors.election_name[0] }}</div>
+                            <div class="mb-6 mr-2 pt-3 rounded bg-gray-200">
+
+                                <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="name">Name</label>
+                                <input type="text" v-model="state.election.election_name" id="name" placeholder="Election Name"
+                                       class="login-input" />
+                            </div>
                         </div>
                         <div class="relative">
-                            <input type="date" v-model="state.election.election_date" placeholder="Election Date"
-                                   class="appearance-none rounded-r sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
+                            <div v-if="state.errors && state.errors.election_date " class="mb-2 mr-2 text-sm py-2 px-3 bg-pink-200 text-red-700 rounded">{{ state.errors.election_date[0] }}</div>
+                            <div class=" mb-6 mr-2 pt-3 rounded bg-gray-200">
+
+                                <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="date">Date</label>
+                                <input type="date" v-model="state.election.election_date" id="date" placeholder="Election Date"
+                                       class="login-input" />
+                            </div>
 
                         </div>
                     </div>
@@ -74,6 +84,7 @@
 import {onMounted, onUpdated, reactive, ref} from "vue";
 import Modal from "./Modal";
 import {useRouter} from "vue-router";
+import {useStore} from "vuex";
 
 export default {
     components: {Modal},
@@ -84,6 +95,7 @@ export default {
         election: Object,
     },
     setup: function (props, {emit}) {
+        const store = useStore()
         const router = useRouter();
         const goToCandidates = (id) => {
             router.push({path: `/admin/${id}/candidates`})
@@ -94,6 +106,7 @@ export default {
         const state = reactive({
             isOpen: false,
             election: {},
+            errors: {},
         });
 
         onMounted(() => {
@@ -110,6 +123,7 @@ export default {
                 .then(response => {
                     if (response.status === 204) {
                         emit('elections-update');
+                        SendNotification('green', "Successfully deleted election")
 
                     }
                 })
@@ -120,9 +134,9 @@ export default {
         }
 
         function editElection() {
-            if (state.election_name === "" || state.election_date === "") {
-                return;
-            }
+            // if (state.election_name === "" || state.election_date === "") {
+            //     return;
+            // }
 
             axios.put('api/elections/' + props.election.id, {
                 election_name: state.election.election_name,
@@ -130,16 +144,31 @@ export default {
             })
                 .then(response => {
                     if (response.status === 200) {
+                        state.errors = "";
                         emit('elections-update');
                         state.isOpen = false;
                         isModalOpen.value = false;
+                        SendNotification('green', "Successfully updated election")
                     }
                 })
                 .catch(error => {
-                    console.log(error);
-                    state.isOpen = false;
-                    isModalOpen.value = false;
+                    if (error.response.status === 422) {
+                        state.errors = error.response.data.errors
+                    }
                 })
+        }
+
+        function SendNotification(type, message) {
+            let notification = {
+                id: ((Math.random().toString(36) + Date.now().toString(36)).substr(2)),
+                type: type,
+                message: message,
+            }
+            store.dispatch('addNotification', notification);
+
+            setTimeout(() => {
+                store.dispatch('removeNotification', notification);
+            }, 3000);
         }
 
         return {

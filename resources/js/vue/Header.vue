@@ -8,7 +8,7 @@
                 </div>
                 <div class="menu flex justify-end items-center flex-1 space-x-4">
                     <template v-if="authenticated">
-                        <span v-if="User?.is_admin" class="bg-red-200 text-red-600 py-2 px-5 rounded-full text-2xl">Admin</span>
+                        <span v-if="User?.is_admin" class="bg-red-200 text-red-600 py-2 px-5 rounded-full text-2xl font-bold">Admin</span>
                         <font-awesome-icon
                             icon="user"
                         />
