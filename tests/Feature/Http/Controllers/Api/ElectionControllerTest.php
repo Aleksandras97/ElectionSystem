@@ -49,7 +49,7 @@ class ElectionControllerTest extends TestCase
      */
     public function can_return_a_collection_of_paginated_elections()
     {
-        $response = $this->json('GET', 'api/elections');
+        $response = $this->actingAs($this->create('User', [], false), 'api')->json('GET', 'api/elections');
 
         $response->assertStatus(200)
             ->assertJsonStructure([
@@ -75,11 +75,11 @@ class ElectionControllerTest extends TestCase
      *
      * @test
      */
-    public function can_create_an_election()
+    public function admin_can_create_an_election()
     {
         $faker = Factory::create();
 
-        $response = $this->json('POST', 'api/elections', [
+        $response = $this->actingAs($this->create('User', ['is_admin' => true], false), 'api')->json('POST', 'api/elections', [
             'election_date' => $election_date = $faker->date($format = 'Y-m-d', $max = 'now'),
             'election_name' => $election_name = $faker->catchPhrase,
             'election_image' => $election_image = $faker->name,
@@ -107,11 +107,30 @@ class ElectionControllerTest extends TestCase
     }
 
     /**
+     * A basic feature test example.
+     *
+     * @test
+     */
+    public function user_cant_create_an_election()
+    {
+        $faker = Factory::create();
+
+        $response = $this->actingAs($this->create('User', [], false), 'api')->json('POST', 'api/elections', [
+            'election_date' => $election_date = $faker->date($format = 'Y-m-d', $max = 'now'),
+            'election_name' => $election_name = $faker->catchPhrase,
+            'election_image' => $election_image = $faker->name,
+        ]);
+//        Log::info(1, get);
+        $response->assertStatus(403)
+            ->assertJson(['message' => 'Forbidden']);
+    }
+
+    /**
      * @test
      */
     public function will_fail_with_404_if_election_is_not_found()
     {
-        $response = $this->json('GET', 'api/elections/-1');
+        $response = $this->actingAs($this->create('User', [], false), 'api')->json('GET', 'api/elections/-1');
 
         $response->assertStatus(404);
     }
@@ -123,7 +142,7 @@ class ElectionControllerTest extends TestCase
     {
         $election = $this->create('Election');
 
-        $response = $this->json('GET', "api/elections/$election->id");
+        $response = $this->actingAs($this->create('User', [], false), 'api')->json('GET', "api/elections/$election->id");
 
         $response->assertStatus(200)
             ->assertExactJson([
@@ -140,7 +159,7 @@ class ElectionControllerTest extends TestCase
      */
     public function will_fail_with_404_if_election_we_want_to_update_is_not_found()
     {
-        $response = $this->json('PUT', 'api/elections/-1');
+        $response = $this->actingAs($this->create('User', [], false), 'api')->json('PUT', 'api/elections/-1');
 
         $response->assertStatus(404);
     }
@@ -148,13 +167,14 @@ class ElectionControllerTest extends TestCase
     /**
      * @test
      */
-    public function can_update_an_election()
+    public function admin_can_update_an_election()
     {
         $election = $this->create('Election');
 
-        $response = $this->json('PUT', "api/elections/$election->id", [
+        $response = $this->actingAs($this->create('User', ['is_admin' => true], false), 'api')->json('PUT', "api/elections/$election->id", [
             'election_name' => $election->election_name.'_updated',
-            'election_image' => $election->election_image.'_updated',
+            'election_date' => $election->election_date,
+            'election_image' => $election->election_image.'_updated'
         ]);
 
         $response->assertStatus(200)
@@ -178,9 +198,26 @@ class ElectionControllerTest extends TestCase
     /**
      * @test
      */
+    public function user_cant_update_an_election()
+    {
+        $election = $this->create('Election');
+
+        $response = $this->actingAs($this->create('User', [], false), 'api')->json('PUT', "api/elections/$election->id", [
+            'election_name' => $election->election_name.'_updated',
+            'election_date' => $election->election_date,
+            'election_image' => $election->election_image.'_updated'
+        ]);
+
+        $response->assertStatus(403)
+            ->assertJson(['message' => 'Forbidden']);
+    }
+
+    /**
+     * @test
+     */
     public function will_fail_with_404_if_election_we_want_to_delete_is_not_found()
     {
-        $response = $this->json('DELETE', 'api/elections/-1');
+        $response = $this->actingAs($this->create('User', [], false), 'api')->json('DELETE', 'api/elections/-1');
 
         $response->assertStatus(404);
     }
@@ -189,15 +226,28 @@ class ElectionControllerTest extends TestCase
     /**
      * @test
      */
-    public function can_delete_an_election()
+    public function admin_can_delete_an_election()
     {
         $election = $this->create('Election');
 
-        $response = $this->json('DELETE', "api/elections/$election->id");
+        $response = $this->actingAs($this->create('User', ['is_admin' => true], false), 'api')->json('DELETE', "api/elections/$election->id");
 
         $response->assertStatus(204)->assertSee(null);
 
         $this->assertDatabaseMissing('elections', ['id' => $election->id]);
+    }
+
+    /**
+     * @test
+     */
+    public function user_cant_delete_an_election()
+    {
+        $election = $this->create('Election');
+
+        $response = $this->actingAs($this->create('User', [], false), 'api')->json('DELETE', "api/elections/$election->id");
+
+        $response->assertStatus(403)
+            ->assertJson(['message' => 'Forbidden']);
     }
 
 

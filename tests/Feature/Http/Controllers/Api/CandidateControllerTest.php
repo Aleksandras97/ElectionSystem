@@ -16,8 +16,13 @@ class CandidateControllerTest extends TestCase
     public function can_return_a_collection_of_paginated_election_candidates()
     {
 
+        $candidate = $this->create('Candidate', [], false);
+        $election = $this->create('Election', [], false);
+        $candidate->election()->associate($election);
+        $candidate->save();
+        $id = $candidate->election->id;
 
-        $response = $this->json('GET', "/api/elections/6/candidates");
+        $response = $this->actingAs($this->create('User', [], false), 'api')->json('GET', "/api/elections/$id/candidates");
 
         $response->assertStatus(200)
         ->assertJsonStructure([
@@ -31,7 +36,6 @@ class CandidateControllerTest extends TestCase
                     'city',
                     'district',
                     'gender',
-                    'entry_id',
                     'created_at',
                 ]
             ],
@@ -43,19 +47,42 @@ class CandidateControllerTest extends TestCase
         ]);
     }
 
+    /**
+     *
+     * @test
+     */
+    public function user_cant_create_a_election_candidate()
+    {
+
+        $faker = Factory::create();
+        $election = $this->create('Election');
+
+        $response = $this->actingAs($this->create('User', [], false), 'api')->json('POST', "api/elections/$election->id/candidates", [
+            'firstname' => $firstname = $faker->firstName,
+            'lastname' => $lastname = $faker->lastName,
+            'birthdate' => $birthdate = $faker->date($format = 'Y-m-d', $max = 'now'),
+            'street_address' => $street_address = $faker->streetAddress,
+            'city' => $city = $faker->city,
+            'district' => $district = $faker->state,
+            'gender' => $gender = $faker->randomElement($array = array('male', 'female')),
+        ]);
+
+        $response->assertStatus(403)
+            ->assertJson(['message' => 'Forbidden']);
+    }
 
 
     /**
      *
      * @test
      */
-    public function can_create_a_election_candidate()
+    public function admin_can_create_a_election_candidate()
     {
 
         $faker = Factory::create();
         $election = $this->create('Election');
 
-        $response = $this->json('POST', "api/elections/$election->id/candidates", [
+        $response = $this->actingAs($this->create('User', ['is_admin' => true], false), 'api')->json('POST', "api/elections/$election->id/candidates", [
             'firstname' => $firstname = $faker->firstName,
             'lastname' => $lastname = $faker->lastName,
             'birthdate' => $birthdate = $faker->date($format = 'Y-m-d', $max = 'now'),
@@ -75,7 +102,6 @@ class CandidateControllerTest extends TestCase
             'city',
             'district',
             'gender',
-            'entry_id',
             'created_at',
         ])
         ->assertJson([
@@ -104,10 +130,13 @@ class CandidateControllerTest extends TestCase
      */
     public function will_fail_with_a_404_if_candidate_is_not_found()
     {
-        $response = $this->json('GET', 'api/candidates/-1');
+        $response = $this->actingAs($this->create('User', [], false), 'api')->json('GET', 'api/candidates/-1');
 
         $response->assertStatus(404);
     }
+
+
+
 
     /**
      * @test
@@ -116,7 +145,7 @@ class CandidateControllerTest extends TestCase
     {
         $candidate = $this->create('Candidate');
 
-        $response = $this->json('GET', "api/candidates/$candidate->id");
+        $response = $this->actingAs($this->create('User', [], false), 'api')->json('GET', "api/candidates/$candidate->id");
 
         $response->assertStatus(200)
         ->assertExactJson([
@@ -128,7 +157,6 @@ class CandidateControllerTest extends TestCase
             'city' => $candidate->city,
             'district' => $candidate->district,
             'gender' => $candidate->gender,
-            'entry_id' => $candidate->entry_id,
             'created_at' => (string)$candidate->created_at
         ]);
     }
@@ -138,7 +166,7 @@ class CandidateControllerTest extends TestCase
      */
     public function will_fail_with_404_if_candidate_we_want_to_update_is_not_found()
     {
-        $response = $this->json('PUT', 'api/candidate/-1');
+        $response = $this->actingAs($this->create('User', [], false), 'api')->json('PUT', 'api/candidate/-1');
 
         $response->assertStatus(404);
     }
@@ -146,14 +174,36 @@ class CandidateControllerTest extends TestCase
     /**
      * @test
      */
-    public function can_update_a_candidate()
+    public function user_cant_update_a_candidate()
+    {
+        $candidate = $this->create('Candidate');
+
+        $response = $this->actingAs($this->create('User', [], false), 'api')->json('PUT', "api/candidates/$candidate->id", [
+            'firstname' => $candidate->firstname.'_updated',
+            'lastname' => $candidate->lastname.'_updated',
+            'birthdate' => $candidate->birthdate,
+            'street_address' => $candidate->street_address.'_updated',
+            'city' => $candidate->city.'_updated',
+            'district' => $candidate->district.'_updated',
+            'gender' => $candidate->gender.'_updated',
+        ]);
+
+        $response->assertStatus(403)
+            ->assertJson(['message' => 'Forbidden']);
+    }
+
+    /**
+     * @test
+     */
+    public function admin_can_update_a_candidate()
     {
         $candidate = $this->create('Candidate');
         $election = $this->create('Election');
 
-        $response = $this->json('PUT', "api/candidates/$candidate->id", [
+        $response = $this->actingAs($this->create('User', ['is_admin' => true], false), 'api')->json('PUT', "api/candidates/$candidate->id", [
             'firstname' => $candidate->firstname.'_updated',
             'lastname' => $candidate->lastname.'_updated',
+            'birthdate' => $candidate->birthdate,
             'street_address' => $candidate->street_address.'_updated',
             'city' => $candidate->city.'_updated',
             'district' => $candidate->district.'_updated',
@@ -171,7 +221,6 @@ class CandidateControllerTest extends TestCase
             'city' => $candidate->city.'_updated',
             'district' => $candidate->district.'_updated',
             'gender' => $candidate->gender.'_updated',
-            'entry_id' => $election->id,
             'created_at' => (string)$candidate->created_at
         ]);
 
@@ -184,7 +233,7 @@ class CandidateControllerTest extends TestCase
             'city' => $candidate->city.'_updated',
             'district' => $candidate->district.'_updated',
             'gender' => $candidate->gender.'_updated',
-            'entry_id' => $election->id,
+            'entry_id' => null,
             'created_at' => (string)$candidate->created_at,
             'updated_at' => (string)$candidate->updated_at
         ]);
@@ -196,7 +245,7 @@ class CandidateControllerTest extends TestCase
      */
     public function will_fail_with_404_if_candidate_we_want_to_delete_is_not_found()
     {
-        $response = $this->json('DELETE', 'api/candidates/-1');
+        $response = $this->actingAs($this->create('User', [], false), 'api')->json('DELETE', 'api/candidates/-1');
 
         $response->assertStatus(404);
     }
@@ -204,11 +253,24 @@ class CandidateControllerTest extends TestCase
     /**
      * @test
      */
-    public function can_delete_candidate()
+    public function user_cant_delete_candidate()
     {
         $candidate = $this->create('Candidate');
 
-        $response = $this->json('DELETE', "/api/candidates/$candidate->id");
+        $response = $this->actingAs($this->create('User', [], false), 'api')->json('DELETE', "/api/candidates/$candidate->id");
+
+        $response->assertStatus(403)
+            ->assertJson(['message' => 'Forbidden']);
+    }
+
+    /**
+     * @test
+     */
+    public function admin_can_delete_candidate()
+    {
+        $candidate = $this->create('Candidate');
+
+        $response = $this->actingAs($this->create('User', ['is_admin' => true], false), 'api')->json('DELETE', "/api/candidates/$candidate->id");
 
         $response->assertStatus(204)->assertSee(null);
 

@@ -87,6 +87,7 @@ class CandidateController extends Controller
      */
     public function update(Request $request, $candidate): JsonResponse
     {
+        $candidate = Candidate::findOrFail($candidate);
         $request->validate([
             'firstname' => ['required'],
             'lastname' => ['required'],
@@ -97,7 +98,6 @@ class CandidateController extends Controller
             'gender' => ['required'],
         ]);
 
-        $candidate = Candidate::findOrFail($candidate);
 
         if ($request->user()->cannot('update', $candidate)) {
             return response()->json(['message' => 'Forbidden'], 403);
@@ -110,7 +110,6 @@ class CandidateController extends Controller
             'city' => $request->city,
             'district' => $request->district,
             'gender' => $request->gender,
-            'entry_id' => $request->entry_id,
         ]);
 
         return response()->json(new CandidateResource($candidate));

@@ -23,7 +23,6 @@ class Candidate extends JsonResource
             'city' => $this->city,
             'district' => $this->district,
             'gender' => $this->gender,
-            'entry_id' => (int)$this->entry_id,
             'created_at' => (string)$this->created_at
         ];
     }

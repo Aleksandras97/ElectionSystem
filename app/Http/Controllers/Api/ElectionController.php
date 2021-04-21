@@ -72,12 +72,12 @@ class ElectionController extends Controller
      */
     public function update(Request $request, $id): JsonResponse
     {
+        $election = Election::FindOrFail($id);
         $request->validate([
             'election_date' => ['required'],
             'election_name' => ['required'],
         ]);
 
-        $election = Election::FindOrFail($id);
 
         if ($request->user()->cannot('update', $election)) {
             return response()->json(['message' => 'Forbidden'], 403);

@@ -27,6 +27,7 @@ class ElectionVoting extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return JsonResponse
      */
     public function isVoted(Request $request): JsonResponse
