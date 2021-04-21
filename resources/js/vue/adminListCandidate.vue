@@ -28,6 +28,7 @@
                 @click="deleteCandidate()"
         >
             Delete
+            <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
         </button>
     </td>
 
@@ -123,6 +124,8 @@
                                 :class="[ state.candidate.firstname ? 'bg-green-500 hover:bg-green-400 border-green-700 hover:border-green-500' : 'bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500' ]"
                                 class=" text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">
                                 Edit
+                                <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
+
                             </button>
                             <button @click="isModalOpen = false, state.isOpen = false" class="bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500  text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">Cancel</button>
                         </div>
@@ -158,6 +161,7 @@ export default {
             isOpen: false,
             candidate: {},
             errors: {},
+            loading: false,
         });
 
         onMounted( () => {
@@ -169,6 +173,7 @@ export default {
         })
 
         function deleteCandidate() {
+            state.loading = true;
             axios.delete(`api/candidates/${props.candidate.id}`  )
                 .then( response => {
                     if( response.status === 204 ) {
@@ -181,10 +186,11 @@ export default {
                     console.log(error);
 
                 })
+                .finally(() => state.loading = false)
         }
 
         function editCandidate() {
-
+            state.loading = true;
 
             axios.put(`api/candidates/${props.candidate.id}`, {
                 firstname: state.candidate.firstname,
@@ -210,6 +216,7 @@ export default {
                     state.errors = error.response.data.errors
                 }
             })
+            .finally(() => state.loading = false)
         }
 
         function SendNotification(type, message) {

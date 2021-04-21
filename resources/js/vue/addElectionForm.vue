@@ -24,9 +24,7 @@
                 :class="[ state.election.election_name ? 'bg-green-500 hover:bg-green-400 border-green-700 hover:border-green-500' : 'bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500' ]"
                 class=" text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">
                 Add
-                <svg class="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24">
-                    <!-- ... -->
-                </svg>
+                <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
             </button>
         </div>
     </div>
@@ -46,9 +44,10 @@ export default {
            election: {
                election_name: "",
                election_date: "",
-               errors: {},
-               notification: {}
-           }
+
+           },
+            errors: {},
+            loading: false,
         });
 
         setTimeout(() => {
@@ -56,7 +55,7 @@ export default {
         }, 3000);
 
         function addElection() {
-
+            state.loading = true;
             axios.post('api/elections', {
                 election_name: state.election.election_name,
                 election_date: state.election.election_date
@@ -75,6 +74,7 @@ export default {
                     state.errors = error.response.data.errors
                 }
             })
+            .finally(() => state.loading = false)
         }
 
         function SendNotification(type, message) {

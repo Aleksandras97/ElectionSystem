@@ -8,7 +8,7 @@
                 <div class="flex flex-row mb-1 sm:mb-0">
                     <div class="relative">
                         <select
-                            class="appearance-none h-full rounded-l border block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                            class="h-full rounded-l border block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
                             <option>5</option>
                             <option>10</option>
                             <option>20</option>
@@ -22,7 +22,7 @@
                     </div>
                     <div class="relative">
                         <select
-                            class="appearance-none h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500">
+                            class="h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500">
                             <option>All</option>
                             <option>Active</option>
                             <option>Inactive</option>
@@ -88,20 +88,22 @@
                         </span>
                         <div class="inline-flex mt-2 xs:mt-0">
                             <button
-                                class="bg-yellow-500 hover:bg-yellow-400 border-yellow-700 hover:border-yellow-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded' : 'bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded"
+                                class="bg-yellow-500 hover:bg-yellow-400 border-yellow-700 hover:border-yellow-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded"
                                 :disabled='!state.pagination.prev_page_url'
                                 :class="{'opacity-50': !state.pagination.prev_page_url }"
                                 @click="getCandidates(state.pagination.prev_page_url)"
                             >
                                 Prev
+                                <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
                             </button>
                             <button
-                                class="bg-yellow-500 hover:bg-yellow-400 border-yellow-700 hover:border-yellow-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded' : 'bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded"
+                                class="bg-yellow-500 hover:bg-yellow-400 border-yellow-700 hover:border-yellow-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded"
                                 :disabled='!state.pagination.next_page_url'
                                 :class="{'opacity-50': !state.pagination.next_page_url }"
                                 @click="getCandidates(state.pagination.next_page_url)"
                             >
                                 Next
+                                <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
                             </button>
                         </div>
                     </div>
@@ -163,6 +165,7 @@ export default {
         }
 
         async function getCandidates(page_url) {
+            state.loading = true;
             page_url = page_url || `api/elections/${electionId.value}/candidates`
             await axios.get(page_url)
                 .then(response => {
@@ -193,7 +196,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-
-</style>

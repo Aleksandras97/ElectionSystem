@@ -30,6 +30,7 @@
             @click="deleteElection()"
         >
             Delete
+            <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
         </button>
     </td>
 
@@ -69,6 +70,7 @@
                                 :class="[ state.election.election_name ? 'bg-green-500 hover:bg-green-400 border-green-700 hover:border-green-500' : 'bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500' ]"
                                 class=" text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">
                                 Edit
+                                <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
                             </button>
                             <button @click="isModalOpen = false, state.isOpen = false" class="bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500  text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">Cancel</button>
                         </div>
@@ -107,6 +109,7 @@ export default {
             isOpen: false,
             election: {},
             errors: {},
+            loading: false,
         });
 
         onMounted(() => {
@@ -119,6 +122,7 @@ export default {
 
 
         function deleteElection() {
+            state.loading = true;
             axios.delete('api/elections/' + props.election.id)
                 .then(response => {
                     if (response.status === 204) {
@@ -131,13 +135,11 @@ export default {
                     console.log(error);
 
                 })
+                .finally(() => state.loading = false)
         }
 
         function editElection() {
-            // if (state.election_name === "" || state.election_date === "") {
-            //     return;
-            // }
-
+            state.loading = true;
             axios.put('api/elections/' + props.election.id, {
                 election_name: state.election.election_name,
                 election_date: state.election.election_date
@@ -156,6 +158,7 @@ export default {
                         state.errors = error.response.data.errors
                     }
                 })
+                .finally(() => state.loading = false)
         }
 
         function SendNotification(type, message) {

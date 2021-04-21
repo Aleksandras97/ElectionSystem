@@ -93,6 +93,7 @@
                                 @click="getElections(state.pagination.prev_page_url)"
                             >
                                 Prev
+                                <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
                             </button>
                             <button
                                 class="bg-yellow-500 hover:bg-yellow-400 border-yellow-700 hover:border-yellow-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded' : 'bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded"
@@ -101,6 +102,7 @@
                                 @click="getElections(state.pagination.next_page_url)"
                             >
                                 Next
+                                <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
                             </button>
                         </div>
                     </div>
@@ -125,7 +127,7 @@ export default {
         const state = reactive({
             elections: {},
             pagination: {},
-            loading: true,
+            loading: false,
         });
 
         watchEffect(() => {
@@ -151,7 +153,7 @@ export default {
 
         async function getElections(page_url) {
             page_url = page_url || 'api/elections'
-
+            state.loading = true;
             await axios.get(page_url)
                 .then(response => {
                     state.elections = response.data.data
