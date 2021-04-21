@@ -75,20 +75,33 @@
                 </select>
             </div>
         </div>
+
         <div class="relative">
             <button
                 @click="addCandidate()"
                 :class="[ state.candidate.firstname ? 'bg-green-500 hover:bg-green-400 border-green-700 hover:border-green-500' : 'bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500' ]"
                 class="text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">
                 Add
+                <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
             </button>
         </div>
     </div>
+    <div class="block w-3">
+
+        <div class=" mb-6 mr-2 p-3 rounded bg-gray-200">
+
+            <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="image">Image</label>
+            <input type="file" accept="image/*" id="image" @change="uploadFile"/>
+        </div>
+    </div>
+    <img v-show="photoUrl" :src="photoUrl" class="w-48 h-48 object-cover" >
+    
 </template>
 
 <script>
-import {reactive} from "vue";
+import {reactive, ref, watch} from "vue";
 import {useStore} from "vuex";
+import { useImageUpload } from '../composables/useImageUpload.js';
 
 export default {
     emits: {
@@ -97,9 +110,12 @@ export default {
     props: {
         electionId: String,
     },
-    setup(props,{emit}) {
-        const store = useStore()
+    setup(props,ctx) {
 
+        let { photo, photoUrl, uploadFile } = useImageUpload();
+
+        const store = useStore()
+        
         const state = reactive({
             candidate: {
                 firstname: "",
@@ -108,13 +124,17 @@ export default {
                 street_address: "",
                 city: "",
                 district: "",
-                gender: ""
+                gender: "",
+                
             },
             errors: {},
+            loading: false,
         });
-        console.log(props)
-        async function addCandidate() {
 
+        
+
+        async function addCandidate() {
+            state.loading = true;
             await axios.post( `api/elections/${props.electionId}/candidates`, {
                 firstname: state.candidate.firstname,
                 lastname: state.candidate.lastname,
@@ -123,6 +143,7 @@ export default {
                 city: state.candidate.city,
                 district: state.candidate.district,
                 gender: state.candidate.gender,
+                photo: photo.value,
             })
             .then( response => {
                 if (response.status === 201) {
@@ -143,6 +164,7 @@ export default {
                     state.errors = error.response.data.errors
                 }
             })
+            .finally(() => state.loading = false)
         }
 
         function SendNotification(type, message) {
@@ -160,7 +182,10 @@ export default {
 
         return {
             state,
-            addCandidate
+            addCandidate,
+            photo, 
+            photoUrl, 
+            uploadFile
         }
     }
 }
