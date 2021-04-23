@@ -32,7 +32,17 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                   d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"/>
                         </svg>
-                        <HeaderLink to="/admin" exact>Admin</HeaderLink>
+                        <HeaderLink to="/admin/elections" exact>Elections</HeaderLink>
+                    </button>
+                </div>
+                <div v-if="User?.is_admin" class="mt-1  mr-50 rounded rounded-r-3xl pl-6 py-3 font-semibold">
+                    <button class="text-gray-600  text-sm font-semibold flex items-center focus:outline-none">
+                        <svg class="h-6  px-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                             stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"/>
+                        </svg>
+                        <HeaderLink to="/admin/candidates" exact>Candidates</HeaderLink>
                     </button>
                 </div>
 
