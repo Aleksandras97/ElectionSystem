@@ -1,7 +1,7 @@
 <template>
     <tr>
         <td class="px-5 py-5 border-b border-gray-200 bg-white text-4xl">
-            <p class="text-gray-900 whitespace-no-wrap text-center">{{ index + 1  }} and {{ candidate.id }}</p>
+            <p class="text-gray-900 whitespace-no-wrap text-center">foto veliau</p>
         </td>
         <td class="px-5 py-5 border-b border-gray-200 bg-white text-4xl">
             <p class="text-gray-900 whitespace-no-wrap text-center">{{ candidate.firstname }}</p>
@@ -18,17 +18,15 @@
             </label>
         </td>
     </tr>
-
-
-<!--        <button @click="deleteElection" class="trashcan">-->
-<!--            <font-awesome-icon icon="trash" />-->
-<!--        </button>-->
 </template>
 
 <script>
 import {reactive} from "vue";
 
 export default {
+    emits: {
+        'selected-candidate': null,
+    },
     props: {
         candidate: Object,
         index: Number,

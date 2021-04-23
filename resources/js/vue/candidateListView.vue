@@ -30,6 +30,9 @@ import ListCandidate from "./listCandidate";
 
 export default {
     components: {ListCandidate},
+    emits: {
+        'candidate': null,
+    },
     props: {
         candidates: Object,
     }

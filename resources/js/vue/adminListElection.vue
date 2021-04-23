@@ -235,7 +235,7 @@ export default {
                     })
                     .finally(()=> state.loading = false)
 
-                    await Promise.all([a, b]);
+                    await Promise.all([allCandidates, electionCandidates]);
             } catch(error) {
                 console.log(error)
             }
