@@ -14,7 +14,7 @@
         </span>
         <div class="inline-flex mt-2 xs:mt-0">
             <button
-                class="bg-yellow-500 hover:bg-yellow-400 border-yellow-700 hover:border-yellow-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded' : 'bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded"
+                class="bg-yellow-500 hover:bg-yellow-400 border-yellow-700 hover:border-yellow-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded"
                 :disabled='!state.pagination.prev_page_url'
                 :class="{'opacity-50': !state.pagination.prev_page_url }"
                 @click="getCandidates(state.pagination.prev_page_url)"
@@ -22,7 +22,7 @@
                 Prev
             </button>
             <button
-                class="bg-yellow-500 hover:bg-yellow-400 border-yellow-700 hover:border-yellow-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded' : 'bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded"
+                class="bg-yellow-500 hover:bg-yellow-400 border-yellow-700 hover:border-yellow-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded"
                 :disabled='!state.pagination.next_page_url'
                 :class="{'opacity-50': !state.pagination.next_page_url }"
                 @click="getCandidates(state.pagination.next_page_url)"
@@ -37,7 +37,7 @@
         <template v-if="!state.Voted">
             <template v-if="isSameDay(state.election?.election_date)">
                 <button @click="isModalOpen = true"
-                        class="bg-purple-500 hover:bg-purple-400 border-purple-700 hover:border-purple-500' : 'bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">
+                        class="bg-purple-500 hover:bg-purple-400 border-purple-700 hover:border-purple-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">
                     Submit Vote
                     <font-awesome-icon
                         icon="check"
@@ -89,6 +89,7 @@
                                 <font-awesome-icon
                                     icon="check"
                                 />
+                                <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
                             </button>
                             <button @click="isModalOpen = false" class="bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500  text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">Cancel</button>
                         </div>
@@ -131,13 +132,23 @@ export default {
         const electionId = computed(() => router.params.electionId)
 
         onMounted(async () => {
-            await axios.get(`api/elections/${electionId.value}`)
-                .then(response => {
-                    state.election = response.data
-                })
-                .catch(error => {
-                    console.log(error);
-                })
+            state.loading = true;
+            try {
+                const election = axios.get(`api/elections/${electionId.value}`)
+                    .then(response => {
+                        state.election = response.data
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+
+
+
+                    await Promise.all([election, getCandidates(), isUserVoted(), getVotingResults(electionId.value)]);
+
+            } catch(error) {
+                console.log(error)
+            }
         });
 
         async function getCandidates(page_url) {
@@ -151,6 +162,7 @@ export default {
                 .catch(error => {
                     console.log(error);
                 })
+                .finally(()=> state.loading = false)
         }
 
         function makePagination(data){
@@ -164,22 +176,26 @@ export default {
         }
 
         async function SubmitVote() {
-            if (state.candidate_id == null && state.password) {
+            if (state.candidate_id == null && state.password === '') {
                 console.log('no password or candidate selected');
                 return;
             }
+            state.loading = true;
             console.log('candidate: ', state.candidate_id);
-            await axios.post('api/vote', {
+            await axios.post(`api/elections/${state.election.id}/vote`, {
                 candidate_id: state.candidate_id,
                 password: state.password,
             })
             .then(response => {
                 console.log('Voted')
-                isModalOpen.value = false
                 isUserVoted();
             })
             .catch(error => {
                 console.log(error);
+
+            })
+            .finally(() => {
+                state.loading = false
                 isModalOpen.value = false
             })
 
@@ -187,6 +203,7 @@ export default {
 
 
         async function isUserVoted() {
+            state.loading = true;
             await axios.post('api/voted', {
                 election_id: electionId.value
             })
@@ -196,6 +213,7 @@ export default {
                 .catch(error => {
                     console.log(error);
                 })
+                .finally(()=> state.loading = false)
         }
 
         async function getVotingResults(electionId) {
@@ -214,11 +232,11 @@ export default {
             let chartdata = [];
             for (let element in data) {
                 let alphaNumOut = [];
-                if (data[element].votecnt === null) {
-                    data[element].votecnt = 0
+                if (data[element].vote_counter === null) {
+                    data[element].vote_counter = 0
                 }
                 alphaNumOut.push([data[element].firstname]);
-                alphaNumOut.push([data[element].votecnt]);
+                alphaNumOut.push([data[element].vote_counter]);
                 chartdata.push(alphaNumOut);
             }
             return chartdata;
@@ -234,12 +252,6 @@ export default {
             return moment().diff(date, 'days') > 0
         }
 
-
-
-
-        state.candidates = getCandidates();
-        isUserVoted();
-        getVotingResults(electionId.value);
 
         return {
             state,
