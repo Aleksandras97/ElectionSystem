@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CandidateController;
+use App\Http\Controllers\Api\CandidateElectionController;
 use App\Http\Controllers\Api\ElectionController;
 use App\Http\Controllers\Api\ElectionVoting;
 use App\Http\Controllers\api\ProfilesController;
@@ -30,12 +31,16 @@ Route::middleware('auth:api')->group(function () {
     Route::get('loginUser', [ProfilesController::class, 'showLoginUser']);
     Route::get('search/elections/{val}', [ElectionController::class, 'search']);
     Route::apiResource('elections', ElectionController::class);
-    Route::get('search/elections/{election}/candidates/{val}', [CandidateController::class, 'search']);
-    Route::apiResource('elections.candidates', CandidateController::class)->shallow();
+    Route::get('search/candidates/{val}', [CandidateController::class, 'search']);
+    Route::get('all/candidates', [CandidateController::class, 'all']);
+    Route::apiResource('candidates', CandidateController::class);
     Route::apiResource('users', UserController::class);
     Route::post('vote', [ElectionVoting::class, 'store']);
     Route::post('voted', [ElectionVoting::class, 'isVoted']);
     Route::get('results/{id}', [ElectionVoting::class, 'results']);
+    Route::get('elections/{id}/candidates', [CandidateElectionController::class, 'index']);
+    Route::post('elections/{id}/candidates', [CandidateElectionController::class, 'store']);
+    Route::delete('elections/{election}/candidates/{candidate}', [CandidateElectionController::class, 'destroy']);
 });
 
 Route::post('/login', [AuthController::class, 'login']);
