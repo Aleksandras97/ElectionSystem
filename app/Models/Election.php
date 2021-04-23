@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Election extends Model
 {
@@ -17,9 +16,12 @@ class Election extends Model
         'election_image',
     ];
 
-    public function candidates(): HasMany
+    public function candidates(): BelongsToMany
     {
-        return $this->hasMany(Candidate::class, 'entry_id');
+        return $this->BelongsToMany(Candidate::class)
+        ->using(CandidateElection::class)
+        ->withPivot('vote_counter')
+        ->withTimestamps();
     }
 
     //election has many voters(users)
