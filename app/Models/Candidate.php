@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Candidate extends Model
 {
@@ -26,8 +26,11 @@ class Candidate extends Model
         'entry_id'
     ];
 
-    public function election(): BelongsTo
+    public function elections(): BelongsToMany
     {
-        return $this->belongsTo(Election::class, 'entry_id');
+        return $this->BelongsToMany(Election::class)
+            ->using(CandidateElection::class)
+            ->withPivot('vote_counter')
+            ->withTimestamps();
     }
 }
