@@ -43,15 +43,15 @@ const routes = [
         }
     },
     {
-        path: '/admin',
-        name: 'Admin',
-        component: () => import('./views/Admin'),
+        path: '/admin/elections',
+        name: 'AdminElections',
+        component: () => import('./views/AdminElections'),
         meta: {
             requiresAuth: true
         }
     },
     {
-        path: '/admin/:electionId/candidates',
+        path: '/admin/candidates',
         name: "AdminCandidates",
         component: () => import('./views/AdminCandidates'),
         meta: {
