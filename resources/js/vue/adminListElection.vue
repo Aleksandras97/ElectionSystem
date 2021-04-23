@@ -20,7 +20,7 @@
     </td>
     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
         <button class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
-            @click="isModalOpen = true"
+            @click="isEditModalOpen = true"
         >
             Edit
         </button>
@@ -33,8 +33,16 @@
             <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
         </button>
     </td>
+    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+        <button class="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded"
+            @click="isAddCandidateModalOpen = true, getAllCandidates()"
+        >
+            View Candidates
+            <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
+        </button>
+    </td>
 
-    <Modal v-if="isModalOpen" @close-modal="isModalOpen = false" >
+    <Modal v-if="isEditModalOpen" @close-modal="isEditModalOpen = false" >
         <template #title>
             Edit Election
         </template>
@@ -72,7 +80,7 @@
                                 Edit
                                 <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
                             </button>
-                            <button @click="isModalOpen = false, state.isOpen = false" class="bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500  text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">Cancel</button>
+                            <button @click="isEditModalOpen = false" class="bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500  text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">Cancel</button>
                         </div>
                     </div>
                 </div>
@@ -80,6 +88,83 @@
             </div>
         </template>
     </Modal>
+
+    <Modal v-if="isAddCandidateModalOpen" @close-modal="isAddCandidateModalOpen = false" >
+        <template #title>
+            Candidates
+        </template>
+        <template #body>
+            <div class="grid grid-cols-2 gap-4 p-2">
+                <div class="border">
+                    <h1 class="font-bold text-2xl p-1 mb-2 text-center">List of candidates</h1>
+                    <div class="p-2" v-for="(candidate, index) in state.candidates" :key="index" :value="candidate.id">
+                        <span class="font-bold">{{ candidate.firstname }}</span>  {{ candidate.lastname }}
+                    </div>
+                    <div
+                        class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
+                        <span class="text-xs xs:text-sm text-gray-900">
+                            Showing {{ state.pagination.current_page }} of {{ state.pagination.last_page }} Entries
+                        </span>
+                        <div class="inline-flex mt-2 xs:mt-0">
+                            <button
+                                class="bg-yellow-500 hover:bg-yellow-400 border-yellow-700 hover:border-yellow-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded"
+                                :disabled='!state.pagination.prev_page_url'
+                                :class="{'opacity-50': !state.pagination.prev_page_url }"
+                                @click="getAllCandidates(state.pagination.prev_page_url)"
+                            >
+                                Prev
+                                <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
+                            </button>
+                            <button
+                                class="bg-yellow-500 hover:bg-yellow-400 border-yellow-700 hover:border-yellow-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded"
+                                :disabled='!state.pagination.next_page_url'
+                                :class="{'opacity-50': !state.pagination.next_page_url }"
+                                @click="getAllCandidates(state.pagination.next_page_url)"
+                            >
+                                Next
+                                <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-center border">
+                    <div class="block w-full">
+                        <h1 class="font-bold text-2xl p-1 mb-2 text-center">Add candidate</h1>
+                        <div class="mx-2 mb-1 sm:mb-0">
+                            <div class="relative">
+
+                                <div class="mb-6 mr-2 pt-3 rounded bg-gray-200">
+
+                                    <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="candidate">Candidate</label>
+                                    <select class="login-input"
+                                            v-model="state.candidate"
+                                            id="candidate"
+                                            name="candidate">
+                                        <option v-for="(candidate, index) in state.allCandidates" :key="index" :value="candidate.id" >{{ candidate.firstname }} {{ candidate.lastname }} </option>
+                                        <h1>test</h1>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-center my-2 sm:mb-0">
+                            <div class="relative">
+                                <button
+                                    @click="addCandidateToElection"
+                                    :class="[ state.election.election_name ? 'bg-green-500 hover:bg-green-400 border-green-700 hover:border-green-500' : 'bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500' ]"
+                                    class=" text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">
+                                    Add
+                                    <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
+                                </button>
+                                <button @click="isAddCandidateModalOpen = false" class="bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500  text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </template>
+    </Modal>
+
 </template>
 
 <script>
@@ -99,15 +184,19 @@ export default {
     setup: function (props, {emit}) {
         const store = useStore()
         const router = useRouter();
-        const goToCandidates = (id) => {
-            router.push({path: `/admin/${id}/candidates`})
-        }
+        // const goToCandidates = (id) => {
+        //     router.push({path: `/admin/${id}/candidates`})
+        // }
 
-        const isModalOpen = ref(false)
+        const isEditModalOpen = ref(false)
+        const isAddCandidateModalOpen = ref(false)
 
         const state = reactive({
-            isOpen: false,
             election: {},
+            allCandidates: {},
+            candidates: {},
+            candidate: null,
+            pagination: {},
             errors: {},
             loading: false,
         });
@@ -119,6 +208,58 @@ export default {
         onUpdated(() => {
             state.election = props.election
         })
+
+
+
+        async function getAllCandidates(page_url) {
+            page_url = page_url || `api/elections/${state.election.id}/candidates`
+            state.loading = true;
+            try {
+
+                const allCandidates = axios.get(`api/all/candidates`)
+                    .then(response => {
+                        state.allCandidates = response.data.data
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+                    .finally(()=> state.loading = false)
+
+                const electionCandidates = axios.get(page_url)
+                    .then(response => {
+                        state.candidates = response.data.data
+                        makePagination(response.data)
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+                    .finally(()=> state.loading = false)
+
+                    await Promise.all([a, b]);
+            } catch(error) {
+                console.log(error)
+            }
+        }
+
+        function addCandidateToElection() {
+            state.loading = true;
+            axios.post(`api/elections/${state.election.id}/candidates`, {
+                candidate_id: state.candidate,
+            })
+                .then(response => {
+                    if (response.status === 201) {
+                        getAllCandidates()
+                        SendNotification('green', "Successfully add candidate to election")
+
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+
+                })
+                .finally(() => state.loading = false)
+        }
+
 
 
         function deleteElection() {
@@ -148,8 +289,7 @@ export default {
                     if (response.status === 200) {
                         state.errors = "";
                         emit('elections-update');
-                        state.isOpen = false;
-                        isModalOpen.value = false;
+                        isEditModalOpen.value = false;
                         SendNotification('green', "Successfully updated election")
                     }
                 })
@@ -174,12 +314,24 @@ export default {
             }, 3000);
         }
 
+        function makePagination(data) {
+            let pagination = {
+                current_page: data.meta.current_page,
+                last_page: data.meta.last_page,
+                prev_page_url: data.links.prev,
+                next_page_url: data.links.next,
+            }
+            state.pagination = pagination
+        }
+
         return {
             deleteElection,
-            isModalOpen,
+            isEditModalOpen,
+            isAddCandidateModalOpen,
             state,
             editElection,
-            goToCandidates
+            getAllCandidates,
+            addCandidateToElection
         }
     }
 }

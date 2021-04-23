@@ -5,7 +5,7 @@
             <div class="z-30 m-auto bg-white p-2 rounded shadow w-1/5">
                 <div class="p-2 border">
                     <h1>
-                        <slot name="title" class="text-blue-500 text-2xl">Edit Profile</slot>
+                        <slot name="title" class="text-blue-500 text-2xl">Modal Title</slot>
                     </h1>
                     <main>
                         <slot name="body">Provide data here</slot>
