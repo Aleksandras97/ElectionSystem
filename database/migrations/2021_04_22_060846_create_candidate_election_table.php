@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateElectionUserTable extends Migration
+class CreateCandidateElectionTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,15 @@ class CreateElectionUserTable extends Migration
      */
     public function up()
     {
-        //election_user
-        Schema::create('election_user', function (Blueprint $table) {
-            $table->primary(['election_id', 'user_id']);
+        Schema::create('candidate_election', function (Blueprint $table) {
+            $table->primary(['candidate_id', 'election_id']);
+            $table->unsignedBigInteger('candidate_id');
             $table->unsignedBigInteger('election_id');
-            $table->unsignedBigInteger('user_id');
-            //is vote active
-            $table->boolean('is_voted')->default(false);
+            $table->integer('vote_counter')->default(0);
             $table->timestamps();
 
+            $table->foreign('candidate_id')->references('id')->on('candidates')->onDelete('cascade');
             $table->foreign('election_id')->references('id')->on('elections')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -34,6 +32,6 @@ class CreateElectionUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('election_user');
+        Schema::dropIfExists('candidate_election');
     }
 }
