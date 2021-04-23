@@ -35,7 +35,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('all/candidates', [CandidateController::class, 'all']);
     Route::apiResource('candidates', CandidateController::class);
     Route::apiResource('users', UserController::class);
-    Route::post('vote', [ElectionVoting::class, 'store']);
+    Route::post('elections/{election}/vote', [ElectionVoting::class, 'store']);
     Route::post('voted', [ElectionVoting::class, 'isVoted']);
     Route::get('results/{id}', [ElectionVoting::class, 'results']);
     Route::get('elections/{id}/candidates', [CandidateElectionController::class, 'index']);
