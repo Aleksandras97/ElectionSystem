@@ -48,7 +48,6 @@
                 </div>
             </div>
             <AddCandidateForm
-                :electionId="electionId"
                 v-on:candidate-add="getCandidates()"
             />
             <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
@@ -131,10 +130,10 @@ export default {
             loading: true,
         });
         const router = useRoute();
-        const electionId = computed(() => router.params.electionId)
+        // const electionId = computed(() => router.params.electionId)
 
         onMounted( async () =>{
-            await axios.get(`api/elections/${electionId.value}`)
+            await axios.get(`api/elections`)
                 .then(response => {
                     state.election = response.data
                 })
@@ -152,7 +151,7 @@ export default {
         })
 
         async function searchCandidates(val, page_url) {
-            page_url = page_url || `api/search/elections/${electionId.value}/candidates/`+val
+            page_url = page_url || 'api/search/candidates/'+val
 
             await axios.get(page_url)
                 .then(response => {
@@ -166,7 +165,7 @@ export default {
 
         async function getCandidates(page_url) {
             state.loading = true;
-            page_url = page_url || `api/elections/${electionId.value}/candidates`
+            page_url = page_url || 'api/candidates'
             await axios.get(page_url)
                 .then(response => {
                     state.candidates = response.data.data
@@ -190,7 +189,6 @@ export default {
 
         return {
             state,
-            electionId,
             getCandidates
         }
     }

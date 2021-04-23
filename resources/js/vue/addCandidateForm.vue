@@ -107,9 +107,6 @@ export default {
     emits: {
         'candidate-add': null,
     },
-    props: {
-        electionId: String,
-    },
     setup(props,ctx) {
 
         let { photo, photoUrl, uploadFile } = useImageUpload();
@@ -135,7 +132,7 @@ export default {
 
         async function addCandidate() {
             state.loading = true;
-            await axios.post( `api/elections/${props.electionId}/candidates`, {
+            await axios.post( `api/candidates`, {
                 firstname: state.candidate.firstname,
                 lastname: state.candidate.lastname,
                 birthdate: state.candidate.birthdate,

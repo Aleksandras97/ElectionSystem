@@ -8,13 +8,13 @@
             </div>
             <div class="ml-3">
                 <p class="text-gray-900 whitespace-no-wrap">
-                    {{ candidate.firstname }}
+                    {{ state.candidate.firstname }}
                 </p>
             </div>
         </div>
     </td>
     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-        <p class="text-gray-900 whitespace-no-wrap">{{ candidate.lastname }}</p>
+        <p class="text-gray-900 whitespace-no-wrap">{{ state.candidate.lastname }}</p>
     </td>
     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
         <button class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
