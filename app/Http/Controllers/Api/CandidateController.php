@@ -17,13 +17,21 @@ class CandidateController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param Election $election
      * @return AnonymousResourceCollection
      */
-    public function index(Election $election): AnonymousResourceCollection
+    public function index(): AnonymousResourceCollection
     {
-        $candidates = $election->candidates()->paginate(4);
-        return CandidateResource::collection($candidates);
+        return CandidateResource::collection(Candidate::orderBy('firstname', 'desc')->paginate(4));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return AnonymousResourceCollection
+     */
+    public function all(): AnonymousResourceCollection
+    {
+        return CandidateResource::collection(Candidate::orderBy('firstname', 'desc')->get());
     }
 
     /**
@@ -49,7 +57,7 @@ class CandidateController extends Controller
             return response()->json(['message' => 'Forbidden'], 403);
         }
 
-        $candidate = $election->candidates()->create([
+        $candidate = Candidate::create([
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
             'birthdate' => $request->birthdate,
@@ -57,7 +65,6 @@ class CandidateController extends Controller
             'city' => $request->city,
             'district' => $request->district,
             'gender' => $request->gender,
-            'entry_id' => $request->entry_id
         ]);
 
         return response()->json(new CandidateResource($candidate), 201);
@@ -88,6 +95,7 @@ class CandidateController extends Controller
     public function update(Request $request, $candidate): JsonResponse
     {
         $candidate = Candidate::findOrFail($candidate);
+        
         $request->validate([
             'firstname' => ['required'],
             'lastname' => ['required'],
@@ -142,9 +150,9 @@ class CandidateController extends Controller
      * @param $val
      * @return AnonymousResourceCollection
      */
-    public function search(Election $election, $val): AnonymousResourceCollection
+    public function search($val): AnonymousResourceCollection
     {
-        $candidates = $election->candidates()->where('firstname', 'like', '%'.$val.'%')->paginate(4);
+        $candidates = Candidate::where('firstname', 'like', '%'.$val.'%')->paginate(4);
         return CandidateResource::collection($candidates);
     }
 }
