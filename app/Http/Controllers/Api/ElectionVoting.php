@@ -46,21 +46,18 @@ class ElectionVoting extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Display a results.
      *
+     * @param $id
      * @return JsonResponse
      */
     public function results($id): JsonResponse
     {
-//        dd($id);
-        $results = DB::select("select c.firstname, v.votecnt
+        $results = DB::select("select c.firstname, v.vote_counter
             from candidates c
-            left join (select candidate_id, COUNT(user_id) votecnt from election_user group by candidate_id) v on v.candidate_id = c.id
-            left join election_user v1 on v1.candidate_id = c.id and v1.user_id = " . (auth()->user()->getAuthIdentifier()) . "
-            left join users u on u.id = v1.user_id
-            where c.entry_id = {$id}
+            left join candidate_election v on v.candidate_id = c.id
+            where v.election_id = {$id}
         ");
-//        dd($results);
 
         return response()->json($results);
 
@@ -70,24 +67,35 @@ class ElectionVoting extends Controller
      * Store a newly created resource in storage.
      *
      * @param Request $request
+     * @param $election
      * @return JsonResponse
      */
-    public function store(Request $request): JsonResponse
+    public function store(Request $request, $election): JsonResponse
     {
         $request->validate([
             'candidate_id' => ['required'],
             'password' => ['required'],
         ]);
 
-        $candidate = Candidate::findOrFail($request->candidate_id);
-        $election = $candidate->election;
+
+        $candidate_id = Candidate::findOrFail($request->candidate_id);
+        $election = Election::findOrFail($election);
         $user = auth()->user();
+        date_default_timezone_set('Europe/Vilnius');
         $date = Carbon::parse($election->election_date);
+
 
         if ($date->isToday()){
             if(Hash::check($request->password, $user->getAuthPassword())) {
 
-                $election->users()->attach($user, ['is_voted' => true, 'candidate_id' => $request->candidate_id]);
+                $election->users()->attach($user, ['is_voted' => true]);
+
+                foreach ($election->candidates as $candidate) {
+                    if ($candidate->id == $candidate_id->id) {
+
+                        $candidate->pivot->where('candidate_id', $candidate_id->id)->increment('vote_counter');
+                    }
+                }
 
                 return response()->json([],201);
             }
@@ -95,9 +103,6 @@ class ElectionVoting extends Controller
             return response()->json(['message' => 'Wrong password'],403);
         }
         return response()->json(['message' => 'Election is over'],403);
-//
-
-//        ;
     }
 
     /**
