@@ -29,7 +29,7 @@
                         </span>
         <div class="inline-flex mt-2 xs:mt-0">
             <button
-                class="bg-yellow-500 hover:bg-yellow-400 border-yellow-700 hover:border-yellow-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded' : 'bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded"
+                class="bg-yellow-500 hover:bg-yellow-400 border-yellow-700 hover:border-yellow-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded"
                 :disabled='!state.pagination.prev_page_url'
                 :class="{'opacity-50': !state.pagination.prev_page_url }"
                 @click="getElections(state.pagination.prev_page_url)"
@@ -37,7 +37,7 @@
                 Prev
             </button>
             <button
-                class="bg-yellow-500 hover:bg-yellow-400 border-yellow-700 hover:border-yellow-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded' : 'bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded"
+                class="bg-yellow-500 hover:bg-yellow-400 border-yellow-700 hover:border-yellow-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded"
                 :disabled='!state.pagination.next_page_url'
                 :class="{'opacity-50': !state.pagination.next_page_url }"
                 @click="getElections(state.pagination.next_page_url)"
