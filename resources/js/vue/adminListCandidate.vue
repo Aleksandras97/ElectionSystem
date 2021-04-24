@@ -142,6 +142,7 @@ import {onMounted, onUpdated, reactive, ref} from "vue";
 import {useRouter} from "vue-router";
 import Modal from "./Modal";
 import {useStore} from "vuex";
+import { Notification } from '../composables/Notify.js';
 
 export default {
     components: {Modal},
@@ -155,6 +156,9 @@ export default {
     setup(props,{emit}){
         const store = useStore()
         const isModalOpen = ref(false)
+
+
+        let { SendNotification } = Notification();
 
         const state = reactive({
             candidate_id: null,
@@ -219,19 +223,6 @@ export default {
             .finally(() => state.loading = false)
         }
 
-        function SendNotification(type, message) {
-            let notification = {
-                id: ((Math.random().toString(36) + Date.now().toString(36)).substr(2)),
-                type: type,
-                message: message,
-            }
-            store.dispatch('addNotification', notification);
-
-            setTimeout(() => {
-                store.dispatch('removeNotification', notification);
-            }, 3000);
-        }
-
         return {
             state,
             isModalOpen,
@@ -241,7 +232,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-
-</style>

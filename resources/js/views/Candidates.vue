@@ -10,22 +10,22 @@
     <div
         class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
         <span class="text-xs xs:text-sm text-gray-900">
-            Showing {{ state.pagination.current_page }} of {{ state.pagination.last_page }} Entries
+            Showing {{ pagination.current_page }} of {{ pagination.last_page }} Entries
         </span>
         <div class="inline-flex mt-2 xs:mt-0">
             <button
                 class="bg-yellow-500 hover:bg-yellow-400 border-yellow-700 hover:border-yellow-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded"
-                :disabled='!state.pagination.prev_page_url'
-                :class="{'opacity-50': !state.pagination.prev_page_url }"
-                @click="getCandidates(state.pagination.prev_page_url)"
+                :disabled='!pagination.prev_page_url'
+                :class="{'opacity-50': !pagination.prev_page_url }"
+                @click="getCandidates(pagination.prev_page_url)"
             >
                 Prev
             </button>
             <button
                 class="bg-yellow-500 hover:bg-yellow-400 border-yellow-700 hover:border-yellow-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded"
-                :disabled='!state.pagination.next_page_url'
-                :class="{'opacity-50': !state.pagination.next_page_url }"
-                @click="getCandidates(state.pagination.next_page_url)"
+                :disabled='!pagination.next_page_url'
+                :class="{'opacity-50': !pagination.next_page_url }"
+                @click="getCandidates(pagination.next_page_url)"
             >
                 Next
             </button>
@@ -108,6 +108,8 @@ import Modal from "../vue/Modal";
 import {computed, onMounted, reactive, ref, watchEffect} from "vue";
 import {useRoute} from "vue-router";
 import moment from "moment";
+import { makePagination } from '../composables/makePagination';
+import { Notification } from '../composables/Notify.js';
 
 export default {
     components: {
@@ -118,6 +120,9 @@ export default {
     setup() {
         const isModalOpen = ref(false)
 
+        let { paginate, pagination } = makePagination();
+        let { SendNotification } = Notification();
+
         const state = reactive({
             candidates: {},
             election: null,
@@ -125,7 +130,6 @@ export default {
             Voted: false,
             data: [],
             password: '',
-            pagination: {},
             loading: true,
         });
         const router = useRoute();
@@ -157,22 +161,12 @@ export default {
             await axios.get(page_url)
                 .then(response => {
                     state.candidates = response.data.data
-                    makePagination(response.data)
+                    paginate(response.data)
                 })
                 .catch(error => {
                     console.log(error);
                 })
                 .finally(()=> state.loading = false)
-        }
-
-        function makePagination(data){
-            let pagination = {
-                current_page: data.meta.current_page,
-                last_page: data.meta.last_page,
-                prev_page_url: data.links.prev,
-                next_page_url: data.links.next,
-            }
-            state.pagination = pagination
         }
 
         async function SubmitVote() {
@@ -187,7 +181,7 @@ export default {
                 password: state.password,
             })
             .then(response => {
-                console.log('Voted')
+                SendNotification('green', "Successfully submited the vote")
                 isUserVoted();
             })
             .catch(error => {
@@ -262,6 +256,7 @@ export default {
             isSameDay,
             isPastDay,
             isModalOpen,
+            pagination,
         }
     }
 }

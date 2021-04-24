@@ -87,23 +87,23 @@
                     <div
                         class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
                         <span class="text-xs xs:text-sm text-gray-900">
-                            Showing {{ state.pagination.current_page }} of {{ state.pagination.last_page }} Entries
+                            Showing {{ pagination.current_page }} of {{ pagination.last_page }} Entries
                         </span>
                         <div class="inline-flex mt-2 xs:mt-0">
                             <button
                                 class="bg-yellow-500 hover:bg-yellow-400 border-yellow-700 hover:border-yellow-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded"
-                                :disabled='!state.pagination.prev_page_url'
-                                :class="{'opacity-50': !state.pagination.prev_page_url }"
-                                @click="getElections(state.pagination.prev_page_url)"
+                                :disabled='!pagination.prev_page_url'
+                                :class="{'opacity-50': !pagination.prev_page_url }"
+                                @click="getElections(pagination.prev_page_url)"
                             >
                                 Prev
                                 <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
                             </button>
                             <button
                                 class="bg-yellow-500 hover:bg-yellow-400 border-yellow-700 hover:border-yellow-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded"
-                                :disabled='!state.pagination.next_page_url'
-                                :class="{'opacity-50': !state.pagination.next_page_url }"
-                                @click="getElections(state.pagination.next_page_url)"
+                                :disabled='!pagination.next_page_url'
+                                :class="{'opacity-50': !pagination.next_page_url }"
+                                @click="getElections(pagination.next_page_url)"
                             >
                                 Next
                                 <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
@@ -122,11 +122,14 @@
 import {onMounted, reactive, ref, watchEffect} from "vue";
 import AdminElectionListView from "../vue/adminElectionListView";
 import AddElectionForm from "../vue/addElectionForm";
+import { makePagination } from '../composables/makePagination.js';
 
 export default {
     components: {AddElectionForm, AdminElectionListView},
     setup: function () {
         const search = ref('')
+
+        let { paginate, pagination } = makePagination();
 
         const state = reactive({
             elections: {},
@@ -161,27 +164,18 @@ export default {
             await axios.get(page_url)
                 .then(response => {
                     state.elections = response.data.data
-                    makePagination(response.data)
+                    paginate(response.data)
                 })
                 .catch(error => console.log(error))
                 .finally(() => state.loading = false)
 
         }
 
-        function makePagination(data) {
-            let pagination = {
-                current_page: data.meta.current_page,
-                last_page: data.meta.last_page,
-                prev_page_url: data.links.prev,
-                next_page_url: data.links.next,
-            }
-            state.pagination = pagination
-        }
-
 
         return {
             state,
-            getElections
+            getElections,
+            pagination,
         }
     }
 }

@@ -95,13 +95,14 @@
         </div>
     </div>
     <img v-show="photoUrl" :src="photoUrl" class="w-48 h-48 object-cover" >
-    
+
 </template>
 
 <script>
 import {reactive, ref, watch} from "vue";
 import {useStore} from "vuex";
 import { useImageUpload } from '../composables/useImageUpload.js';
+import { Notification } from '../composables/Notify.js';
 
 export default {
     emits: {
@@ -110,9 +111,10 @@ export default {
     setup(props,ctx) {
 
         let { photo, photoUrl, uploadFile } = useImageUpload();
+        let { SendNotification } = Notification();
 
         const store = useStore()
-        
+
         const state = reactive({
             candidate: {
                 firstname: "",
@@ -122,13 +124,13 @@ export default {
                 city: "",
                 district: "",
                 gender: "",
-                
+
             },
             errors: {},
             loading: false,
         });
 
-        
+
 
         async function addCandidate() {
             state.loading = true;
@@ -164,24 +166,11 @@ export default {
             .finally(() => state.loading = false)
         }
 
-        function SendNotification(type, message) {
-            let notification = {
-                id: ((Math.random().toString(36) + Date.now().toString(36)).substr(2)),
-                type: type,
-                message: message,
-            }
-            store.dispatch('addNotification', notification);
-
-            setTimeout(() => {
-                store.dispatch('removeNotification', notification);
-            }, 3000);
-        }
-
         return {
             state,
             addCandidate,
-            photo, 
-            photoUrl, 
+            photo,
+            photoUrl,
             uploadFile
         }
     }

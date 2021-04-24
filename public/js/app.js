@@ -27237,10 +27237,35 @@ var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 /* HOISTED */
 );
 
-var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Admin");
+var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Elections");
+
+var _hoisted_15 = {
+  key: 1,
+  "class": "mt-1  mr-50 rounded rounded-r-3xl pl-6 py-3 font-semibold"
+};
+var _hoisted_16 = {
+  "class": "text-gray-600  text-sm font-semibold flex items-center focus:outline-none"
+};
+
+var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("svg", {
+  "class": "h-6  px-3",
+  xmlns: "http://www.w3.org/2000/svg",
+  fill: "none",
+  viewBox: "0 0 24 24",
+  stroke: "currentColor"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("path", {
+  "stroke-linecap": "round",
+  "stroke-linejoin": "round",
+  "stroke-width": "2",
+  d: "M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"
+})], -1
+/* HOISTED */
+);
+
+var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Candidates");
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _$setup$User;
+  var _$setup$User, _$setup$User2;
 
   var _component_HeaderLink = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("HeaderLink");
 
@@ -27267,7 +27292,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   })])]), _hoisted_10, $setup.authenticated ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 0
   }, [(_$setup$User = $setup.User) !== null && _$setup$User !== void 0 && _$setup$User.is_admin ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", _hoisted_12, [_hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_HeaderLink, {
-    to: "/admin",
+    to: "/admin/elections",
     exact: ""
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -27276,8 +27301,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
     /* STABLE */
 
-  })])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2112
-  /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */
+  })])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (_$setup$User2 = $setup.User) !== null && _$setup$User2 !== void 0 && _$setup$User2.is_admin ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", _hoisted_16, [_hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_HeaderLink, {
+    to: "/admin/candidates",
+    exact: ""
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [_hoisted_18];
+    }),
+    _: 1
+    /* STABLE */
+
+  })])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 64
+  /* STABLE_FRAGMENT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
@@ -27425,16 +27460,16 @@ var routes = [{
     requiresAuth: true
   }
 }, {
-  path: '/admin',
-  name: 'Admin',
+  path: '/admin/elections',
+  name: 'AdminElections',
   component: function component() {
-    return __webpack_require__.e(/*! import() */ "resources_js_views_Admin_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./views/Admin */ "./resources/js/views/Admin.vue"));
+    return __webpack_require__.e(/*! import() */ "resources_js_views_AdminElections_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./views/AdminElections */ "./resources/js/views/AdminElections.vue"));
   },
   meta: {
     requiresAuth: true
   }
 }, {
-  path: '/admin/:electionId/candidates',
+  path: '/admin/candidates',
   name: "AdminCandidates",
   component: function component() {
     return __webpack_require__.e(/*! import() */ "resources_js_views_AdminCandidates_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./views/AdminCandidates */ "./resources/js/views/AdminCandidates.vue"));
@@ -74917,7 +74952,7 @@ var index = {
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_views_Home_vue":1,"resources_js_views_Elections_vue":1,"resources_js_views_Candidates_vue":1,"resources_js_views_Login_vue":1,"resources_js_views_Logout_vue":1,"resources_js_views_Admin_vue":1,"resources_js_views_AdminCandidates_vue":1,"resources_js_views_PageNotFound_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_views_Home_vue":1,"resources_js_views_Elections_vue":1,"resources_js_views_Candidates_vue":1,"resources_js_views_Login_vue":1,"resources_js_views_Logout_vue":1,"resources_js_views_AdminElections_vue":1,"resources_js_views_AdminCandidates_vue":1,"resources_js_views_PageNotFound_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

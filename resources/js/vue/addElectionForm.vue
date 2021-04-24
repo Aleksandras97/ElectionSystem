@@ -33,12 +33,17 @@
 <script>
 import { reactive } from 'vue';
 import {useStore} from "vuex";
+import { Notification } from '../composables/Notify.js';
+
 export default {
     emits: {
         'election-add': null,
     },
     setup(_,{emit}){
+
         const store = useStore()
+
+        let { SendNotification } = Notification();
 
         const state = reactive({
            election: {
@@ -75,19 +80,6 @@ export default {
                 }
             })
             .finally(() => state.loading = false)
-        }
-
-        function SendNotification(type, message) {
-            let notification = {
-                id: ((Math.random().toString(36) + Date.now().toString(36)).substr(2)),
-                type: type,
-                message: message,
-            }
-            store.dispatch('addNotification', notification);
-
-            setTimeout(() => {
-                store.dispatch('removeNotification', notification);
-            }, 3000);
         }
 
         return  {

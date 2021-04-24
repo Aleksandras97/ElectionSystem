@@ -103,23 +103,23 @@
                     <div
                         class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
                         <span class="text-xs xs:text-sm text-gray-900">
-                            Showing {{ state.pagination.current_page }} of {{ state.pagination.last_page }} Entries
+                            Showing {{ pagination.current_page }} of {{ pagination.last_page }} Entries
                         </span>
                         <div class="inline-flex mt-2 xs:mt-0">
                             <button
                                 class="bg-yellow-500 hover:bg-yellow-400 border-yellow-700 hover:border-yellow-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded"
-                                :disabled='!state.pagination.prev_page_url'
-                                :class="{'opacity-50': !state.pagination.prev_page_url }"
-                                @click="getAllCandidates(state.pagination.prev_page_url)"
+                                :disabled='!pagination.prev_page_url'
+                                :class="{'opacity-50': !pagination.prev_page_url }"
+                                @click="getAllCandidates(pagination.prev_page_url)"
                             >
                                 Prev
                                 <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
                             </button>
                             <button
                                 class="bg-yellow-500 hover:bg-yellow-400 border-yellow-700 hover:border-yellow-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded"
-                                :disabled='!state.pagination.next_page_url'
-                                :class="{'opacity-50': !state.pagination.next_page_url }"
-                                @click="getAllCandidates(state.pagination.next_page_url)"
+                                :disabled='!pagination.next_page_url'
+                                :class="{'opacity-50': !pagination.next_page_url }"
+                                @click="getAllCandidates(pagination.next_page_url)"
                             >
                                 Next
                                 <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
@@ -172,6 +172,8 @@ import {onMounted, onUpdated, reactive, ref} from "vue";
 import Modal from "./Modal";
 import {useRouter} from "vue-router";
 import {useStore} from "vuex";
+import { makePagination } from '../composables/makePagination.js';
+import { Notification } from '../composables/Notify.js';
 
 export default {
     components: {Modal},
@@ -184,6 +186,9 @@ export default {
     setup: function (props, {emit}) {
         const store = useStore()
         const router = useRouter();
+
+        let { paginate, pagination } = makePagination();
+        let { SendNotification } = Notification();
         // const goToCandidates = (id) => {
         //     router.push({path: `/admin/${id}/candidates`})
         // }
@@ -196,7 +201,6 @@ export default {
             allCandidates: {},
             candidates: {},
             candidate: null,
-            pagination: {},
             errors: {},
             loading: false,
         });
@@ -228,7 +232,7 @@ export default {
                 const electionCandidates = axios.get(page_url)
                     .then(response => {
                         state.candidates = response.data.data
-                        makePagination(response.data)
+                        paginate(response.data)
                     })
                     .catch(error => {
                         console.log(error);
@@ -301,29 +305,6 @@ export default {
                 .finally(() => state.loading = false)
         }
 
-        function SendNotification(type, message) {
-            let notification = {
-                id: ((Math.random().toString(36) + Date.now().toString(36)).substr(2)),
-                type: type,
-                message: message,
-            }
-            store.dispatch('addNotification', notification);
-
-            setTimeout(() => {
-                store.dispatch('removeNotification', notification);
-            }, 3000);
-        }
-
-        function makePagination(data) {
-            let pagination = {
-                current_page: data.meta.current_page,
-                last_page: data.meta.last_page,
-                prev_page_url: data.links.prev,
-                next_page_url: data.links.next,
-            }
-            state.pagination = pagination
-        }
-
         return {
             deleteElection,
             isEditModalOpen,
@@ -331,7 +312,8 @@ export default {
             state,
             editElection,
             getAllCandidates,
-            addCandidateToElection
+            addCandidateToElection,
+            pagination,
         }
     }
 }
