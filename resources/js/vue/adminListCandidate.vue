@@ -131,7 +131,6 @@
                         </div>
                     </div>
                 </div>
-                <!--                <button @click="deletePost" class="bg-red-700 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-full">Delete</button>-->
             </div>
         </template>
     </Modal>

@@ -80,7 +80,7 @@
                                 Edit
                                 <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
                             </button>
-                            <button @click="isEditModalOpen = false" class="bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500  text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">Cancel</button>
+                            <button @click="isEditModalOpen = false" class="bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500  text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">Close</button>
                         </div>
                     </div>
                 </div>
@@ -99,6 +99,12 @@
                     <h1 class="font-bold text-2xl p-1 mb-2 text-center">List of candidates</h1>
                     <div class="p-2" v-for="(candidate, index) in state.candidates" :key="index" :value="candidate.id">
                         <span class="font-bold">{{ candidate.firstname }}</span>  {{ candidate.lastname }}
+                        <button class="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-2 border-red-700 hover:border-red-500 rounded"
+                            @click="deleteElectionCandidate(candidate.id)"
+                        >
+                            X
+                            <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
+                        </button>
                     </div>
                     <div
                         class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
@@ -155,7 +161,7 @@
                                     Add
                                     <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
                                 </button>
-                                <button @click="isAddCandidateModalOpen = false" class="bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500  text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">Cancel</button>
+                                <button @click="isAddCandidateModalOpen = false" class="bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500  text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">Close</button>
                             </div>
                         </div>
                     </div>
@@ -216,33 +222,43 @@ export default {
 
 
         async function getAllCandidates(page_url) {
-            page_url = page_url || `api/elections/${state.election.id}/candidates`
-            state.loading = true;
+
             try {
 
-                const allCandidates = axios.get(`api/all/candidates`)
-                    .then(response => {
-                        state.allCandidates = response.data.data
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    })
-                    .finally(()=> state.loading = false)
+                const allCandidates = getCandidates();
 
-                const electionCandidates = axios.get(page_url)
-                    .then(response => {
-                        state.candidates = response.data.data
-                        paginate(response.data)
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    })
-                    .finally(()=> state.loading = false)
+                const electionCandidates = getElectionCandidates(page_url);
 
                     await Promise.all([allCandidates, electionCandidates]);
             } catch(error) {
                 console.log(error)
             }
+        }
+
+        function getCandidates() {
+            state.loading = true;
+            axios.get(`api/all/candidates`)
+                .then(response => {
+                    state.allCandidates = response.data.data
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+                .finally(()=> state.loading = false)
+        }
+
+        function getElectionCandidates(page_url) {
+            page_url = page_url || `api/elections/${state.election.id}/candidates`
+            state.loading = true;
+            axios.get(page_url)
+                .then(response => {
+                    state.candidates = response.data.data
+                    paginate(response.data)
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+                .finally(()=> state.loading = false)
         }
 
         function addCandidateToElection() {
@@ -283,6 +299,23 @@ export default {
                 .finally(() => state.loading = false)
         }
 
+        function deleteElectionCandidate(candidate) {
+            state.loading = true;
+            axios.delete(`api/elections/${props.election.id}/candidates/${candidate}`)
+                .then(response => {
+                    if (response.status === 204) {
+                        getElectionCandidates();
+                        SendNotification('green', "Successfully deleted candidate from election")
+
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+
+                })
+                .finally(() => state.loading = false)
+        }
+
         function editElection() {
             state.loading = true;
             axios.put('api/elections/' + props.election.id, {
@@ -307,6 +340,7 @@ export default {
 
         return {
             deleteElection,
+            deleteElectionCandidate,
             isEditModalOpen,
             isAddCandidateModalOpen,
             state,
