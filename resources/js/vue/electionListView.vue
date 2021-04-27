@@ -1,6 +1,6 @@
 <template>
 
-    <div v-for="(election, index) in elections" :key="index">
+    <div  class="my-2" v-for="(election, index) in elections" :key="index">
 
         <router-link :to="{ name: 'Candidates', params: { electionId: election.id }}" exact>
             <ListElection
