@@ -13,44 +13,47 @@
                 {{ state.election?.election_date }}
             </h1>
         </div>
-        <div>
-            <template v-if="!state.Voted">
-                <template v-if="isSameDay(state.election?.election_date)">
-                    <button @click="isModalOpen = true"
-                            class="bg-purple-500 hover:bg-purple-400 border-purple-700 hover:border-purple-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">
-                        Submit Vote
-                        <font-awesome-icon
-                            icon="check"
-                        />
-                    </button>
-                </template>
-                <template v-if="!isSameDay(state.election?.election_date)">
-                    <template v-if="!isPastDay(state.election?.election_date)">
-                        <span
-                            class="bg-yellow-200 text-yellow-600 py-2 px-5 rounded-full text-2xl">Coming soon</span>
-                    </template>
-                    <template v-if="isPastDay(state.election?.election_date)">
-                        <span class="bg-red-200 text-red-600 py-2 px-5 rounded-full text-2xl">Election is over</span>
-
-                    </template>
-                </template>
-
-            </template>
-            <template v-else-if="state.Voted">
-                <span class="bg-green-200 text-green-600 py-2 px-5 rounded-full text-2xl">Voted</span>
-                <template v-if="isPastDay(state.election?.election_date)">
-                    <span class="bg-red-200 text-red-600 py-2 px-5 rounded-full text-2xl">Election is over</span>
-                </template>
-            </template>
-        </div>
     </div>
 
     <div class="m-2 grid grid-cols-7 gap-4">
         <div class="col-start-1 col-end-5">
+            <h1 class="flex justify-start text-6xl ml-10 font-bold leading-normal mt-0 mb-2 text-gray-800">
+                Candidates
+            </h1>
             <candidateListView
                 :candidates="state.candidates"
                 v-on:candidate="state.candidate_id = $event"
             />
+            <div class="grid place-items-center py-5">
+                <template v-if="!state.Voted">
+                    <template v-if="isSameDay(state.election?.election_date)">
+                        <button @click="isModalOpen = true"
+                                class="bg-purple-500 hover:bg-purple-400 border-purple-700 hover:border-purple-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">
+                            Submit Vote
+                            <font-awesome-icon
+                                icon="check"
+                            />
+                        </button>
+                    </template>
+                    <template v-if="!isSameDay(state.election?.election_date)">
+                        <template v-if="!isPastDay(state.election?.election_date)">
+                            <span
+                                class="bg-yellow-200 text-yellow-600 py-2 px-5 rounded-full text-2xl">Coming soon</span>
+                        </template>
+                        <template v-if="isPastDay(state.election?.election_date)">
+                            <span class="bg-red-200 text-red-600 py-2 px-5 rounded-full text-2xl">Election is over</span>
+
+                        </template>
+                    </template>
+
+                </template>
+                <template v-else-if="state.Voted">
+                    <span class="bg-green-200 text-green-600 py-2 px-5 rounded-full text-2xl">Voted</span>
+                    <template v-if="isPastDay(state.election?.election_date)">
+                        <span class="bg-red-200 text-red-600 py-2 px-5 rounded-full text-2xl">Election is over</span>
+                    </template>
+                </template>
+            </div>
             <div
                 class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
                 <span class="text-xs xs:text-sm text-gray-900">
@@ -76,9 +79,16 @@
                 </div>
             </div>
         </div>
-        <div class="col-start-5 col-end-7">
-            <pie-chart v-if="!isSameDay(state.election?.election_date) && isPastDay(state.election?.election_date)"
-               :data="state.data"></pie-chart>
+        <div class="col-start-5 col-end-8">
+            <div v-if="!isSameDay(state.election?.election_date) || isPastDay(state.election?.election_date)" class="grid place-items-center">
+
+                <h1 class="flex justify-center text-6xl font-normal leading-normal mt-0 mb-2 text-gray-800">
+                    Voting results
+                </h1>
+
+                <pie-chart
+                    :data="state.data"></pie-chart>
+                </div>
         </div>
     </div>
 
@@ -206,6 +216,7 @@ export default {
             .then(response => {
                 SendNotification('green', "Successfully submited the vote")
                 isUserVoted();
+                getVotingResults();
             })
             .catch(error => {
                 console.log(error);
@@ -261,11 +272,13 @@ export default {
 
         function isSameDay(date1) {
             let date = moment().format(date1);
+            console.log("is same day", moment().diff(date, 'days') === 0)
             return moment().diff(date, 'days') === 0
         }
 
         function isPastDay(date1) {
             let date = moment().format(date1);
+            console.log("is past day", moment().diff(date, 'days') > 0)
             return moment().diff(date, 'days') > 0
         }
 

@@ -86,15 +86,6 @@
             </button>
         </div>
     </div>
-    <div class="block w-3">
-
-        <div class=" mb-6 mr-2 p-3 rounded bg-gray-200">
-
-            <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="image">Image</label>
-            <input type="file" accept="image/*" id="image" @change="uploadFile"/>
-        </div>
-    </div>
-    <img v-show="photoUrl" :src="photoUrl" class="w-48 h-48 object-cover" >
 
 </template>
 
