@@ -10,28 +10,6 @@ class ElectionPolicy
 {
     use HandlesAuthorization;
 
-    /**
-     * Determine whether the user can view any models.
-     *
-     * @param User $user
-     * @return mixed
-     */
-    public function viewAny(User $user)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can view the model.
-     *
-     * @param User $user
-     * @param Election $election
-     * @return mixed
-     */
-    public function view(User $user, Election $election)
-    {
-        //
-    }
 
     /**
      * Determine whether the user can create models.
@@ -68,27 +46,4 @@ class ElectionPolicy
         return $user->is_admin;
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param User $user
-     * @param Election $election
-     * @return mixed
-     */
-    public function restore(User $user, Election $election)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param User $user
-     * @param Election $election
-     * @return mixed
-     */
-    public function forceDelete(User $user, Election $election)
-    {
-        //
-    }
 }

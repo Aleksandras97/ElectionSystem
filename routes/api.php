@@ -4,7 +4,7 @@ use App\Http\Controllers\Api\CandidateController;
 use App\Http\Controllers\Api\CandidateElectionController;
 use App\Http\Controllers\Api\ElectionController;
 use App\Http\Controllers\Api\ElectionVoting;
-use App\Http\Controllers\api\ProfilesController;
+use App\Http\Controllers\api\ProfileController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Http\Request;
@@ -28,7 +28,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
-    Route::get('loginUser', [ProfilesController::class, 'showLoginUser']);
+    Route::get('loginUser', [ProfileController::class, 'showLoginUser']);
     Route::get('search/elections/{val}', [ElectionController::class, 'search']);
     Route::apiResource('elections', ElectionController::class);
     Route::get('search/candidates/{val}', [CandidateController::class, 'search']);

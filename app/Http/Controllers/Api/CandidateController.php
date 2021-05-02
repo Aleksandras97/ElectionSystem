@@ -38,10 +38,9 @@ class CandidateController extends Controller
      * Store a newly created resource in storage.
      *
      * @param Request $request
-     * @param Election $election
      * @return JsonResponse
      */
-    public function store(Request $request, Election $election): JsonResponse
+    public function store(Request $request): JsonResponse
     {
         $request->validate([
             'firstname' => ['required'],
@@ -95,7 +94,7 @@ class CandidateController extends Controller
     public function update(Request $request, $candidate): JsonResponse
     {
         $candidate = Candidate::findOrFail($candidate);
-        
+
         $request->validate([
             'firstname' => ['required'],
             'lastname' => ['required'],

@@ -37,12 +37,12 @@ class AuthController extends Controller
         } catch (BadResponseException $e) {
 //            dd($e);
             if ($e->getCode() == 400){
-                return response()->json('Your credentials are incorrect. Please try again.', $e->getCode());
+                return response()->json(['message' => 'Your credentials are incorrect. Please try again.'], $e->getCode());
             } else if ($e->getCode() == 401) {
-                return response()->json('Your credentials are incorrect. Please try again.', $e->getCode());
+                return response()->json(['message' => 'Your credentials are incorrect. Please try again.'], $e->getCode());
             }
 //
-            return response()->json('Your credentials are incorrect. Please try again.', $e->getCode());
+            return response()->json(['message' => 'Your credentials are incorrect. Please try again.'], $e->getCode());
         }
     }
 
@@ -52,6 +52,6 @@ class AuthController extends Controller
             $token->delete();
         });
 
-        return response()->json('Logged out successfully', 200);
+        return response()->json(['message' => 'Logged out successfully']);
     }
 }

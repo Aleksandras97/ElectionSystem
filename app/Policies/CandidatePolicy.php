@@ -10,28 +10,7 @@ class CandidatePolicy
 {
     use HandlesAuthorization;
 
-    /**
-     * Determine whether the user can view any models.
-     *
-     * @param User $user
-     * @return mixed
-     */
-    public function viewAny(User $user)
-    {
-        //
-    }
 
-    /**
-     * Determine whether the user can view the model.
-     *
-     * @param User $user
-     * @param Candidate $candidate
-     * @return mixed
-     */
-    public function view(User $user, Candidate $candidate)
-    {
-        //
-    }
 
     /**
      * Determine whether the user can create models.
@@ -68,27 +47,4 @@ class CandidatePolicy
         return $user->is_admin;
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param User $user
-     * @param Candidate $candidate
-     * @return mixed
-     */
-    public function restore(User $user, Candidate $candidate)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param User $user
-     * @param Candidate $candidate
-     * @return mixed
-     */
-    public function forceDelete(User $user, Candidate $candidate)
-    {
-        //
-    }
 }

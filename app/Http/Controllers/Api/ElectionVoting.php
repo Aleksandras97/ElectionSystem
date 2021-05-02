@@ -14,15 +14,6 @@ use Illuminate\Support\Facades\Hash;
 
 class ElectionVoting extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index($id)
-    {
-        //
-    }
 
     /**
      * Display a listing of the resource.
@@ -34,10 +25,9 @@ class ElectionVoting extends Controller
     {
         $election = Election::findOrFail($request->election_id);
 
-//        dd($election->users);
         $user = auth()->user();
         $target = $election->users->find($user);
-//        dd($target);
+
         if (!$target){
             return response()->json(['voted' => false]);
         }
@@ -103,39 +93,5 @@ class ElectionVoting extends Controller
             return response()->json(['message' => 'Wrong password'],403);
         }
         return response()->json(['message' => 'Election is over'],403);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

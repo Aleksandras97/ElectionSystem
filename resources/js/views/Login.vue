@@ -78,19 +78,6 @@ export default {
                     state.password = ''
                 })
 
-            // await axios.post('api/login', {
-            //     username: state.username,
-            //     password: state.password,
-            // })
-            // .then( response => {
-            //     if ( response.status === 200) {
-            //         console.log('lodged in! ');
-            //     }
-            // })
-            // .catch( error => {
-            //     console.log(error);
-            // })
-            console.log('submitted');
 
         }
 
