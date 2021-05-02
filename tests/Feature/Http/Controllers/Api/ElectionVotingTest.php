@@ -24,10 +24,10 @@ class ElectionVotingTest extends TestCase
 
         $candidate = $this->create('Candidate', [], false);
         $election = $this->create('Election', ['election_date' => Carbon::now()], false);
-        $candidate->election()->associate($election);
-        $candidate->save();
 
-        $response = $this->actingAs($user, 'api')->json('POST', 'api/vote', [
+        $election->candidates()->syncWithoutDetaching($candidate->id);
+
+        $response = $this->actingAs($user, 'api')->json('POST', "api/elections/$election->id/vote", [
             'candidate_id' => $candidate->id,
             'password' => 'secret'
         ]);
@@ -38,7 +38,6 @@ class ElectionVotingTest extends TestCase
             'election_id' => $election->id,
             'is_voted' => 1,
             'user_id' => $user->id,
-            'candidate_id' => $candidate->id,
         ]);
     }
 
@@ -51,11 +50,11 @@ class ElectionVotingTest extends TestCase
         $user = $this->create('User', [], false);
 
         $candidate = $this->create('Candidate', [], false);
-        $election = $this->create('Election', [], false);
-        $candidate->election()->associate($election);
-        $candidate->save();
+        $election = $this->create('Election', ['election_date' => Carbon::yesterday()], false);
 
-        $response = $this->actingAs($user, 'api')->json('POST', 'api/vote', [
+        $election->candidates()->syncWithoutDetaching($candidate->id);
+
+        $response = $this->actingAs($user, 'api')->json('POST', "api/elections/$election->id/vote", [
             'candidate_id' => $candidate->id,
             'password' => 'secret'
         ]);
@@ -74,10 +73,10 @@ class ElectionVotingTest extends TestCase
 
         $candidate = $this->create('Candidate', [], false);
         $election = $this->create('Election', ['election_date' => Carbon::now()], false);
-        $candidate->election()->associate($election);
-        $candidate->save();
 
-        $response = $this->actingAs($user, 'api')->json('POST', 'api/vote', [
+        $election->candidates()->syncWithoutDetaching($candidate->id);
+
+        $response = $this->actingAs($user, 'api')->json('POST', "api/elections/$election->id/vote", [
             'candidate_id' => $candidate->id,
             'password' => 'secrett'
         ]);
@@ -91,17 +90,81 @@ class ElectionVotingTest extends TestCase
      */
     public function can_get_if_user_voted_in_a_election()
     {
+        $user = $this->create('User', [], false);
 
-        $user = $this->create('User', ['is_admin' => true], false);
+        $candidate = $this->create('Candidate', [], false);
+        $election = $this->create('Election', ['election_date' => Carbon::now()], false);
 
-        $election = $this->create('Election', [], false);
+        $election->candidates()->syncWithoutDetaching($candidate->id);
 
         $response1 = $this->actingAs($user, 'api')->json('POST', 'api/voted', [
-            'election_id' => 1,
+            'election_id' => $election->id,
         ]);
 
         $response1->assertStatus(200)
             ->assertJson(['voted' => false]);
+    }
+
+    /**
+     * @test
+     */
+    public function can_get_if_user_not_voted_in_a_election()
+    {
+        $user = $this->create('User', [], false);
+
+        $candidate = $this->create('Candidate', [], false);
+        $election = $this->create('Election', ['election_date' => Carbon::now()], false);
+
+        $election->candidates()->syncWithoutDetaching($candidate->id);
+
+        $this->actingAs($user, 'api')->json('POST', "api/elections/$election->id/vote", [
+            'candidate_id' => $candidate->id,
+            'password' => 'secret'
+        ]);
+
+        $response1 = $this->actingAs($user, 'api')->json('POST', 'api/voted', [
+            'election_id' => $election->id,
+        ]);
+
+        $response1->assertStatus(200)
+            ->assertJson(['voted' => true]);
+    }
+
+    /**
+     * @test
+     */
+    public function can_get_election_results()
+    {
+        $user1 = $this->create('User', [], false);
+        $user2 = $this->create('User', [], false);
+
+        $candidate1 = $this->create('Candidate', [], false);
+        $candidate2 = $this->create('Candidate', [], false);
+        $candidate3 = $this->create('Candidate', [], false);
+        $election = $this->create('Election', ['election_date' => Carbon::now()], false);
+
+        $election->candidates()->syncWithoutDetaching([$candidate1->id, $candidate2->id, $candidate3->id]);
+
+        $this->actingAs($user1, 'api')->json('POST', "api/elections/$election->id/vote", [
+            'candidate_id' => $candidate2->id,
+            'password' => 'secret'
+        ]);
+
+        $this->actingAs($user2, 'api')->json('POST', "api/elections/$election->id/vote", [
+            'candidate_id' => $candidate1->id,
+            'password' => 'secret'
+        ]);
+
+        $response = $this->actingAs($user1, 'api')->json('GET', "api/results/$election->id");
+
+        $response->assertStatus(200)
+            ->assertJsonStructure([
+                    '*' => [
+                        'firstname',
+                        'vote_counter',
+                    ]
+                ]
+            );
     }
 
 

@@ -20,16 +20,9 @@ class ElectionControllerTest extends TestCase
     public function a_election_has_many_candidates()
     {
         $election = Election::factory()->create();
-        $candidate = Candidate::factory()->create(['entry_id' => $election->id]);
 
-        //Method 1: A candidate exists in a election's candidate collections.
-        $this->assertTrue($election->candidates->contains($candidate));
 
-        //Method 2: Count that a election candidates collection exists.
-//        $this->assertEquals(1, $election->candidates->count());
-
-        // Method 3: candidate are related to election and is a collection instance.
-//        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $election->candidates);
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $election->candidates);
     }
 
     /**
@@ -38,7 +31,6 @@ class ElectionControllerTest extends TestCase
     public function a_election_belongs_to_many_voters()
     {
         $user = User::factory()->create();
-//        $election = Election::factory()->create();
 
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $user->elections);
     }
@@ -248,6 +240,38 @@ class ElectionControllerTest extends TestCase
 
         $response->assertStatus(403)
             ->assertJson(['message' => 'Forbidden']);
+    }
+
+    /**
+     * @test
+     */
+    public function can_return_a_collection_of_searched_paginated_candidates()
+    {
+
+
+        $response = $this->actingAs($this->create('User', [], false), 'api')->json('GET', "/api/search/elections/asd");
+
+        $response->assertStatus(200)
+            ->assertJsonStructure([
+                'data' => [
+                    '*' => [
+                        'id',
+                        'firstname',
+                        'lastname',
+                        'birthdate',
+                        'street_address',
+                        'city',
+                        'district',
+                        'gender',
+                        'created_at',
+                    ]
+                ],
+                'links' => ['first', 'last', 'prev', 'next'],
+                'meta' => [
+                    'current_page', 'from', 'last_page', 'links',
+                    'path', 'per_page','to', 'total'
+                ]
+            ]);
     }
 
 

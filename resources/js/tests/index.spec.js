@@ -1,12 +1,20 @@
 import { mount } from '@vue/test-utils';
-import Home from '../views/Home';
+import Elections from '../views/Elections';
 
-    test('it works', () => {
-        expect(1 + 1).toBe(2)
-    })
 
-    test('should mount without crashing', () => {
-        const wrapper = mount(Home)
+    describe('Elections', () => {
 
-        expect(wrapper).toMatchSnapshot()
-    })
+        test('Elections page election data', () => {
+
+            wrapper = mount(Elections)
+
+            wrapper.setData({ elections: {
+                elecion_name: 'New election',
+                elecion_date: '2021-04-29',
+            }})
+
+
+            expect(wrapper.html()).toContain('New election')
+            expect(wrapper.html()).toContain('2021-04-29')
+        });
+    });

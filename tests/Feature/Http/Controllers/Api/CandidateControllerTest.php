@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Http\Controllers\Api;
 
+use App\Models\Candidate;
 use Faker\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -13,16 +14,24 @@ class CandidateControllerTest extends TestCase
     /**
      * @test
      */
-    public function can_return_a_collection_of_paginated_election_candidates()
+    public function a_election_has_many_candidates()
+    {
+        $candidate = Candidate::factory()->create();
+
+
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $candidate->elections);
+    }
+
+    /**
+     * @test
+     */
+    public function can_return_a_collection_of_paginated_candidates()
     {
 
-        $candidate = $this->create('Candidate', [], false);
-        $election = $this->create('Election', [], false);
-        $candidate->election()->associate($election);
-        $candidate->save();
-        $id = $candidate->election->id;
 
-        $response = $this->actingAs($this->create('User', [], false), 'api')->json('GET', "/api/elections/$id/candidates");
+
+
+        $response = $this->actingAs($this->create('User', [], false), 'api')->json('GET', "/api/candidates");
 
         $response->assertStatus(200)
         ->assertJsonStructure([
@@ -48,6 +57,33 @@ class CandidateControllerTest extends TestCase
     }
 
     /**
+     * @test
+     */
+    public function can_return_all_candidates()
+    {
+
+
+        $response = $this->actingAs($this->create('User', [], false), 'api')->json('GET', "/api/all/candidates");
+
+        $response->assertStatus(200)
+            ->assertJsonStructure([
+                'data' => [
+                    '*' => [
+                        'id',
+                        'firstname',
+                        'lastname',
+                        'birthdate',
+                        'street_address',
+                        'city',
+                        'district',
+                        'gender',
+                        'created_at',
+                    ]
+                ]
+            ]);
+    }
+
+    /**
      *
      * @test
      */
@@ -55,9 +91,8 @@ class CandidateControllerTest extends TestCase
     {
 
         $faker = Factory::create();
-        $election = $this->create('Election');
 
-        $response = $this->actingAs($this->create('User', [], false), 'api')->json('POST', "api/elections/$election->id/candidates", [
+        $response = $this->actingAs($this->create('User', [], false), 'api')->json('POST', "api/candidates", [
             'firstname' => $firstname = $faker->firstName,
             'lastname' => $lastname = $faker->lastName,
             'birthdate' => $birthdate = $faker->date($format = 'Y-m-d', $max = 'now'),
@@ -80,9 +115,8 @@ class CandidateControllerTest extends TestCase
     {
 
         $faker = Factory::create();
-        $election = $this->create('Election');
 
-        $response = $this->actingAs($this->create('User', ['is_admin' => true], false), 'api')->json('POST', "api/elections/$election->id/candidates", [
+        $response = $this->actingAs($this->create('User', ['is_admin' => true], false), 'api')->json('POST', "api/candidates", [
             'firstname' => $firstname = $faker->firstName,
             'lastname' => $lastname = $faker->lastName,
             'birthdate' => $birthdate = $faker->date($format = 'Y-m-d', $max = 'now'),
@@ -208,7 +242,6 @@ class CandidateControllerTest extends TestCase
             'city' => $candidate->city.'_updated',
             'district' => $candidate->district.'_updated',
             'gender' => $candidate->gender.'_updated',
-            'entry_id' => $election->id,
         ]);
 
         $response->assertStatus(200)
@@ -233,7 +266,7 @@ class CandidateControllerTest extends TestCase
             'city' => $candidate->city.'_updated',
             'district' => $candidate->district.'_updated',
             'gender' => $candidate->gender.'_updated',
-            'entry_id' => null,
+            'photo' => null,
             'created_at' => (string)$candidate->created_at,
             'updated_at' => (string)$candidate->updated_at
         ]);
@@ -275,5 +308,38 @@ class CandidateControllerTest extends TestCase
         $response->assertStatus(204)->assertSee(null);
 
         $this->assertDatabaseMissing('candidates', ['id' => $candidate->id]);
+    }
+
+
+    /**
+     * @test
+     */
+    public function can_return_a_collection_of_searched_paginated_candidates()
+    {
+
+
+        $response = $this->actingAs($this->create('User', [], false), 'api')->json('GET', "/api/search/candidates/asd");
+
+        $response->assertStatus(200)
+            ->assertJsonStructure([
+                'data' => [
+                    '*' => [
+                        'id',
+                        'firstname',
+                        'lastname',
+                        'birthdate',
+                        'street_address',
+                        'city',
+                        'district',
+                        'gender',
+                        'created_at',
+                    ]
+                ],
+                'links' => ['first', 'last', 'prev', 'next'],
+                'meta' => [
+                    'current_page', 'from', 'last_page', 'links',
+                    'path', 'per_page','to', 'total'
+                ]
+            ]);
     }
 }

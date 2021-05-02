@@ -17,7 +17,7 @@ class UsersControllerTest extends TestCase
     /**
      * @test
      */
-    public function a_voter_belongs_to_many_elections()
+    public function a_user_belongs_to_many_elections()
     {
         $user = User::factory()->create();
 //        $election = Election::factory()->create();
