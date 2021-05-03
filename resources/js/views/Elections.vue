@@ -1,8 +1,8 @@
 <template>
 
 
-    <div class="m-2 grid grid-cols-6 gap-4">
-        <div class="col-start-2 col-end-5">
+    <div class="m-2 grid grid-cols-7 gap-4">
+        <div class="col-start-3 col-end-6">
             <h1 class="flex justify-center text-6xl font-normal leading-normal mt-0 mb-2 text-gray-800">
                 Elections
             </h1>

@@ -5,6 +5,33 @@
                 <div class="logo flex items-center space-x-4 mr-10">
                     <font-awesome-icon class="h-8 text-blue-400" icon="person-booth"/>
                     <h1 class="text-gray-600 text-2xl">Election System</h1>
+
+                    <template v-if="authenticated" >
+                        <HeaderLink class="font-bold text-xl" to="/" exact>
+                            <font-awesome-icon icon="home"/> Home
+                        </HeaderLink>
+                        <HeaderLink class="font-bold text-xl" to="/elections" exact>
+                            <font-awesome-icon icon="users"/>  Elections
+                        
+                        </HeaderLink>
+                        <div v-if="User?.is_admin">
+                            <h1 class="text-red-600 font-bold text-xl p-2 border-l border-red-600">Admin</h1>
+
+                        </div>
+                        <div v-if="User?.is_admin">
+                            
+                            <HeaderLink class="font-bold text-xl" to="/admin/elections" exact>
+                            <font-awesome-icon icon="vote-yea"/>  Elections
+                            </HeaderLink>
+                        </div>
+                        <div v-if="User?.is_admin"> 
+                            <HeaderLink class="font-bold text-xl" to="/admin/candidates" exact>
+                                <font-awesome-icon icon="users-cog"/> Candidates
+                            </HeaderLink>
+                        </div>
+
+                    </template>
+                    
                 </div>
                 <div class="menu flex justify-end items-center flex-1 space-x-4">
                     <template v-if="authenticated">
@@ -13,16 +40,16 @@
                             icon="user"
                         />
                         <h1 class="text-gray-600 text-2xl">{{ User?.firstname }}</h1>
-                        <font-awesome-icon
-                            icon="sign-out-alt"
-                        />
-                        <HeaderLink class="text-white font-bold py-1 px-4 ml-3 border-b-4 rounded bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500" to="/logout" exact>Logout</HeaderLink>
+                        
+                        <HeaderLink class="text-white font-bold py-1 px-4 ml-3 border-b-4 rounded bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500" to="/logout" exact>
+                          <font-awesome-icon icon="sign-out-alt" />  Logout
+                        </HeaderLink>
                     </template>
                     <template v-else>
-                        <font-awesome-icon
-                            icon="sign-in-alt"
-                        />
-                        <HeaderLink class="text-white font-bold py-1 px-4 ml-3 border-b-4 rounded bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500" to="/login" exact>Login</HeaderLink>
+                        
+                        <HeaderLink class="text-white font-bold py-1 px-4 ml-3 border-b-4 rounded bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500" to="/login" exact>
+                           <font-awesome-icon icon="sign-in-alt" /> Login
+                        </HeaderLink>
 
                     </template>
                 </div>

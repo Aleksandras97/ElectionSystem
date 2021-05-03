@@ -63,22 +63,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }
 
                   state.password = '';
-                }); // await axios.post('api/login', {
-                //     username: state.username,
-                //     password: state.password,
-                // })
-                // .then( response => {
-                //     if ( response.status === 200) {
-                //         console.log('lodged in! ');
-                //     }
-                // })
-                // .catch( error => {
-                //     console.log(error);
-                // })
+                });
 
-                console.log('submitted');
-
-              case 2:
+              case 1:
               case "end":
                 return _context.stop();
             }

@@ -2,10 +2,7 @@
     <div id="app" class="flex flex-col h-screen">
         <Header/>
         <div class="grid grid-cols-8 mt-20">
-            <aside class="col-span-3 sm:col-span-2 xl:col-span-1 bg-green-200 ">
-                <Sidebar/>
-            </aside>
-            <div class="col-span-5 sm:col-span-6 xl:col-span-7 bg-white">
+            <div class="col-span-8 bg-white">
                 <div class="bg-white">
                     <router-view></router-view>
                 </div>
@@ -21,7 +18,6 @@
 <script>
 import Header from "../vue/Header";
 import Footer from "../vue/Footer";
-import SIdebar from "../vue/Sidebar";
 import Sidebar from "../vue/Sidebar";
 import NotificationList from "../vue/NotificationList";
 

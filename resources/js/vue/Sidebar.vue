@@ -1,15 +1,15 @@
 <template>
 
-
         <div class="mt-5">
             <div class="mr-50 rounded rounded-r-3xl pl-6 py-3 font-semibold">
                 <button class="text-gray-600 text-sm font-semibold flex items-center  focus:outline-none">
+
                     <svg class="h-5  px-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                          stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                               d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
-                    <HeaderLink to="/" exact>Home</HeaderLink>
+                    <HeaderLink to="/" exact>Homes</HeaderLink>
                 </button>
             </div>
             <div class="mt-1  mr-50 rounded rounded-r-3xl pl-6 py-3 font-semibold">
@@ -66,7 +66,7 @@ export default {
 
         const authenticated = computed(() => store.getters.authenticated)
 
-        
+
 
         return {
             User,

@@ -2,7 +2,7 @@
     <div class="p-2">
         <router-link
             :to="to"
-            :class="active ? 'text-gray-100' : null"
+            :class="active ? 'text-blue-500 text-bold' : null"
         >
             <slot />
         </router-link>

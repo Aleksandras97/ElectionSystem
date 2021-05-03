@@ -272,13 +272,12 @@ export default {
 
         function isSameDay(date1) {
             let date = moment().format(date1);
-            console.log("is same day", moment().diff(date, 'days') === 0)
             return moment().diff(date, 'days') === 0
         }
 
         function isPastDay(date1) {
             let date = moment().format(date1);
-            console.log("is past day", moment().diff(date, 'days') > 0)
+
             return moment().diff(date, 'days') > 0
         }
 
