@@ -70,8 +70,8 @@
                         v-model="state.candidate.gender"
                         id="gender"
                         name="gender">
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
+                    <option value="male">{{ t("input.male") }}</option>
+                    <option value="female">{{ t("input.female") }}</option>
                 </select>
             </div>
         </div>
@@ -81,7 +81,7 @@
                 @click="addCandidate()"
                 :class="[ state.candidate.firstname ? 'bg-green-500 hover:bg-green-400 border-green-700 hover:border-green-500' : 'bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500' ]"
                 class="text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">
-                Add
+                {{ t("buttons.add") }}
                 <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
             </button>
         </div>
@@ -94,6 +94,7 @@ import {reactive, ref, watch} from "vue";
 import {useStore} from "vuex";
 import { useImageUpload } from '../composables/useImageUpload.js';
 import { Notification } from '../composables/Notify.js';
+import { useI18n } from 'vue-i18n';
 
 export default {
     emits: {
@@ -103,6 +104,8 @@ export default {
 
         let { photo, photoUrl, uploadFile } = useImageUpload();
         let { SendNotification } = Notification();
+
+        const { t } = useI18n()
 
         const store = useStore()
 
@@ -162,7 +165,8 @@ export default {
             addCandidate,
             photo,
             photoUrl,
-            uploadFile
+            uploadFile,
+            t
         }
     }
 }

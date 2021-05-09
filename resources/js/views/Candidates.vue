@@ -18,7 +18,7 @@
     <div class="m-2 grid grid-cols-7 gap-4">
         <div class="col-start-1 col-end-5">
             <h1 class="flex justify-start text-6xl ml-10 font-bold leading-normal mt-0 mb-2 text-gray-800">
-                Candidates
+                {{ t("candidates.candidates") }}
             </h1>
             <candidateListView
                 :candidates="state.candidates"
@@ -29,7 +29,7 @@
                     <template v-if="isSameDay(state.election?.election_date)">
                         <button @click="isModalOpen = true"
                                 class="bg-purple-500 hover:bg-purple-400 border-purple-700 hover:border-purple-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">
-                            Submit Vote
+                            {{ t("candidates.vote_submit") }}
                             <font-awesome-icon
                                 icon="check"
                             />
@@ -38,26 +38,26 @@
                     <template v-if="!isSameDay(state.election?.election_date)">
                         <template v-if="!isPastDay(state.election?.election_date)">
                             <span
-                                class="bg-yellow-200 text-yellow-600 py-2 px-5 rounded-full text-2xl">Coming soon</span>
+                                class="bg-yellow-200 text-yellow-600 py-2 px-5 rounded-full text-2xl">{{ t("elections.coming_soon") }}</span>
                         </template>
                         <template v-if="isPastDay(state.election?.election_date)">
-                            <span class="bg-red-200 text-red-600 py-2 px-5 rounded-full text-2xl">Election is over</span>
+                            <span class="bg-red-200 text-red-600 py-2 px-5 rounded-full text-2xl">{{ t("elections.election_over") }}</span>
 
                         </template>
                     </template>
 
                 </template>
                 <template v-else-if="state.Voted">
-                    <span class="bg-green-200 text-green-600 py-2 px-5 rounded-full text-2xl">Voted</span>
+                    <span class="bg-green-200 text-green-600 py-2 px-5 rounded-full text-2xl">{{ t("candidates.voted") }}</span>
                     <template v-if="isPastDay(state.election?.election_date)">
-                        <span class="bg-red-200 text-red-600 py-2 px-5 rounded-full text-2xl">Election is over</span>
+                        <span class="bg-red-200 text-red-600 py-2 px-5 rounded-full text-2xl">{{ t("elections.election_over") }}</span>
                     </template>
                 </template>
             </div>
             <div
                 class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
                 <span class="text-xs xs:text-sm text-gray-900">
-                    Showing {{ pagination.current_page }} of {{ pagination.last_page }} Entries
+                    {{ t("pagination.showing") }} {{ pagination.current_page }} {{ t("pagination.of") }} {{ pagination.last_page }} {{ t("pagination.entries") }}
                 </span>
                 <div class="inline-flex mt-2 xs:mt-0">
                     <button
@@ -66,7 +66,7 @@
                         :class="{'opacity-50': !pagination.prev_page_url }"
                         @click="getCandidates(pagination.prev_page_url)"
                     >
-                        Prev
+                        {{ t("pagination.prev") }}
                     </button>
                     <button
                         class="bg-yellow-500 hover:bg-yellow-400 border-yellow-700 hover:border-yellow-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded"
@@ -74,7 +74,7 @@
                         :class="{'opacity-50': !pagination.next_page_url }"
                         @click="getCandidates(pagination.next_page_url)"
                     >
-                        Next
+                        {{ t("pagination.next") }}
                     </button>
                 </div>
             </div>
@@ -83,7 +83,7 @@
             <div v-if="!isSameDay(state.election?.election_date) || isPastDay(state.election?.election_date)" class="grid place-items-center">
 
                 <h1 class="flex justify-center text-6xl font-normal leading-normal mt-0 mb-2 text-gray-800">
-                    Voting results
+                    {{ t("candidates.voting_results") }}
                 </h1>
 
                 <pie-chart
@@ -100,7 +100,7 @@
 
     <Modal v-if="isModalOpen" @close-modal="isModalOpen = false" >
         <template #title>
-            Enter password
+            {{ t("candidates.enter_password") }}
         </template>
         <template #body>
             <div class="flex justify-center p-2">
@@ -118,13 +118,13 @@
                                 @click="SubmitVote()"
                                 :class="[ state.password ? 'bg-green-500 hover:bg-green-400 border-green-700 hover:border-green-500' : 'bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500' ]"
                                 class=" text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">
-                                Submit Vote
+                                {{ t("candidates.vote_submit") }}
                                 <font-awesome-icon
                                     icon="check"
                                 />
                                 <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
                             </button>
-                            <button @click="isModalOpen = false" class="bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500  text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">Cancel</button>
+                            <button @click="isModalOpen = false" class="bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500  text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">{{ t("buttons.close") }}</button>
                         </div>
                     </div>
                 </div>
@@ -143,6 +143,7 @@ import {useRoute} from "vue-router";
 import moment from "moment";
 import { makePagination } from '../composables/makePagination';
 import { Notification } from '../composables/Notify.js';
+import { useI18n } from 'vue-i18n';
 
 export default {
     components: {
@@ -152,6 +153,8 @@ export default {
     },
     setup() {
         const isModalOpen = ref(false)
+
+        const { t } = useI18n()
 
         let { paginate, pagination } = makePagination();
         let { SendNotification } = Notification();
@@ -292,6 +295,7 @@ export default {
             isPastDay,
             isModalOpen,
             pagination,
+            t
         }
     }
 }

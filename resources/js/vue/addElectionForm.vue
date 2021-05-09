@@ -3,7 +3,7 @@
         <div class="relative ">
             <div v-if="state.errors && state.errors.election_name " class="mb-2 mr-2 text-sm py-2 px-3 bg-pink-200 text-red-700 rounded">{{ state.errors.election_name[0] }}</div>
             <div class="mb-6 mr-2 pt-3 rounded bg-gray-200">
-                <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="election_name">Name</label>
+                <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="election_name">{{ t("input.name") }}</label>
                 <input type="text" name="election_name" id="election_name" v-model="state.election.election_name" placeholder="Election Name"
                        class="login-input" />
 
@@ -13,7 +13,7 @@
             <div v-if="state.errors && state.errors.election_date " class="mb-2 mr-2 text-sm py-2 px-3 bg-pink-200 text-red-700 rounded">{{ state.errors.election_date[0] }}</div>
             <div class="mb-6 mr-2 pt-3 rounded bg-gray-200">
 
-                <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="election_date">Date</label>
+                <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="election_date">{{ t("input.date") }}</label>
                 <input type="date" id="election_date" v-model="state.election.election_date" placeholder="Election Date"
                        class="login-input" />
             </div>
@@ -23,7 +23,7 @@
                 @click="addElection()"
                 :class="[ state.election.election_name ? 'bg-green-500 hover:bg-green-400 border-green-700 hover:border-green-500' : 'bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500' ]"
                 class=" text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">
-                Add
+                {{ t("buttons.add")}}
                 <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
             </button>
         </div>
@@ -34,6 +34,7 @@
 import { reactive } from 'vue';
 import {useStore} from "vuex";
 import { Notification } from '../composables/Notify.js';
+import { useI18n } from 'vue-i18n'
 
 export default {
     emits: {
@@ -42,6 +43,8 @@ export default {
     setup(_,{emit}){
 
         const store = useStore()
+
+        const { t } = useI18n()
 
         let { SendNotification } = Notification();
 
@@ -84,7 +87,8 @@ export default {
 
         return  {
             state,
-            addElection
+            addElection,
+            t
         }
     }
 }

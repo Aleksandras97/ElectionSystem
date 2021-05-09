@@ -1,7 +1,7 @@
 <template>
     <div class="p-2">
         <router-link
-            :to="to"
+            :to="`/${$i18n.locale}/`+to"
             :class="active ? 'text-blue-500 text-bold' : null"
         >
             <slot />

@@ -1,4 +1,5 @@
 <template>
+    Home
 </template>
 
 <script>

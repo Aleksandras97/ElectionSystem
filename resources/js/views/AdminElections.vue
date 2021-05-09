@@ -2,7 +2,7 @@
     <div class="container mx-auto px-4 sm:px-8">
         <div class="py-8">
             <div>
-                <h2 class="text-2xl font-semibold leading-tight">Elections</h2>
+                <h2 class="text-2xl font-semibold leading-tight">{{ t("admin_election.elections") }}</h2>
             </div>
             <div class="my-2 flex sm:flex-row flex-col">
                 <div class="flex flex-row mb-1 sm:mb-0">
@@ -43,7 +43,7 @@
                             </path>
                         </svg>
                     </span>
-                    <input v-model="state.search" placeholder="Search"
+                    <input v-model="state.search" v-bind:placeholder="t('input.search')"
                            class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
                 </div>
             </div>
@@ -57,23 +57,23 @@
                         <tr>
                             <th
                                 class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                Election
+                                {{ t("admin_election.election")}}
                             </th>
                             <th
                                 class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                Date
+                                {{ t("admin_election.date")}}
                             </th>
                             <th
                                 class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                Edit
+                                {{ t("buttons.edit")}}
                             </th>
                             <th
                                 class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                Delete
+                                {{ t("buttons.delete")}}
                             </th>
                             <th
                                 class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                Candidates
+                                {{ t("admin_election.candidates")}}
                             </th>
                         </tr>
                         </thead>
@@ -85,9 +85,9 @@
                         </tbody>
                     </table>
                     <div
-                        class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
+                        class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
                         <span class="text-xs xs:text-sm text-gray-900">
-                            Showing {{ pagination.current_page }} of {{ pagination.last_page }} Entries
+                            {{ t("pagination.showing") }} {{ pagination.current_page }} {{ t("pagination.of") }} {{ pagination.last_page }} {{ t("pagination.entries") }}
                         </span>
                         <div class="inline-flex mt-2 xs:mt-0">
                             <button
@@ -96,7 +96,7 @@
                                 :class="{'opacity-50': !pagination.prev_page_url }"
                                 @click="getElections(pagination.prev_page_url)"
                             >
-                                Prev
+                                {{ t("pagination.prev") }}
                                 <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
                             </button>
                             <button
@@ -105,7 +105,7 @@
                                 :class="{'opacity-50': !pagination.next_page_url }"
                                 @click="getElections(pagination.next_page_url)"
                             >
-                                Next
+                                {{ t("pagination.next") }}
                                 <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
                             </button>
                         </div>
@@ -123,11 +123,14 @@ import {onMounted, reactive, ref, watchEffect} from "vue";
 import AdminElectionListView from "../vue/adminElectionListView";
 import AddElectionForm from "../vue/addElectionForm";
 import { makePagination } from '../composables/makePagination.js';
+import { useI18n } from 'vue-i18n'
 
 export default {
     components: {AddElectionForm, AdminElectionListView},
     setup: function () {
         const search = ref('')
+
+        const { t } = useI18n()
 
         let { paginate, pagination } = makePagination();
 
@@ -176,6 +179,7 @@ export default {
             state,
             getElections,
             pagination,
+            t
         }
     }
 }

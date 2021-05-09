@@ -1,11 +1,6 @@
 <template>
     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
         <div class="flex items-center">
-            <div class="flex-shrink-0 w-10 h-10">
-                <img class="w-full h-full rounded-full"
-                     src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                     alt="" />
-            </div>
             <div class="ml-3">
                 <p class="text-gray-900 whitespace-no-wrap">
                     {{ state.candidate.firstname }}
@@ -20,21 +15,21 @@
         <button class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
                 @click="isModalOpen = true"
         >
-            Edit
+            {{ t("buttons.edit") }}
         </button>
     </td>
     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
         <button class="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded"
                 @click="deleteCandidate()"
         >
-            Delete
+            {{ t("buttons.delete") }}
             <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
         </button>
     </td>
 
     <Modal v-if="isModalOpen" @close-modal="isModalOpen = false" >
         <template #title>
-            Edit Candidate
+            {{ t("admin_candidate.edit_candidate") }}
         </template>
         <template #body>
             <div class="flex justify-center p-2">
@@ -111,8 +106,8 @@
                                         v-model="state.candidate.gender"
                                         id="gender"
                                         name="gender">
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
+                                    <option value="male">{{ t("input.male") }}</option>
+                                    <option value="female">{{ t("input.female") }}</option>
                                 </select>
                             </div>
                         </div>
@@ -123,11 +118,11 @@
                                 @click="editCandidate()"
                                 :class="[ state.candidate.firstname ? 'bg-green-500 hover:bg-green-400 border-green-700 hover:border-green-500' : 'bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500' ]"
                                 class=" text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">
-                                Edit
+                                {{ t("buttons.edit") }}
                                 <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
 
                             </button>
-                            <button @click="isModalOpen = false, state.isOpen = false" class="bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500  text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">Cancel</button>
+                            <button @click="isModalOpen = false, state.isOpen = false" class="bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500  text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">{{ t("buttons.close") }}</button>
                         </div>
                     </div>
                 </div>
@@ -142,6 +137,7 @@ import {useRouter} from "vue-router";
 import Modal from "./Modal";
 import {useStore} from "vuex";
 import { Notification } from '../composables/Notify.js';
+import { useI18n } from 'vue-i18n';
 
 export default {
     components: {Modal},
@@ -155,6 +151,7 @@ export default {
     setup(props,{emit}){
         const store = useStore()
         const isModalOpen = ref(false)
+        const { t } = useI18n()
 
 
         let { SendNotification } = Notification();
@@ -226,7 +223,8 @@ export default {
             state,
             isModalOpen,
             deleteCandidate,
-            editCandidate
+            editCandidate,
+            t
         }
     }
 }

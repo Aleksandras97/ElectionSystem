@@ -1,11 +1,6 @@
 <template>
     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
         <div class="flex items-center">
-            <div class="flex-shrink-0 w-10 h-10">
-                <img class="w-full h-full rounded-full"
-                     src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                     alt="" />
-            </div>
             <div class="ml-3">
                 <p class="text-gray-900 whitespace-no-wrap hover:text-blue-300 hover:font-bold cursor-pointer"
                    @click="goToCandidates(election.id)"
@@ -22,14 +17,14 @@
         <button class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
             @click="isEditModalOpen = true"
         >
-            Edit
+            {{ t("buttons.edit")}}
         </button>
     </td>
     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
         <button class="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded"
             @click="deleteElection()"
         >
-            Delete
+            {{ t("buttons.delete")}}
             <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
         </button>
     </td>
@@ -37,14 +32,14 @@
         <button class="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded"
             @click="isAddCandidateModalOpen = true, getAllCandidates()"
         >
-            View Candidates
+            {{ t("buttons.view_candidates")}}
             <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
         </button>
     </td>
 
     <Modal v-if="isEditModalOpen" @close-modal="isEditModalOpen = false" >
         <template #title>
-            Edit Election
+            {{ t("admin_election.edit_election")}}
         </template>
         <template #body>
             <div class="flex justify-center p-2">
@@ -55,7 +50,7 @@
                             <div v-if="state.errors && state.errors.election_name " class="mb-2 mr-2 text-sm py-2 px-3 bg-pink-200 text-red-700 rounded">{{ state.errors.election_name[0] }}</div>
                             <div class="mb-6 mr-2 pt-3 rounded bg-gray-200">
 
-                                <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="name">Name</label>
+                                <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="name">{{ t("input.name")}}</label>
                                 <input type="text" v-model="state.election.election_name" id="name" placeholder="Election Name"
                                        class="login-input" />
                             </div>
@@ -64,7 +59,7 @@
                             <div v-if="state.errors && state.errors.election_date " class="mb-2 mr-2 text-sm py-2 px-3 bg-pink-200 text-red-700 rounded">{{ state.errors.election_date[0] }}</div>
                             <div class=" mb-6 mr-2 pt-3 rounded bg-gray-200">
 
-                                <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="date">Date</label>
+                                <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="date">{{ t("input.date")}}</label>
                                 <input type="date" v-model="state.election.election_date" id="date" placeholder="Election Date"
                                        class="login-input" />
                             </div>
@@ -77,10 +72,10 @@
                                 @click="editElection()"
                                 :class="[ state.election.election_name ? 'bg-green-500 hover:bg-green-400 border-green-700 hover:border-green-500' : 'bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500' ]"
                                 class=" text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">
-                                Edit
+                                {{ t("buttons.edit")}}
                                 <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
                             </button>
-                            <button @click="isEditModalOpen = false" class="bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500  text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">Close</button>
+                            <button @click="isEditModalOpen = false" class="bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500  text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">{{ t("buttons.close")}}</button>
                         </div>
                     </div>
                 </div>
@@ -91,12 +86,12 @@
 
     <Modal v-if="isAddCandidateModalOpen" @close-modal="isAddCandidateModalOpen = false" >
         <template #title>
-            Candidates
+            {{ t("admin_election.candidates")}}
         </template>
         <template #body>
             <div class="grid grid-cols-2 gap-4 p-2">
                 <div class="border">
-                    <h1 class="font-bold text-2xl p-1 mb-2 text-center">List of candidates</h1>
+                    <h1 class="font-bold text-2xl p-1 mb-2 text-center">{{ t("admin_election.list_of_candidates")}}</h1>
                     <div class="p-2" v-for="(candidate, index) in state.candidates" :key="index" :value="candidate.id">
                         <span class="font-bold">{{ candidate.firstname }}</span>  {{ candidate.lastname }}
                         <button class="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-2 border-red-700 hover:border-red-500 rounded"
@@ -109,7 +104,7 @@
                     <div
                         class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
                         <span class="text-xs xs:text-sm text-gray-900">
-                            Showing {{ pagination.current_page }} of {{ pagination.last_page }} Entries
+                            {{ t("pagination.showing") }} {{ pagination.current_page }} {{ t("pagination.of") }} {{ pagination.last_page }} {{ t("pagination.entries") }}
                         </span>
                         <div class="inline-flex mt-2 xs:mt-0">
                             <button
@@ -118,7 +113,7 @@
                                 :class="{'opacity-50': !pagination.prev_page_url }"
                                 @click="getAllCandidates(pagination.prev_page_url)"
                             >
-                                Prev
+                                {{ t("pagination.prev") }}
                                 <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
                             </button>
                             <button
@@ -127,7 +122,7 @@
                                 :class="{'opacity-50': !pagination.next_page_url }"
                                 @click="getAllCandidates(pagination.next_page_url)"
                             >
-                                Next
+                                {{ t("pagination.next") }}
                                 <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
                             </button>
                         </div>
@@ -135,19 +130,18 @@
                 </div>
                 <div class="flex justify-center border">
                     <div class="block w-full">
-                        <h1 class="font-bold text-2xl p-1 mb-2 text-center">Add candidate</h1>
+                        <h1 class="font-bold text-2xl p-1 mb-2 text-center">{{ t("admin_election.add_candidate")}}</h1>
                         <div class="mx-2 mb-1 sm:mb-0">
                             <div class="relative">
 
                                 <div class="mb-6 mr-2 pt-3 rounded bg-gray-200">
 
-                                    <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="candidate">Candidate</label>
+                                    <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="candidate">{{ t("admin_election.candidate")}}</label>
                                     <select class="login-input"
                                             v-model="state.candidate"
                                             id="candidate"
                                             name="candidate">
                                         <option v-for="(candidate, index) in state.allCandidates" :key="index" :value="candidate.id" >{{ candidate.firstname }} {{ candidate.lastname }} </option>
-                                        <h1>test</h1>
                                     </select>
                                 </div>
                             </div>
@@ -158,10 +152,10 @@
                                     @click="addCandidateToElection"
                                     :class="[ state.election.election_name ? 'bg-green-500 hover:bg-green-400 border-green-700 hover:border-green-500' : 'bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500' ]"
                                     class=" text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">
-                                    Add
+                                    {{ t("admin_election.add_candidate")}}
                                     <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
                                 </button>
-                                <button @click="isAddCandidateModalOpen = false" class="bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500  text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">Close</button>
+                                <button @click="isAddCandidateModalOpen = false" class="bg-gray-500 hover:bg-gray-400 border-gray-700 hover:border-gray-500  text-white font-bold py-1 px-4 ml-3 border-b-4 rounded">{{ t("buttons.close")}}</button>
                             </div>
                         </div>
                     </div>
@@ -180,6 +174,7 @@ import {useRouter} from "vue-router";
 import {useStore} from "vuex";
 import { makePagination } from '../composables/makePagination.js';
 import { Notification } from '../composables/Notify.js';
+import { useI18n } from 'vue-i18n'
 
 export default {
     components: {Modal},
@@ -192,6 +187,7 @@ export default {
     setup: function (props, {emit}) {
         const store = useStore()
         const router = useRouter();
+        const { t } = useI18n()
 
         let { paginate, pagination } = makePagination();
         let { SendNotification } = Notification();
@@ -348,6 +344,7 @@ export default {
             getAllCandidates,
             addCandidateToElection,
             pagination,
+            t
         }
     }
 }

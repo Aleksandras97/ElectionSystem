@@ -11,15 +11,15 @@
                 </div>
                 <div class="col-start-4 col-end-4 content-center grid place-items-center">
                     <template v-if="isPastDay(election.election_date)">
-                        <span class="bg-red-200 text-red-600 py-2 px-5 rounded-full text-2xl">Election is over</span>
+                        <span class="bg-red-200 text-red-600 py-2 px-5 rounded-full text-2xl">{{ t("elections.election_over") }}</span>
                     </template>
                     <template v-if="isSameDay(election.election_date)">
-                        <span class="bg-blue-200 text-blue-600 py-2 px-5 rounded-full text-2xl">Today</span>
+                        <span class="bg-blue-200 text-blue-600 py-2 px-5 rounded-full text-2xl">{{ t("elections.today") }}</span>
                     </template>
                     <template v-if="!isSameDay(election.election_date)">
                         <template v-if="!isPastDay(election.election_date)">
                             <span
-                                class="bg-yellow-200 text-yellow-600 py-2 px-5 rounded-full text-2xl">Coming soon</span>
+                                class="bg-yellow-200 text-yellow-600 py-2 px-5 rounded-full text-2xl">{{ t("elections.coming_soon") }}</span>
                         </template>
                     </template>
                 </div>
@@ -32,6 +32,7 @@
 
 <script>
 import moment from "moment";
+import { useI18n } from 'vue-i18n';
 
 export default {
     emits: {
@@ -41,6 +42,8 @@ export default {
         election: Object,
     },
     setup(props,{emit}){
+
+        const { t } = useI18n()
 
         function deleteElection() {
             axios.delete('api/elections/' + props.election.id )
@@ -68,6 +71,7 @@ export default {
             deleteElection,
             isSameDay,
             isPastDay,
+            t
         }
     }
 }

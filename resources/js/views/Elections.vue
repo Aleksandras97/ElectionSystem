@@ -4,7 +4,7 @@
     <div class="m-2 grid grid-cols-7 gap-4">
         <div class="col-start-3 col-end-6">
             <h1 class="flex justify-center text-6xl font-normal leading-normal mt-0 mb-2 text-gray-800">
-                Elections
+                {{ t("elections.elections") }}
             </h1>
 
             <div class="py-2 sm:mb-0">
@@ -16,7 +16,7 @@
                                         </path>
                                     </svg>
                                 </span>
-                    <input v-model="state.search" placeholder="Search"
+                    <input v-model="state.search" v-bind:placeholder="t('input.search')"
                         class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
                 </div>
 
@@ -33,7 +33,7 @@
     <div
         class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
                         <span class="text-xs xs:text-sm text-gray-900">
-                            Showing {{ pagination.current_page }} of {{ pagination.last_page }} Entries
+                            {{ t("pagination.showing") }} {{ pagination.current_page }} {{ t("pagination.of") }} {{ pagination.last_page }} {{ t("pagination.entries") }}
                         </span>
         <div class="inline-flex mt-2 xs:mt-0">
             <button
@@ -42,7 +42,7 @@
                 :class="{'opacity-50': !pagination.prev_page_url }"
                 @click="getElections(pagination.prev_page_url)"
             >
-                Prev
+                {{ t("pagination.prev") }}
                 <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
             </button>
             <button
@@ -51,7 +51,7 @@
                 :class="{'opacity-50': !pagination.next_page_url }"
                 @click="getElections(pagination.next_page_url)"
             >
-                Next
+                {{ t("pagination.next") }}
                 <font-awesome-icon v-if="state.loading" class="animate-spin" icon="spinner" />
             </button>
 
@@ -66,6 +66,7 @@ import addElectionForm from "../vue/addElectionForm";
 import electionListView from "../vue/electionListView";
 import {onMounted, reactive, ref, watchEffect} from "vue";
 import { makePagination } from '../composables/makePagination.js';
+import { useI18n } from 'vue-i18n'
 
 export default {
     name: "Elections",
@@ -75,6 +76,8 @@ export default {
     },
     setup() {
         const search = ref('')
+
+        const { t, locale } = useI18n({ useScope: 'global' })
 
         let { paginate, pagination } = makePagination();
 
@@ -122,7 +125,9 @@ export default {
         return {
             state,
             getElections,
-            pagination
+            pagination,
+            t,
+            locale
         }
     }
 }
