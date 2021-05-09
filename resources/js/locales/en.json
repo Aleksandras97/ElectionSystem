@@ -1,0 +1,63 @@
+{
+    "header": {
+        "name": "Election System",
+        "home": "Home",
+        "elections": "Elections",
+        "candidates": "Candidates",
+        "admin": "Admin",
+        "logout": "Logout",
+        "login": "Login"
+    },
+    "elections": {
+        "elections": "Elections",
+        "today": "Today",
+        "election_over": "Election is over",
+        "coming_soon": "Coming soon"
+    },
+    "candidates": {
+        "candidates": "Candidates",
+        "vote_submit": "Submit Vote",
+        "voted": "Voted",
+        "voting_results": "Voting results",
+        "enter_password": "Enter password"
+    },
+    "pagination": {
+        "showing": "Showing",
+        "of": "of",
+        "entries": "Entries",
+        "next": "Next",
+        "prev": "Prev"
+    },
+    "buttons": {
+        "add": "Add",
+        "edit": "Edit",
+        "delete": "Delete",
+        "view_candidates": "View Candidates",
+        "close": "Close"
+    },
+    "input": {
+        "search": "Search",
+        "name": "Name",
+        "date": "Date",
+        "male": "Male",
+        "female": "Female"
+    },
+    "admin_election": {
+        "election": "Election",
+        "elections": "Elections",
+        "date": "Date",
+        "add_candidate": "Add Candidate",
+        "edit_election": "Edit Election",
+        "candidate": "Candidate",
+        "candidates": "Candidates",
+        "list_of_candidates": "List of candidates"
+    },
+    "admin_candidate": {
+        "candidates": "Candidates",
+        "candidate": "Candidate",
+        "last_name": "Lastname",
+        "edit_candidate": "Edit Candidate",
+        "view_candidates": "View Candidates"
+    }
+
+}

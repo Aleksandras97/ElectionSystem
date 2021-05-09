@@ -1,0 +1,62 @@
+{
+    "header": {
+        "name": "Balsavimo Sistema",
+        "home": "Namai",
+        "elections": "Rinkimai",
+        "candidates": "Kandidatai",
+        "admin": "Administratorius",
+        "logout": "Atsijungti",
+        "login": "Prisijungti"
+    },
+    "elections": {
+        "elections": "Rinkimai",
+        "today": "Šiandien",
+        "election_over": "Rinkimai baigėsi",
+        "coming_soon": "Greitai"
+    },
+    "candidates": {
+        "candidates": "Kandidatai",
+        "vote_submit": "Balsuoti",
+        "voted": "Balsavo",
+        "voting_results": "Balsavimo rezultatai",
+        "enter_password": "Įvesti slaptažodį"
+    },
+    "pagination": {
+        "showing": "Rodomas",
+        "of": "iš",
+        "entries": "Įrašo(ų)",
+        "next": "Kitas",
+        "prev": "Praeitas"
+    },
+    "buttons": {
+        "add": "Pridėti",
+        "edit": "Redaguoti",
+        "delete": "Pašalinti",
+        "view_candidates": "Peržiūrėtu Kandidatus",
+        "close": "Uždaryti"
+    },
+    "input": {
+        "search": "Ieškoti",
+        "name": "Pavadinimas",
+        "date": "Data",
+        "male": "Vyras",
+        "female": "Moteris"
+    },
+    "admin_election": {
+        "election": "Rinkimai",
+        "elections": "Rinkimai",
+        "date": "Data",
+        "add_candidate": "Pridėti kandidatą",
+        "edit_election": "Redaguoti Rinkimus",
+        "candidate": "Kandidatas",
+        "candidates": "Kandidatai",
+        "list_of_candidates": "Kandidatų sąrašas"
+    },
+    "admin_candidate": {
+        "candidates": "Kandidatai",
+        "candidate": "Kandidatas",
+        "last_name": "Pavardė",
+        "edit_candidate": "Redaguoti Kandidatą",
+        "view_candidates": "Peržiūrėti Kandidatą"
+    }
+}
