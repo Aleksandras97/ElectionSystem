@@ -28,7 +28,7 @@ export default {
     setup(){
         const router = useRouter();
         const goToElection = (id) => {
-            router.push({ path: `/elections/${id}/candidates`})
+            router.push({ path: `elections/${id}/candidates`})
         }
         return {
             goToElection
