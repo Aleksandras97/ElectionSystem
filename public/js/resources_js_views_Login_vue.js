@@ -14,8 +14,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
+/* harmony import */ var _composables_Notify_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../composables/Notify.js */ "./resources/js/composables/Notify.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -25,15 +26,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   setup: function setup() {
-    var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_2__.useRouter)();
-    var store = (0,vuex__WEBPACK_IMPORTED_MODULE_3__.useStore)();
+    var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_3__.useRouter)();
+    var store = (0,vuex__WEBPACK_IMPORTED_MODULE_4__.useStore)();
+
+    var _Notification = (0,_composables_Notify_js__WEBPACK_IMPORTED_MODULE_2__.Notification)(),
+        SendNotification = _Notification.SendNotification;
+
     var state = (0,vue__WEBPACK_IMPORTED_MODULE_1__.reactive)({
       username: '',
       password: '',
       serverErrors: '',
-      errors: {}
+      errors: {},
+      loading: false
     });
 
     function login() {
@@ -46,6 +53,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                state.loading = true;
                 store.dispatch('login', {
                   username: state.username,
                   password: state.password
@@ -53,6 +61,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   router.push({
                     name: 'Home'
                   });
+                  SendNotification('green', "Yout have successfully loged in!");
                 })["catch"](function (error) {
                   if (error.response.status === 422) {
                     state.errors = error.response.data.errors;
@@ -63,9 +72,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }
 
                   state.password = '';
+                })["finally"](function () {
+                  return state.loading = false;
                 });
 
-              case 1:
+              case 2:
               case "end":
                 return _context.stop();
             }
@@ -129,35 +140,34 @@ var _hoisted_6 = {
   "class": "mb-2 text-sm py-2 px-3 bg-pink-200 text-red-700 rounded"
 };
 var _hoisted_7 = {
+  key: 1,
+  "class": "mb-2 text-sm py-2 px-3 bg-pink-200 text-red-700 rounded"
+};
+var _hoisted_8 = {
   "class": "mb-6 pt-3 rounded bg-gray-200"
 };
 
-var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
+var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
   "class": "block text-gray-700 text-sm font-bold mb-2 ml-3",
   "for": "username"
 }, "Firstname", -1
 /* HOISTED */
 );
 
-var _hoisted_9 = {
-  key: 1,
+var _hoisted_10 = {
+  key: 2,
   "class": "mb-2 text-sm py-2 px-3 bg-pink-200 text-red-700 rounded"
 };
-var _hoisted_10 = {
+var _hoisted_11 = {
   "class": "mb-6 pt-3 rounded bg-gray-200"
 };
 
-var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
+var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
   "class": "block text-gray-700 text-sm font-bold mb-2 ml-3",
   "for": "password"
 }, "Password", -1
 /* HOISTED */
 );
-
-var _hoisted_12 = {
-  key: 2,
-  "class": "mb-2 text-sm py-2 px-3 bg-pink-200 text-red-700 rounded"
-};
 
 var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
   "class": "flex justify-end"
@@ -168,23 +178,27 @@ var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 /* HOISTED */
 );
 
-var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+var _hoisted_14 = {
   type: "submit",
   "class": "bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200"
-}, " Log In ", -1
-/* HOISTED */
-);
+};
+
+var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Log In ");
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_font_awesome_icon = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("font-awesome-icon");
+
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [_hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("section", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("form", {
     action: "",
     onSubmit: _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $setup.login && $setup.login.apply($setup, arguments);
     }, ["prevent"])),
     "class": "flex flex-col"
-  }, [$setup.state.serverErrors ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.state.serverErrors), 1
+  }, [$setup.state.serverErrors.message ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.state.serverErrors.message), 1
   /* TEXT */
-  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [_hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.state.errors && $setup.state.errors.username ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.state.errors.username[0]), 1
+  /* TEXT */
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_8, [_hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     type: "text",
     name: "username",
     id: "username",
@@ -194,9 +208,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.state.username]])]), $setup.state.errors && $setup.state.errors.username ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.state.errors.username[0]), 1
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.state.username]])]), $setup.state.errors && $setup.state.errors.password ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.state.errors.password[0]), 1
   /* TEXT */
-  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_10, [_hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_11, [_hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     type: "password",
     name: "password",
     id: "password",
@@ -206,11 +220,48 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.state.password]])]), $setup.state.errors && $setup.state.errors.password ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.state.errors.password[0]), 1
-  /* TEXT */
-  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_13, _hoisted_14], 32
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.state.password]])]), _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", _hoisted_14, [_hoisted_15, $setup.state.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_font_awesome_icon, {
+    key: 0,
+    "class": "animate-spin",
+    icon: "spinner"
+  })) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 32
   /* HYDRATE_EVENTS */
   )])])]);
+}
+
+/***/ }),
+
+/***/ "./resources/js/composables/Notify.js":
+/*!********************************************!*\
+  !*** ./resources/js/composables/Notify.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Notification": () => (/* binding */ Notification)
+/* harmony export */ });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+
+function Notification() {
+  var store = (0,vuex__WEBPACK_IMPORTED_MODULE_0__.useStore)();
+
+  function SendNotification(type, message) {
+    var notification = {
+      id: (Math.random().toString(36) + Date.now().toString(36)).substr(2),
+      type: type,
+      message: message
+    };
+    store.dispatch('addNotification', notification);
+    setTimeout(function () {
+      store.dispatch('removeNotification', notification);
+    }, 3000);
+  }
+
+  return {
+    SendNotification: SendNotification
+  };
 }
 
 /***/ }),

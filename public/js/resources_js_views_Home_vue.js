@@ -27,7 +27,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* binding */ render)
 /* harmony export */ });
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return null;
+  return " Home ";
 }
 
 /***/ }),
