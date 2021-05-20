@@ -1,0 +1,1 @@
+(self.webpackChunk=self.webpackChunk||[]).push([[725],{5725:(n,t,u)=>{"use strict";u.r(t),u.d(t,{default:()=>o});var e=u(5166),s=u(894),c=u(2119);const o={setup:function(){var n=(0,s.oR)(),t=(0,c.tv)();(0,e.bv)((function(){n.dispatch("logout").then((function(){t.push({name:"Login"})}))}))}}}}]);
