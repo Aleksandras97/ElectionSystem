@@ -4,7 +4,7 @@ use App\Http\Controllers\Api\CandidateController;
 use App\Http\Controllers\Api\CandidateElectionController;
 use App\Http\Controllers\Api\ElectionController;
 use App\Http\Controllers\Api\ElectionVoting;
-use App\Http\Controllers\api\ProfileController;
+use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Http\Request;
