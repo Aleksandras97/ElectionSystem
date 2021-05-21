@@ -19,6 +19,6 @@ class DatabaseSeeder extends Seeder
         User::factory(10)->create();
         Election::factory(10)->create();
         Candidate::factory(10)->create();
-        User::factory()->create(['is_admin' => true]);
+        User::factory()->create(['is_admin' => true, 'password' => 'admin123']);
     }
 }

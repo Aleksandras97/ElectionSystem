@@ -25,7 +25,7 @@ class UserFactory extends Factory
         $firstname = $this->faker->firstName;
         $lastname = $this->faker->lastName;
         $birthdate = $this->faker->date($format = 'Y-m-d', $max = 'now');
-        $password = bcrypt('secret');
+        $password = 'secret';
         $street_address = $this->faker->streetAddress;
         $city = $this->faker->city;
         $district = $this->faker->state;
@@ -35,7 +35,7 @@ class UserFactory extends Factory
             'firstname' => $firstname,
             'lastname' => $lastname,
             'birthdate' => $birthdate,
-            'password' => $password, //secret
+            'password' => bcrypt($password), //secret
             'street_address' => $street_address,
             'city' => $city,
             'district' => $district,
