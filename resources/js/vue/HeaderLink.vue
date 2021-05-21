@@ -1,12 +1,11 @@
 <template>
-    <div class="p-2">
-        <router-link
-            :to="`/${$i18n.locale}/`+to"
-            :class="active ? 'text-blue-500 text-bold' : null"
-        >
-            <slot />
-        </router-link>
-    </div>
+    <router-link
+        class="p-2"
+        :to="`/${$i18n.locale}/`+to"
+        :class="active ? 'text-blue-500 text-bold' : null"
+    >
+        <slot />
+    </router-link>
 </template>
 
 <script>

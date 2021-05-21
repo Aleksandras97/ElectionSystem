@@ -25,7 +25,7 @@ const mutations = {
 const actions = {
     async login ({ dispatch }, credentials) {
         let response = await axios.post('api/login', {
-            username: credentials.username,
+            firstname: credentials.username,
             password: credentials.password,
         })
         return dispatch('attempt', response.data.access_token)

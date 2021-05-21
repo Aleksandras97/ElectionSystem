@@ -1151,7 +1151,7 @@ function Notification() {
     store.dispatch('addNotification', notification);
     setTimeout(function () {
       store.dispatch('removeNotification', notification);
-    }, 3000);
+    }, 300000);
   }
 
   return {

@@ -13,36 +13,28 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+
+
+
     public function login(Request $request)
     {
-        $http = new \GuzzleHttp\Client;
         $request->validate([
-            'username' => ['required'],
+            'firstname' => ['required'],
             'password' => ['required'],
         ]);
 
+        if(Auth::attempt([
+            'firstname' => $request->firstname,
+            'password' => $request->password,
+        ])){
 
-        try {
-            $response = $http->request('POST', config('services.passport.login_endpoint'), [
-                'form_params' => [
-                    'grant_type' => 'password',
-                    'client_id' => config('services.passport.client_id'),
-                    'client_secret' => config('services.passport.client_secret'),
-                    'username' => $request->username,
-                    'password' => $request->password,
-                ]
-            ]);
-
-            return $response->getBody();
-        } catch (BadResponseException $e) {
-//            dd($e);
-            if ($e->getCode() == 400){
-                return response()->json(['message' => 'Your credentials are incorrect. Please try again.'], $e->getCode());
-            } else if ($e->getCode() == 401) {
-                return response()->json(['message' => 'Your credentials are incorrect. Please try again.'], $e->getCode());
-            }
-//
-            return response()->json(['message' => 'Your credentials are incorrect. Please try again.'], $e->getCode());
+            $user = auth()->user();
+            $responseArray = [];
+            $responseArray['access_token'] = $user->createToken('api-application')->accessToken;
+            $responseArray['name'] = $user->firstname;
+            return response()->json($responseArray);
+        } else {
+            return response()->json(['error' => 'Username or password is incorrect'], 401);
         }
     }
 
