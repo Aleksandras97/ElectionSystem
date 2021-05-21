@@ -58,5 +58,12 @@
         "last_name": "Pavardė",
         "edit_candidate": "Redaguoti Kandidatą",
         "view_candidates": "Peržiūrėti Kandidatą"
+    },
+    "login": {
+        "login1": "Prisijunkite prie savo paskyros",
+        "login2": "Prisijungti",
+        "forgot": "Pamiršote slaptažodį?",
+        "firstname": "Vardas",
+        "password": "Slaptažodis"
     }
 }

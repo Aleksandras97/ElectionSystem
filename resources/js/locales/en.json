@@ -58,6 +58,13 @@
         "last_name": "Lastname",
         "edit_candidate": "Edit Candidate",
         "view_candidates": "View Candidates"
+    },
+    "login": {
+        "login1": "Log In to your account",
+        "login2": "Log In",
+        "forgot": "Forgot your password?",
+        "firstname": "Firstname",
+        "password": "Password"
     }
 
 }
