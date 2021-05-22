@@ -63,6 +63,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       candidate_id: null,
       Voted: false,
       data: [],
+      sumOfVotes: 0,
       password: '',
       loading: true
     });
@@ -242,6 +243,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
     function ConvertForChart(data) {
       var chartdata = [];
+      var sumOfVotes = 0;
 
       for (var element in data) {
         var alphaNumOut = [];
@@ -253,8 +255,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         alphaNumOut.push([data[element].firstname]);
         alphaNumOut.push([data[element].vote_counter]);
         chartdata.push(alphaNumOut);
+        sumOfVotes += data[element].vote_counter;
       }
 
+      state.sumOfVotes = sumOfVotes;
       return chartdata;
     }
 
@@ -567,21 +571,25 @@ var _hoisted_17 = {
   "class": "flex justify-center text-6xl font-normal leading-normal mt-0 mb-2 text-gray-800"
 };
 var _hoisted_18 = {
-  "class": "flex justify-center p-2"
+  key: 0,
+  "class": "flex justify-center text-4xl font-normal leading-normal mt-0 mb-2 text-gray-800"
 };
 var _hoisted_19 = {
-  "class": "block"
+  "class": "flex justify-center p-2"
 };
 var _hoisted_20 = {
-  "class": "flex justify-start mb-1 sm:mb-0"
+  "class": "block"
 };
 var _hoisted_21 = {
-  "class": "relative"
+  "class": "flex justify-start mb-1 sm:mb-0"
 };
 var _hoisted_22 = {
-  "class": "flex justify-end my-2 sm:mb-0"
+  "class": "relative"
 };
 var _hoisted_23 = {
+  "class": "flex justify-end my-2 sm:mb-0"
+};
+var _hoisted_24 = {
   "class": "relative"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -599,7 +607,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* TEXT */
   )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h1", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$setup$state$electio2 = $setup.state.election) === null || _$setup$state$electio2 === void 0 ? void 0 : _$setup$state$electio2.election_date), 1
   /* TEXT */
-  )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h1", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t("candidates.candidates")), 1
+  )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Candidates "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h1", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t("candidates.candidates")), 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_candidateListView, {
     candidates: $setup.state.candidates,
@@ -608,7 +616,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, null, 8
   /* PROPS */
-  , ["candidates"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [!$setup.state.Voted ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+  , ["candidates"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Is candidate voted "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [!$setup.state.Voted ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 0
   }, [$setup.isSameDay((_$setup$state$electio3 = $setup.state.election) === null || _$setup$state$electio3 === void 0 ? void 0 : _$setup$state$electio3.election_date) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("button", {
     key: 0,
@@ -638,7 +646,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* TEXT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 64
   /* STABLE_FRAGMENT */
-  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t("pagination.showing")) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.pagination.current_page) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t("pagination.of")) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.pagination.last_page) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t("pagination.entries")), 1
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t("pagination.showing")) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.pagination.current_page) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t("pagination.of")) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.pagination.last_page) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t("pagination.entries")), 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
     "class": ["bg-yellow-500 hover:bg-yellow-400 border-yellow-700 hover:border-yellow-500 text-white font-bold py-1 px-4 ml-3 border-b-4 rounded", {
@@ -660,13 +668,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t("pagination.next")), 11
   /* TEXT, CLASS, PROPS */
-  , ["disabled"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_15, [!$setup.isSameDay((_$setup$state$electio8 = $setup.state.election) === null || _$setup$state$electio8 === void 0 ? void 0 : _$setup$state$electio8.election_date) || $setup.isPastDay((_$setup$state$electio9 = $setup.state.election) === null || _$setup$state$electio9 === void 0 ? void 0 : _$setup$state$electio9.election_date) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h1", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t("candidates.voting_results")), 1
+  , ["disabled"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_15, [!$setup.isSameDay((_$setup$state$electio8 = $setup.state.election) === null || _$setup$state$electio8 === void 0 ? void 0 : _$setup$state$electio8.election_date) && $setup.isPastDay((_$setup$state$electio9 = $setup.state.election) === null || _$setup$state$electio9 === void 0 ? void 0 : _$setup$state$electio9.election_date) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h1", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t("candidates.voting_results")), 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_pie_chart, {
+  ), $setup.state.sumOfVotes === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("h1", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t("candidates.no_votes")), 1
+  /* TEXT */
+  )) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_pie_chart, {
+    key: 1,
     data: $setup.state.data
   }, null, 8
   /* PROPS */
-  , ["data"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), $setup.isModalOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Modal, {
+  , ["data"]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), $setup.isModalOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Modal, {
     key: 0,
     onCloseModal: _cache[8] || (_cache[8] = function ($event) {
       return $setup.isModalOpen = false;
@@ -678,7 +689,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       )];
     }),
     body: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
         type: "password",
         "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
           return $setup.state.password = $event;
@@ -687,7 +698,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "appearance-none rounded-r sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
       }, null, 512
       /* NEED_PATCH */
-      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.state.password]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.state.password]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
         onClick: _cache[6] || (_cache[6] = function ($event) {
           return $setup.SubmitVote();
         }),
@@ -1151,7 +1162,7 @@ function Notification() {
     store.dispatch('addNotification', notification);
     setTimeout(function () {
       store.dispatch('removeNotification', notification);
-    }, 300000);
+    }, 3000);
   }
 
   return {

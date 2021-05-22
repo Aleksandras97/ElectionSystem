@@ -1305,7 +1305,7 @@ function Notification() {
     store.dispatch('addNotification', notification);
     setTimeout(function () {
       store.dispatch('removeNotification', notification);
-    }, 300000);
+    }, 3000);
   }
 
   return {

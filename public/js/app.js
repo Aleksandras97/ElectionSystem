@@ -30216,12 +30216,15 @@ var _hoisted_1 = {
   "class": "flex flex-col h-screen"
 };
 var _hoisted_2 = {
-  "class": "grid grid-cols-8 mt-20"
+  "class": "bg-white h-screen"
 };
 var _hoisted_3 = {
-  "class": "col-span-8 bg-white"
+  "class": "grid grid-cols-8 mt-20"
 };
 var _hoisted_4 = {
+  "class": "col-span-8 bg-white"
+};
+var _hoisted_5 = {
   "class": "bg-white"
 };
 
@@ -30234,7 +30237,9 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
 
   var _component_NotificationList = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("NotificationList");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Header), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_view)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_NotificationList), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("        <Footer/>")]);
+  var _component_Footer = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Footer");
+
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Header), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_view)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_NotificationList), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Footer)]);
 });
 
 /***/ }),
@@ -30258,7 +30263,7 @@ var _hoisted_1 = {
 
 var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
   "class": "text-sm text-white text-bold font-bold mb-2"
-}, " © 2021 by Aleksandras ElectionSystem ", -1
+}, " © 2021 Aleksandr Naruševič IFF 7/3 Rinkimu sistema ", -1
 /* HOISTED */
 );
 
@@ -30599,7 +30604,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "bg-green-300 border-green-500 text-green-900 border-t-4 rounded-b px-4 py-3 mt-4 shadow-md",
+  "class": "bg-green-200 border-green-500 text-green-900 border-t-4 rounded-b px-4 py-3 mt-4 shadow-md",
   role: "alert"
 };
 var _hoisted_2 = {
@@ -80743,7 +80748,7 @@ var index = {
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"header":{"name":"Election System","home":"Home","elections":"Elections","candidates":"Candidates","admin":"Admin","logout":"Logout","login":"Login"},"elections":{"elections":"Elections","today":"Today","election_over":"Election is over","coming_soon":"Coming soon"},"candidates":{"candidates":"Candidates","vote_submit":"Submit Vote","voted":"Voted","voting_results":"Voting results","enter_password":"Enter password"},"pagination":{"showing":"Showing","of":"of","entries":"Entries","next":"Next","prev":"Prev"},"buttons":{"add":"Add","edit":"Edit","delete":"Delete","view_candidates":"View Candidates","close":"Close"},"input":{"search":"Search","name":"Name","date":"Date","male":"Male","female":"Female"},"admin_election":{"election":"Election","elections":"Elections","date":"Date","add_candidate":"Add Candidate","edit_election":"Edit Election","candidate":"Candidate","candidates":"Candidates","list_of_candidates":"List of candidates"},"admin_candidate":{"candidates":"Candidates","candidate":"Candidate","last_name":"Lastname","edit_candidate":"Edit Candidate","view_candidates":"View Candidates"},"login":{"login1":"Log In to your account","login2":"Log In","forgot":"Forgot your password?","firstname":"Firstname","password":"Password"}}');
+module.exports = JSON.parse('{"header":{"name":"Election System","home":"Home","elections":"Elections","candidates":"Candidates","admin":"Admin","logout":"Logout","login":"Login"},"elections":{"elections":"Elections","today":"Today","election_over":"Election is over","coming_soon":"Coming soon"},"candidates":{"candidates":"Candidates","vote_submit":"Submit Vote","voted":"Voted","voting_results":"Voting results","no_votes":"No Voting results","enter_password":"Enter password"},"pagination":{"showing":"Showing","of":"of","entries":"Entries","next":"Next","prev":"Prev"},"buttons":{"add":"Add","edit":"Edit","delete":"Delete","view_candidates":"View Candidates","close":"Close"},"input":{"search":"Search","name":"Name","date":"Date","male":"Male","female":"Female"},"admin_election":{"election":"Election","elections":"Elections","date":"Date","add_candidate":"Add Candidate","edit_election":"Edit Election","candidate":"Candidate","candidates":"Candidates","list_of_candidates":"List of candidates"},"admin_candidate":{"candidates":"Candidates","candidate":"Candidate","last_name":"Lastname","edit_candidate":"Edit Candidate","view_candidates":"View Candidates"},"login":{"login1":"Log In to your account","login2":"Log In","forgot":"Forgot your password?","firstname":"Firstname","password":"Password"}}');
 
 /***/ }),
 
@@ -80754,7 +80759,7 @@ module.exports = JSON.parse('{"header":{"name":"Election System","home":"Home","
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"header":{"name":"Balsavimo Sistema","home":"Namai","elections":"Rinkimai","candidates":"Kandidatai","admin":"Administratorius","logout":"Atsijungti","login":"Prisijungti"},"elections":{"elections":"Rinkimai","today":"Šiandien","election_over":"Rinkimai baigėsi","coming_soon":"Greitai"},"candidates":{"candidates":"Kandidatai","vote_submit":"Balsuoti","voted":"Balsavo","voting_results":"Balsavimo rezultatai","enter_password":"Įvesti slaptažodį"},"pagination":{"showing":"Rodomas","of":"iš","entries":"Įrašo(ų)","next":"Kitas","prev":"Praeitas"},"buttons":{"add":"Pridėti","edit":"Redaguoti","delete":"Pašalinti","view_candidates":"Peržiūrėtu Kandidatus","close":"Uždaryti"},"input":{"search":"Ieškoti","name":"Pavadinimas","date":"Data","male":"Vyras","female":"Moteris"},"admin_election":{"election":"Rinkimai","elections":"Rinkimai","date":"Data","add_candidate":"Pridėti kandidatą","edit_election":"Redaguoti Rinkimus","candidate":"Kandidatas","candidates":"Kandidatai","list_of_candidates":"Kandidatų sąrašas"},"admin_candidate":{"candidates":"Kandidatai","candidate":"Kandidatas","last_name":"Pavardė","edit_candidate":"Redaguoti Kandidatą","view_candidates":"Peržiūrėti Kandidatą"},"login":{"login1":"Prisijunkite prie savo paskyros","login2":"Prisijungti","forgot":"Pamiršote slaptažodį?","firstname":"Vardas","password":"Slaptažodis"}}');
+module.exports = JSON.parse('{"header":{"name":"Balsavimo Sistema","home":"Namai","elections":"Rinkimai","candidates":"Kandidatai","admin":"Administratorius","logout":"Atsijungti","login":"Prisijungti"},"elections":{"elections":"Rinkimai","today":"Šiandien","election_over":"Rinkimai baigėsi","coming_soon":"Greitai"},"candidates":{"candidates":"Kandidatai","vote_submit":"Balsuoti","voted":"Balsuota","voting_results":"Balsavimo rezultatai","no_votes":"Nėra balsavimo rezultatu","enter_password":"Įvesti slaptažodį"},"pagination":{"showing":"Rodomas","of":"iš","entries":"Įrašo(ų)","next":"Kitas","prev":"Praeitas"},"buttons":{"add":"Pridėti","edit":"Redaguoti","delete":"Pašalinti","view_candidates":"Peržiūrėtu Kandidatus","close":"Uždaryti"},"input":{"search":"Ieškoti","name":"Pavadinimas","date":"Data","male":"Vyras","female":"Moteris"},"admin_election":{"election":"Rinkimai","elections":"Rinkimai","date":"Data","add_candidate":"Pridėti kandidatą","edit_election":"Redaguoti Rinkimus","candidate":"Kandidatas","candidates":"Kandidatai","list_of_candidates":"Kandidatų sąrašas"},"admin_candidate":{"candidates":"Kandidatai","candidate":"Kandidatas","last_name":"Pavardė","edit_candidate":"Redaguoti Kandidatą","view_candidates":"Peržiūrėti Kandidatą"},"login":{"login1":"Prisijunkite prie savo paskyros","login2":"Prisijungti","forgot":"Pamiršote slaptažodį?","firstname":"Vardas","password":"Slaptažodis"}}');
 
 /***/ }),
 
