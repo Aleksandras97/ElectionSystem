@@ -19,6 +19,7 @@
         "vote_submit": "Submit Vote",
         "voted": "Voted",
         "voting_results": "Voting results",
+        "no_votes": "No Voting results",
         "enter_password": "Enter password"
     },
     "pagination": {

@@ -17,8 +17,9 @@
     "candidates": {
         "candidates": "Kandidatai",
         "vote_submit": "Balsuoti",
-        "voted": "Balsavo",
+        "voted": "Balsuota",
         "voting_results": "Balsavimo rezultatai",
+        "no_votes": "Nėra balsavimo rezultatu",
         "enter_password": "Įvesti slaptažodį"
     },
     "pagination": {

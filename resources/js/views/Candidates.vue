@@ -17,6 +17,7 @@
 
     <div class="m-2 grid grid-cols-7 gap-4">
         <div class="col-start-1 col-end-5">
+            <!-- Candidates -->
             <h1 class="flex justify-start text-6xl ml-10 font-bold leading-normal mt-0 mb-2 text-gray-800">
                 {{ t("candidates.candidates") }}
             </h1>
@@ -24,6 +25,7 @@
                 :candidates="state.candidates"
                 v-on:candidate="state.candidate_id = $event"
             />
+            <!-- Is candidate voted -->
             <div class="grid place-items-center py-5">
                 <template v-if="!state.Voted">
                     <template v-if="isSameDay(state.election?.election_date)">
@@ -54,6 +56,7 @@
                     </template>
                 </template>
             </div>
+            <!-- Pagination -->
             <div
                 class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
                 <span class="text-xs xs:text-sm text-gray-900">
@@ -80,15 +83,24 @@
             </div>
         </div>
         <div class="col-start-5 col-end-8">
-            <div v-if="!isSameDay(state.election?.election_date) || isPastDay(state.election?.election_date)" class="grid place-items-center">
+
+            <div v-if="!isSameDay(state.election?.election_date) && isPastDay(state.election?.election_date)" class="grid place-items-center">
 
                 <h1 class="flex justify-center text-6xl font-normal leading-normal mt-0 mb-2 text-gray-800">
                     {{ t("candidates.voting_results") }}
                 </h1>
+                <template v-if="state.sumOfVotes === 0">
+                    <h1 class="flex justify-center text-4xl font-normal leading-normal mt-0 mb-2 text-gray-800">
+                        {{ t("candidates.no_votes") }}
+                    </h1>
+                </template>
+                <template v-else>
 
-                <pie-chart
-                    :data="state.data"></pie-chart>
-                </div>
+                    <pie-chart :data="state.data"></pie-chart>
+
+                </template>
+
+            </div>
         </div>
     </div>
 
@@ -165,6 +177,7 @@ export default {
             candidate_id: null,
             Voted: false,
             data: [],
+            sumOfVotes: 0,
             password: '',
             loading: true,
         });
@@ -261,6 +274,7 @@ export default {
 
         function ConvertForChart(data) {
             let chartdata = [];
+            var sumOfVotes = 0;
             for (let element in data) {
                 let alphaNumOut = [];
                 if (data[element].vote_counter === null) {
@@ -269,7 +283,9 @@ export default {
                 alphaNumOut.push([data[element].firstname]);
                 alphaNumOut.push([data[element].vote_counter]);
                 chartdata.push(alphaNumOut);
+                sumOfVotes += data[element].vote_counter;
             }
+            state.sumOfVotes = sumOfVotes;
             return chartdata;
         }
 
